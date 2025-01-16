@@ -19,7 +19,7 @@ Controls:
 - Gamepad: 'A' to drop bomb, 'B' to remote control, D-Pad arrows or left stick to move
 
 The game is an unofficial UWP (Universal Windows Platform) remake of a classic DOS game:
-- GitHub Repository: https://github.com/rinrab/MrBoom.
+- GitHub Repository: https://github.com/rinrab/mr-bomber.
 - Used GPL-licensed assets from https://github.com/reymontero/mrboom30.
 
 # Features
