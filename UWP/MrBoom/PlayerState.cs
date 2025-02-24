@@ -2,6 +2,7 @@
 
 using System;
 using MrBoom.Bot;
+using MrBoom.Common;
 
 namespace MrBoom
 {
@@ -13,6 +14,11 @@ namespace MrBoom
         bool IsReplaceble { get; }
 
         AbstractPlayer GetPlayer(Terrain terrain, int team);
+    }
+
+    public interface IOnlinePlayerState : IPlayerState
+    {
+        Guid Id { get; }
     }
 
     public class HumanPlayerState : IPlayerState
@@ -36,9 +42,9 @@ namespace MrBoom
         }
     }
 
-    public class OnlinePlayerState : IPlayerState
+    public class OnlinePlayerState : IOnlinePlayerState
     {
-        private Guid id = Guid.Empty;
+        private Guid _id = Guid.Empty;
 
         public IController Controller { get; }
         public int Index { get; }
@@ -63,6 +69,8 @@ namespace MrBoom
             }
         }
 
+        public Guid Id { get => _id; }
+
         public OnlinePlayerState(IController controller, int index, string name)
         {
             Controller = controller;
@@ -72,8 +80,29 @@ namespace MrBoom
 
         public void OnLoaded(Guid id)
         {
-            this.id = id;
+            _id = id;
             isLoaded = true;
+        }
+
+        public AbstractPlayer GetPlayer(Terrain terrain, int team)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class OnlineRemotePlayerState : IPlayerState
+    {
+        private PlayerInfo info;
+
+        public int Index { get; }
+        public string Name { get => info.Name; }
+        public int VictoryCount { get; set; }
+        public bool IsReplaceble => false;
+
+        public OnlineRemotePlayerState(int index, PlayerInfo info)
+        {
+            Index = index;
+            this.info = info;
         }
 
         public AbstractPlayer GetPlayer(Terrain terrain, int team)
