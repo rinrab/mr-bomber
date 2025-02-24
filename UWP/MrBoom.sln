@@ -3,12 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrBoom", "MrBoom/MrBoom.csproj", "{5BD7ECAE-1E4E-44B2-AE53-06438C74ECD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrBoom", "MrBoom\MrBoom.csproj", "{5BD7ECAE-1E4E-44B2-AE53-06438C74ECD3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BB04CC40-75B8-4BBC-87DC-C8900E983DFA}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrBoom.Server", "MrBoom.Server\MrBoom.Server.csproj", "{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,18 @@ Global
 		{5BD7ECAE-1E4E-44B2-AE53-06438C74ECD3}.Release|x86.ActiveCfg = Release|x86
 		{5BD7ECAE-1E4E-44B2-AE53-06438C74ECD3}.Release|x86.Build.0 = Release|x86
 		{5BD7ECAE-1E4E-44B2-AE53-06438C74ECD3}.Release|x86.Deploy.0 = Release|x86
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Debug|ARM.Build.0 = Debug|Any CPU
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Debug|x64.Build.0 = Debug|Any CPU
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Debug|x86.Build.0 = Debug|Any CPU
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Release|ARM.Build.0 = Release|Any CPU
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Release|x64.ActiveCfg = Release|Any CPU
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Release|x64.Build.0 = Release|Any CPU
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Release|x86.ActiveCfg = Release|Any CPU
+		{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
