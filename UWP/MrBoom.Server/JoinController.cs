@@ -22,5 +22,11 @@ namespace MrBoom.Server
         {
             return lobby.JoinPlayer(player);
         }
+
+        [HttpGet]
+        public LobbyInfo Get()
+        {
+            return lobby.GetLobbyInfo();
+        }
     }
 }
