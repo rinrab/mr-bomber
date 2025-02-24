@@ -17,5 +17,9 @@ namespace MrBoom.Common
         [JsonRequired]
         [JsonPropertyName("id")]
         public Guid Id { get; set; }
+
+        [JsonRequired]
+        [JsonPropertyName("index")]
+        public int Index { get; set; }
     }
 }

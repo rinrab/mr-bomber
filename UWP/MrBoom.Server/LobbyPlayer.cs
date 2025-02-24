@@ -9,6 +9,7 @@ namespace MrBoom.Server
     {
         public string Name { get; }
         public Guid Id { get; set; }
+        public int Index { get; set; }
 
         public LobbyPlayer(string name)
         {
@@ -20,7 +21,8 @@ namespace MrBoom.Server
             return new PlayerInfo
             {
                 Name = Name,
-                Id = Id
+                Id = Id,
+                Index = Index,
             };
         }
     }

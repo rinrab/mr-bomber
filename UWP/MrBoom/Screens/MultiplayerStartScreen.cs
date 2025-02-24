@@ -82,7 +82,7 @@ namespace MrBoom
                 }
                 else
                 {
-                    players.Add(new OnlineRemotePlayerState(i, player));
+                    players.Add(new OnlineRemotePlayerState(player));
                 }
             }
         }
@@ -173,7 +173,7 @@ namespace MrBoom
             {
                 var name = nameGenerator.GenerateName();
 
-                var player = new OnlinePlayerState(controller, index, name);
+                var player = new OnlinePlayerState(controller, name);
 
                 Task.Run(async () =>
                 {
@@ -182,7 +182,7 @@ namespace MrBoom
                         Name = name,
                     });
 
-                    player.OnLoaded(res.Id);
+                    player.OnLoaded(res);
                 });
 
                 return player;

@@ -47,7 +47,7 @@ namespace MrBoom
         private Guid _id = Guid.Empty;
 
         public IController Controller { get; }
-        public int Index { get; }
+        public int Index { get; private set; }
         private string _name;
         public int VictoryCount { get; set; }
         public bool IsReplaceble => false;
@@ -71,16 +71,17 @@ namespace MrBoom
 
         public Guid Id { get => _id; }
 
-        public OnlinePlayerState(IController controller, int index, string name)
+        public OnlinePlayerState(IController controller, string name)
         {
             Controller = controller;
-            Index = index;
+            Index = -1;
             _name = name;
         }
 
-        public void OnLoaded(Guid id)
+        public void OnLoaded(PlayerInfo info)
         {
-            _id = id;
+            _id = info.Id;
+            Index = info.Index;
             isLoaded = true;
         }
 
@@ -94,14 +95,13 @@ namespace MrBoom
     {
         private PlayerInfo info;
 
-        public int Index { get; }
+        public int Index { get => info.Index; }
         public string Name { get => info.Name; }
         public int VictoryCount { get; set; }
         public bool IsReplaceble => false;
 
-        public OnlineRemotePlayerState(int index, PlayerInfo info)
+        public OnlineRemotePlayerState(PlayerInfo info)
         {
-            Index = index;
             this.info = info;
         }
 

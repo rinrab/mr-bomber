@@ -13,6 +13,7 @@ namespace MrBoom.Server
     public class GameLobby : IGameLobby
     {
         private readonly List<LobbyPlayer> players;
+        private int index = 0;
 
         public GameLobby()
         {
@@ -24,8 +25,10 @@ namespace MrBoom.Server
             LobbyPlayer lobbyPlayer = new LobbyPlayer(player.Name);
 
             lobbyPlayer.Id = Guid.NewGuid();
+            lobbyPlayer.Index = index;
 
             players.Add(lobbyPlayer);
+            index++;
 
             return lobbyPlayer.GetMe();
         }
