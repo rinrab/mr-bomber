@@ -129,6 +129,42 @@ namespace MrBoom
             menu?.Draw(ctx);
         }
 
+        protected bool AddPlayer(IController controller)
+        {
+            if (players.Count < 8)
+            {
+                players.Add(new HumanPlayerState(controller, players.Count, nameGenerator.GenerateName()));
+                return true;
+            }
+            else
+            {
+                for (int i = 0; i < players.Count; i++)
+                {
+                    if (players[i].IsReplaceble)
+                    {
+                        players[i] = new HumanPlayerState(controller, i, nameGenerator.GenerateName());
+
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        protected bool AddBot()
+        {
+            if (players.Count < 8)
+            {
+                players.Add(new BotPlayerState(players.Count, "bot"));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void Update()
         {
             tick++;
@@ -140,26 +176,11 @@ namespace MrBoom
                 {
                     if (controller.IsKeyDown(PlayerKeys.Bomb))
                     {
-                        if (players.Count < 8)
+                        if (AddPlayer(controller))
                         {
-                            players.Add(new HumanPlayerState(controller, players.Count, nameGenerator.GenerateName()));
                             assets.Sounds.Addplayer.Play();
 
                             toRemove.Add(controller);
-                        }
-                        else
-                        {
-                            for (int i = 0; i < players.Count; i++)
-                            {
-                                if (players[i].IsReplaceble)
-                                {
-                                    players[i] = new HumanPlayerState(controller, i, nameGenerator.GenerateName());
-                                    assets.Sounds.Addplayer.Play();
-
-                                    toRemove.Add(controller);
-                                    break;
-                                }
-                            }
                         }
                     }
                 }
@@ -187,11 +208,13 @@ namespace MrBoom
                     Controller.Reset(controllers);
                 }
 
-                if (Controller.IsKeyDown(controllers, PlayerKeys.AddBot) && players.Count < 8)
+                if (Controller.IsKeyDown(controllers, PlayerKeys.AddBot))
                 {
-                    assets.Sounds.Addbot.Play();
-                    players.Add(new BotPlayerState(players.Count, "bot"));
-                    Controller.Reset(controllers);
+                    if (AddBot())
+                    {
+                        assets.Sounds.Addbot.Play();
+                        Controller.Reset(controllers);
+                    }
                 }
 
                 if (Controller.IsKeyDown(controllers, PlayerKeys.StartGame) ||
