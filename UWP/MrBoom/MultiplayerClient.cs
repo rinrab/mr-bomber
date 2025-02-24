@@ -32,5 +32,14 @@ namespace MrBoom
             return JsonSerializer.Deserialize<PlayerInfo>(
                 await response.Content.ReadAsStringAsync());
         }
+
+        public async Task<LobbyInfo> GetLobby()
+        {
+            HttpResponseMessage response = await client.GetAsync(
+                new Uri("http://localhost:5296/api/v1/game"));
+
+            return JsonSerializer.Deserialize<LobbyInfo>(
+                await response.Content.ReadAsStringAsync());
+        }
     }
 }

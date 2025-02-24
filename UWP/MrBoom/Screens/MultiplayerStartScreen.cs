@@ -56,6 +56,37 @@ namespace MrBoom
             teams.Clear();
         }
 
+        private async Task ServerTickAsync()
+        {
+            var lobby = await multiplayerClient.GetLobby();
+
+            Dictionary<Guid, IPlayerState> oldPlayers = new Dictionary<Guid, IPlayerState>();
+
+            foreach (var player in players)
+            {
+                if (player is IOnlinePlayerState onlinePlayer)
+                {
+                    oldPlayers[onlinePlayer.Id] = player;
+                }
+            }
+
+            players.Clear();
+
+            for (int i = 0; i < lobby.Players.Count; i++)
+            {
+                var player = lobby.Players[i];
+
+                if (oldPlayers.TryGetValue(player.Id, out var val))
+                {
+                    players.Add(val);
+                }
+                else
+                {
+                    players.Add(new OnlineRemotePlayerState(i, player));
+                }
+            }
+        }
+
         public void Draw(SpriteBatch ctx)
         {
             assets.Start.Draw(ctx, 0, 0);
@@ -201,6 +232,11 @@ namespace MrBoom
         public void Update()
         {
             tick++;
+
+            if (tick % 20 == 0)
+            {
+                Task.Run(ServerTickAsync);
+            }
 
             if (menu == null)
             {
