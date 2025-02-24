@@ -2,8 +2,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MrBoom.Common;
 using Windows.UI.Xaml;
 
 namespace MrBoom
@@ -131,7 +135,29 @@ namespace MrBoom
 
         protected IPlayerState CreatePlayer(int index, IController controller)
         {
-            return new HumanPlayerState(controller, index, nameGenerator.GenerateName());
+            if (true)
+            {
+                var name = nameGenerator.GenerateName();
+
+                var client = new HttpClient();
+
+                PlayerJoinInfo reqObj = new PlayerJoinInfo
+                {
+                    Name = name,
+                };
+
+                string reqStr = JsonSerializer.Serialize(reqObj);
+
+                HttpContent content = new StringContent(reqStr, Encoding.UTF8, "application/json");
+
+                client.PostAsync(new Uri("http://localhost:5296/api/v1/game"), content).Wait();
+
+                return new OnlinePlayerState(controller, index, name, new Guid());
+            }
+            else
+            {
+                return new HumanPlayerState(controller, index, nameGenerator.GenerateName());
+            }
         }
 
         protected bool AddPlayer(IController controller)

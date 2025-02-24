@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using System;
 using MrBoom.Bot;
 
 namespace MrBoom
@@ -32,6 +33,31 @@ namespace MrBoom
         public AbstractPlayer GetPlayer(Terrain terrain, int team)
         {
             return new Human(terrain, terrain.assets.Players[Index], Controller, team);
+        }
+    }
+
+    public class OnlinePlayerState : IPlayerState
+    {
+        private readonly Guid id;
+
+        public IController Controller { get; }
+        public int Index { get; }
+        public string Name { get; }
+        public int VictoryCount { get; set; }
+        public bool IsReplaceble => false;
+
+        public OnlinePlayerState(IController controller, int index, string name, Guid id)
+        {
+            Controller = controller;
+            Index = index;
+            Name = name;
+
+            this.id = id;
+        }
+
+        public AbstractPlayer GetPlayer(Terrain terrain, int team)
+        {
+            throw new NotImplementedException();
         }
     }
 

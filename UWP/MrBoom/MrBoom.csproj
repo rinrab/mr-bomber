@@ -236,11 +236,15 @@
     </PackageReference>
     <PackageReference Include="MonoGame.Framework.WindowsUniversal" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+    <PackageReference Include="System.Text.Json">
+      <Version>9.0.2</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup />
+  <Import Project="..\MrBoom.Common\MrBoom.Common.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
