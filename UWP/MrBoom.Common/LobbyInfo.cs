@@ -9,6 +9,6 @@ namespace MrBoom.Common
 {
     public class LobbyInfo
     {
-        public ICollection<PlayerInfo> Players { get; set; }
+        public List<PlayerInfo> Players { get; set; }
     }
 }
