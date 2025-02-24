@@ -129,11 +129,16 @@ namespace MrBoom
             menu?.Draw(ctx);
         }
 
+        protected IPlayerState CreatePlayer(int index, IController controller)
+        {
+            return new HumanPlayerState(controller, index, nameGenerator.GenerateName());
+        }
+
         protected bool AddPlayer(IController controller)
         {
             if (players.Count < 8)
             {
-                players.Add(new HumanPlayerState(controller, players.Count, nameGenerator.GenerateName()));
+                players.Add(CreatePlayer(players.Count, controller));
                 return true;
             }
             else
@@ -142,7 +147,7 @@ namespace MrBoom
                 {
                     if (players[i].IsReplaceble)
                     {
-                        players[i] = new HumanPlayerState(controller, i, nameGenerator.GenerateName());
+                        players[i] = CreatePlayer(i, controller);
 
                         return true;
                     }
