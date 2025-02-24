@@ -7,9 +7,13 @@ namespace MrBoom.Server
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddSingleton<IGameLobby, GameLobby>();
+            builder.Services.AddControllers();
+
             var app = builder.Build();
 
-            app.MapGet("/", () => "Hello World!");
+            app.MapControllers();
 
             app.Run();
         }
