@@ -28,6 +28,8 @@ namespace MrBoom
         }
 
         public bool IsDebug { get; set; }
+
+        public bool IsOnline { get; set; }
     }
 
     public enum TeamMode

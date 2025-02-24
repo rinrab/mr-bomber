@@ -18,6 +18,7 @@ namespace MrBoom
             demoMenu = new Menu(new IMenuItem[]
             {
                 new TextMenuItem("PLAY"),
+                new TextMenuItem("ONLINE"),
                 new SelectMenuItem("TEAM", new string[]
                 {
                     "OFF",
@@ -60,12 +61,16 @@ namespace MrBoom
             {
                 ScreenManager.SetScreen(new MultiplayerStartScreen(assets, teams, controllers, settings));
             }
-            else if (demoMenu.Action == 2)
+            else if (demoMenu.Action == 1)
+            {
+                ScreenManager.SetScreen(new MultiplayerStartScreen(assets, teams, controllers, settings));
+            }
+            else if (demoMenu.Action == 3)
             {
                 Application.Current.Exit();
             }
 
-            SelectMenuItem teamModeMenuItem = (SelectMenuItem)demoMenu.Items[1];
+            SelectMenuItem teamModeMenuItem = (SelectMenuItem)demoMenu.Items[2];
             settings.TeamMode = (TeamMode)teamModeMenuItem.SelectionIndex;
 
             if (Controller.IsKeyDown(controllers, PlayerKeys.Continue))
