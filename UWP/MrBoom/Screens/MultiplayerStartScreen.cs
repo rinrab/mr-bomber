@@ -23,6 +23,7 @@ namespace MrBoom
         private readonly List<IController> unjoinedControllers;
         private readonly List<IController> joinedControllers;
         private readonly NameGenerator nameGenerator;
+        private readonly MultiplayerClient multiplayerClient;
 
         private readonly string helpText =
             "welcome to mr.bomber " +
@@ -49,6 +50,7 @@ namespace MrBoom
             nameGenerator = new NameGenerator(Terrain.Random);
             players = new List<IPlayerState>();
             teamMode = settings.TeamMode;
+            multiplayerClient = new MultiplayerClient();
 
             teams.Clear();
         }
@@ -139,18 +141,10 @@ namespace MrBoom
             {
                 var name = nameGenerator.GenerateName();
 
-                var client = new HttpClient();
-
-                PlayerJoinInfo reqObj = new PlayerJoinInfo
+                var task = multiplayerClient.Join(new PlayerJoinInfo
                 {
                     Name = name,
-                };
-
-                string reqStr = JsonSerializer.Serialize(reqObj);
-
-                HttpContent content = new StringContent(reqStr, Encoding.UTF8, "application/json");
-
-                client.PostAsync(new Uri("http://localhost:5296/api/v1/game"), content).Wait();
+                });
 
                 return new OnlinePlayerState(controller, index, name, new Guid());
             }
