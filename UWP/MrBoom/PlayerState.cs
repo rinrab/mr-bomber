@@ -38,21 +38,42 @@ namespace MrBoom
 
     public class OnlinePlayerState : IPlayerState
     {
-        private readonly Guid id;
+        private Guid id = Guid.Empty;
 
         public IController Controller { get; }
         public int Index { get; }
-        public string Name { get; }
+        private string _name;
         public int VictoryCount { get; set; }
         public bool IsReplaceble => false;
 
-        public OnlinePlayerState(IController controller, int index, string name, Guid id)
+        private bool isLoaded = false;
+
+        public string Name
+        {
+            get
+            {
+                if (!isLoaded)
+                {
+                    return "...";
+                }
+                else
+                {
+                    return _name;
+                }
+            }
+        }
+
+        public OnlinePlayerState(IController controller, int index, string name)
         {
             Controller = controller;
             Index = index;
-            Name = name;
+            _name = name;
+        }
 
+        public void OnLoaded(Guid id)
+        {
             this.id = id;
+            isLoaded = true;
         }
 
         public AbstractPlayer GetPlayer(Terrain terrain, int team)

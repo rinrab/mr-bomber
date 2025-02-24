@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Common;
@@ -141,12 +142,19 @@ namespace MrBoom
             {
                 var name = nameGenerator.GenerateName();
 
-                var task = multiplayerClient.Join(new PlayerJoinInfo
+                var player = new OnlinePlayerState(controller, index, name);
+
+                Task.Run(async () =>
                 {
-                    Name = name,
+                    var res = await multiplayerClient.Join(new PlayerJoinInfo
+                    {
+                        Name = name,
+                    });
+
+                    player.OnLoaded(res.Id);
                 });
 
-                return new OnlinePlayerState(controller, index, name, new Guid());
+                return player;
             }
             else
             {
