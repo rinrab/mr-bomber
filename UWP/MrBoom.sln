@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrBoom.Server", "MrBoom.Server\MrBoom.Server.csproj", "{3DF78D4F-1AFC-42E1-98B8-70BAF3006BF2}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MrBoom.Common", "MrBoom.Common\MrBoom.Common.shproj", "{B9EA1282-FAB1-4070-A3B1-F34CBC7E6036}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -58,5 +60,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5C44B369-FC14-4BBF-ACAC-1810FEE338B9}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MrBoom.Common\MrBoom.Common.projitems*{3df78d4f-1afc-42e1-98b8-70baf3006bf2}*SharedItemsImports = 5
+		MrBoom.Common\MrBoom.Common.projitems*{b9ea1282-fab1-4070-a3b1-f34cbc7e6036}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
