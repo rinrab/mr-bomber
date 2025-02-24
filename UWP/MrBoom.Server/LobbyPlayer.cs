@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 
+using MrBoom.Common;
+
 namespace MrBoom.Server
 {
     public class LobbyPlayer
@@ -11,6 +13,15 @@ namespace MrBoom.Server
         public LobbyPlayer(string name)
         {
             Name = name;
+        }
+
+        public PlayerInfo GetMe()
+        {
+            return new PlayerInfo
+            {
+                Name = Name,
+                Id = Id
+            };
         }
     }
 }

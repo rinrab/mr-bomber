@@ -18,11 +18,9 @@ namespace MrBoom.Server
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] PlayerJoinInfo player)
+        public PlayerInfo Post([FromBody] PlayerJoinInfo player)
         {
-            lobby.JoinPlayer(player);
-
-            return Ok();
+            return lobby.JoinPlayer(player);
         }
     }
 }
