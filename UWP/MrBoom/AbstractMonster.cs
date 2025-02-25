@@ -15,7 +15,7 @@ namespace MrBoom
 
             if (monsterData.IsSlowStart)
             {
-                unplugin = 120;
+                Unplugin = 120;
             }
         }
 
@@ -28,7 +28,7 @@ namespace MrBoom
             if (IsAlive)
             {
                 Cell cell = terrain.GetCell((X + 8) / 16, (Y + 8) / 16);
-                if (cell.Type == TerrainType.Fire && unplugin == 0)
+                if (cell.Type == TerrainType.Fire && Unplugin == 0)
                 {
                     PlaySound(Sound.Ai);
                     if (Damage())

@@ -26,8 +26,6 @@ namespace MrBoom
         public bool IsDie { get => isDie; }
         public bool IsAlive { get => !isDie; }
 
-        protected int unplugin;
-
         private int blinking = 0;
         private int skullTimer;
         private readonly Assets.MovingSpriteAssets animations;
@@ -83,9 +81,9 @@ namespace MrBoom
                 Skull = null;
             }
 
-            if (unplugin > 0)
+            if (Unplugin > 0)
             {
-                unplugin--;
+                Unplugin--;
             }
 
             Cell cell = terrain.GetCell((X + 8) / 16, (Y + 8) / 16);
@@ -252,7 +250,7 @@ namespace MrBoom
                 Color color = Color.White;
 
                 AnimatedImage animation = animations.Normal[animateIndex];
-                if (unplugin > 0 && blinking % 30 < 15)
+                if (Unplugin > 0 && blinking % 30 < 15)
                 {
                     animation = animations.Ghost[animateIndex];
                 }
@@ -286,7 +284,7 @@ namespace MrBoom
             isDie = true;
             Direction = null;
             frameIndex = 0;
-            unplugin = 0;
+            Unplugin = 0;
         }
 
         public bool Damage()

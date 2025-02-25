@@ -129,7 +129,7 @@ namespace MrBoom
                 }
                 else if (powerUpType == PowerUpType.Shield)
                 {
-                    unplugin = 600;
+                    Unplugin = 600;
                     pickBonus();
                 }
                 else if (powerUpType == PowerUpType.Banana)
@@ -168,7 +168,7 @@ namespace MrBoom
 
             bool isTouchingMonster = terrain.IsTouchingMonster((X + 8) / 16, (Y + 8) / 16);
 
-            if ((cell.Type == TerrainType.Fire || isTouchingMonster) && unplugin == 0)
+            if ((cell.Type == TerrainType.Fire || isTouchingMonster) && Unplugin == 0)
             {
                 Features = 0;
 
