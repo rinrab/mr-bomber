@@ -31,7 +31,21 @@ namespace MrBoom
         int GetKillablePlayers(int cellX, int cellY);
     }
 
-    public class Terrain : ITerrain
+    public interface IClientTerrain
+    {
+        int TimeLeft { get; }
+        int ApocalypseSpeed { get; }
+        int MaxApocalypse { get; }
+
+        int Width { get; }
+        int Height { get; }
+
+        Cell GetCell(int x, int y);
+
+        bool IsWalkable(int x, int y);
+    }
+
+    public class Terrain : ITerrain, IClientTerrain
     {
         public static Random Random = new Random();
 
