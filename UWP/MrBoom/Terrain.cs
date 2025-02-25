@@ -368,20 +368,8 @@ namespace MrBoom
             }
         }
 
-        public void Update()
+        private void HandleGameEnded()
         {
-            SoundsToPlay = 0;
-            time++;
-            TimeLeft--;
-
-            if (timeToEnd != -1)
-            {
-                timeToEnd--;
-            }
-
-            TickFinal();
-            TickMap();
-
             int playersCount = 0;
             foreach (AbstractPlayer player in players)
             {
@@ -438,6 +426,22 @@ namespace MrBoom
             {
                 Result = GameResult.Draw;
             }
+        }
+
+        public void Update()
+        {
+            SoundsToPlay = 0;
+            time++;
+            TimeLeft--;
+
+            if (timeToEnd != -1)
+            {
+                timeToEnd--;
+            }
+
+            TickFinal();
+            TickMap();
+            HandleGameEnded();
 
             hasMonsterGrid.Reset(false);
             isMonsterComingGrid.Reset(false);
