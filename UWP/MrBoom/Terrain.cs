@@ -473,6 +473,11 @@ namespace MrBoom
             {
                 // TODO: Check for unplugin.
                 killablePlayerGrid[player.CellX, player.CellY] |= (1 << player.Team);
+
+                if (IsTouchingMonster(player.CellX, player.CellY))
+                {
+                    player.Damage();
+                }
             }
 
             foreach (Sprite sprite in GetSprites())
