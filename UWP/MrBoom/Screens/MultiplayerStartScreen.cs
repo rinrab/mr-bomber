@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Common;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Documents;
 
 namespace MrBoom
 {
@@ -169,7 +170,7 @@ namespace MrBoom
 
         protected IPlayerState CreatePlayer(int index, IController controller)
         {
-            if (false)
+            if (settings.IsOnline)
             {
                 var name = nameGenerator.GenerateName();
 
@@ -233,7 +234,7 @@ namespace MrBoom
         {
             tick++;
 
-            if (tick % 20 == 0)
+            if (tick % 20 == 0 && settings.IsOnline)
             {
                 Task.Run(ServerTickAsync);
             }

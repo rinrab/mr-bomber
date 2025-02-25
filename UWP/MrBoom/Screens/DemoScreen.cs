@@ -59,10 +59,12 @@ namespace MrBoom
 
             if (demoMenu.Action == 0)
             {
+                settings.IsOnline = false;
                 ScreenManager.SetScreen(new MultiplayerStartScreen(assets, teams, controllers, settings));
             }
             else if (demoMenu.Action == 1)
             {
+                settings.IsOnline = true;
                 ScreenManager.SetScreen(new MultiplayerStartScreen(assets, teams, controllers, settings));
             }
             else if (demoMenu.Action == 3)
