@@ -65,8 +65,7 @@ namespace MrBoom.Server
 
                     logger.LogDebug("Received message from {RemoteEndPoint}", msg.RemoteEndPoint);
 
-                    MessageReceivedDelegate handler = OnMesssageReceived;
-                    handler?.Invoke(msg);
+                    OnMesssageReceived?.Invoke(msg);
                 }
             }
             catch (Exception)
