@@ -72,18 +72,6 @@ namespace MrBoom
                 PlaySound(Sound.Pick);
             }
 
-            void burnBonus()
-            {
-                terrain.SetCell(cellX, cellY, new Cell(TerrainType.PowerUpFire)
-                {
-                    Images = terrain.assets.Fire,
-                    Index = 0,
-                    animateDelay = 6,
-                    Next = new Cell(TerrainType.Free)
-                });
-                PlaySound(Sound.Sac);
-            }
-
             if (cell.Type == TerrainType.PowerUp)
             {
                 PowerUpType powerUpType = cell.PowerUpType;
@@ -107,7 +95,7 @@ namespace MrBoom
                     }
                     else
                     {
-                        burnBonus();
+                        terrain.BurnCell(cellX, cellY);
                     }
                 }
                 else if (powerUpType == PowerUpType.RollerSkate)
@@ -119,7 +107,7 @@ namespace MrBoom
                     }
                     else
                     {
-                        burnBonus();
+                        terrain.BurnCell(cellX, cellY);
                     }
                 }
                 else if (powerUpType == PowerUpType.Kick)
@@ -132,18 +120,18 @@ namespace MrBoom
                     }
                     else
                     {
-                        burnBonus();
+                        terrain.BurnCell(cellX, cellY);
                     }
                 }
                 else if (powerUpType == PowerUpType.Life)
                 {
                     lifeCount++;
-                    pickBonus();
+                    terrain.BurnCell(cellX, cellY);
                 }
                 else if (powerUpType == PowerUpType.Shield)
                 {
                     unplugin = 600;
-                    pickBonus();
+                    terrain.BurnCell(cellX, cellY);
                 }
                 else if (powerUpType == PowerUpType.Banana)
                 {
@@ -163,13 +151,13 @@ namespace MrBoom
                 {
                     if (terrain.TimeLeft > 31 * 60 + terrain.MaxApocalypse * terrain.ApocalypseSpeed)
                     {
-                        terrain.TimeLeft += 60 * 60;
+                        // TODO: terrain.TimeLeft += 60 * 60;
                         PlaySound(Sound.Clock);
                         pickBonus();
                     }
                     else
                     {
-                        burnBonus();
+                        terrain.BurnCell(cellX, cellY);
                     }
                 }
                 else if (powerUpType == PowerUpType.Skull)

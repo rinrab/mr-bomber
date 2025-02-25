@@ -6,18 +6,43 @@ using System.Text;
 
 namespace MrBoom
 {
-    public class Terrain
+    public interface ITerrain
+    {
+        int Width { get; }
+        int Height { get; }
+
+        Cell GetCell(int x, int y);
+        void SetCell(int x, int y, Cell cell);
+
+        int TimeLeft { get; }
+        int ApocalypseSpeed { get; }
+        int MaxApocalypse { get; }
+
+        int GetCellApocalypseRemainingTime(int cellX, int cellY);
+
+        bool IsWalkable(int x, int y);
+        void PutBomb(int cellX, int cellY, int maxBoom, bool rcAllowed, AbstractPlayer owner);
+        void BurnCell(int cellX, int cellY);
+        void DitonateBomb(int bombX, int bombY);
+        Cell GeneratePowerUp(PowerUpType powerUpType);
+
+        bool IsTouchingMonster(int cellX, int cellY);
+        bool IsMonsterComing(int cellX, int cellY);
+        int GetKillablePlayers(int cellX, int cellY);
+    }
+
+    public class Terrain : ITerrain
     {
         public static Random Random = new Random();
 
-        public readonly int Width;
-        public readonly int Height;
+        public int Width { get; }
+        public int Height { get; }
         public Assets assets;
-        public int TimeLeft;
+        public int TimeLeft { get; private set; }
         public Sound SoundsToPlay;
         public GameResult Result = GameResult.None;
-        public int ApocalypseSpeed = 2;
-        public int MaxApocalypse;
+        public int ApocalypseSpeed { get; } = 2;
+        public int MaxApocalypse { get; private set; }
 
         public Assets.Level LevelAssets => levelAssets;
         public int Winner { get; private set; }
@@ -716,6 +741,19 @@ namespace MrBoom
             {
                 player.GiveAll();
             }
+        }
+
+        public void BurnCell(int cellX, int cellY)
+        {
+            SetCell(cellX, cellY, new Cell(TerrainType.PowerUpFire)
+            {
+                Images = assets.Fire,
+                Index = 0,
+                animateDelay = 6,
+                Next = new Cell(TerrainType.Free)
+            });
+
+            PlaySound(Sound.Sac);
         }
     }
 }
