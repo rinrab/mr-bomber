@@ -36,7 +36,7 @@ namespace MrBoom
 
             graphics = new GraphicsDeviceManager(this)
             {
-                IsFullScreen = true
+                IsFullScreen = !LaunchParameters.ContainsKey("-m")
             };
 
             IsFixedTimeStep = true;
