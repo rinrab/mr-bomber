@@ -22,7 +22,6 @@ namespace MrBoom
 
         public int Team;
         public int TeamMask { get => 1 << Team; }
-        private int lifeCount;
 
         public AbstractPlayer(Terrain map,
                               Assets.MovingSpriteAssets animations,
@@ -125,7 +124,7 @@ namespace MrBoom
                 }
                 else if (powerUpType == PowerUpType.Life)
                 {
-                    lifeCount++;
+                    LifeCount++;
                     terrain.BurnCell(cellX, cellY);
                 }
                 else if (powerUpType == PowerUpType.Shield)
@@ -171,17 +170,15 @@ namespace MrBoom
 
             if ((cell.Type == TerrainType.Fire || isTouchingMonster) && unplugin == 0)
             {
-                if (lifeCount > 0)
+                Features = 0;
+
+                if (Damage())
                 {
-                    lifeCount--;
-                    Features = 0;
-                    PlaySound(Sound.Oioi);
-                    unplugin = 165;
+                    PlaySound(Sound.PlayerDie);
                 }
                 else
                 {
-                    Kill();
-                    PlaySound(Sound.PlayerDie);
+                    PlaySound(Sound.Oioi);
                 }
             }
             if (cell.Type == TerrainType.Apocalypse)

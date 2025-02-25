@@ -8,12 +8,10 @@ namespace MrBoom
     {
         protected BtNode tree;
 
-        private int livesCount;
-
         public AbstractMonster(Terrain map,Map.MonsterData monsterData, Assets.MovingSpriteAssets animations,
                                int x, int y) : base(map, animations, x, y, monsterData.Speed)
         {
-            livesCount = monsterData.LivesCount - 1;
+            LifeCount = monsterData.LivesCount - 1;
 
             if (monsterData.IsSlowStart)
             {
@@ -33,14 +31,8 @@ namespace MrBoom
                 if (cell.Type == TerrainType.Fire && unplugin == 0)
                 {
                     PlaySound(Sound.Ai);
-                    if (livesCount > 0)
+                    if (Damage())
                     {
-                        livesCount--;
-                        unplugin = 165;
-                    }
-                    else
-                    {
-                        Kill();
                         terrain.SetCell((X + 8) / 16, (Y + 8) / 16, terrain.GeneratePowerUp(PowerUpType.Life));
                     }
                 }

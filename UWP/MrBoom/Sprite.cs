@@ -33,6 +33,9 @@ namespace MrBoom
         private readonly Assets.MovingSpriteAssets animations;
         private readonly int DefaultSpeed;
 
+        public int LifeCount { get; set; }
+        public int Unplugin { get; set; }
+
         public Sprite(Terrain terrain, Assets.MovingSpriteAssets assets, int x, int y, int speed)
         {
             this.terrain = terrain;
@@ -278,12 +281,27 @@ namespace MrBoom
             Skull = skullType;
         }
 
-        protected void Kill()
+        public void Kill()
         {
             isDie = true;
             Direction = null;
             frameIndex = 0;
             unplugin = 0;
+        }
+
+        public bool Damage()
+        {
+            if (LifeCount > 0)
+            {
+                LifeCount--;
+                Unplugin = 165;
+                return false;
+            }
+            else
+            {
+                Kill();
+                return true;
+            }
         }
 
         protected void PlaySound(Sound sound)
