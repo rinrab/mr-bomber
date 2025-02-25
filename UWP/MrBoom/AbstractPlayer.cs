@@ -125,12 +125,12 @@ namespace MrBoom
                 else if (powerUpType == PowerUpType.Life)
                 {
                     LifeCount++;
-                    terrain.BurnCell(cellX, cellY);
+                    pickBonus();
                 }
                 else if (powerUpType == PowerUpType.Shield)
                 {
                     unplugin = 600;
-                    terrain.BurnCell(cellX, cellY);
+                    pickBonus();
                 }
                 else if (powerUpType == PowerUpType.Banana)
                 {
