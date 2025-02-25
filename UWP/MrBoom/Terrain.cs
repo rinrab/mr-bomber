@@ -220,17 +220,8 @@ namespace MrBoom
             }
         }
 
-        public void Update()
+        private void TickFinal()
         {
-            SoundsToPlay = 0;
-            time++;
-            TimeLeft--;
-
-            if (timeToEnd != -1)
-            {
-                timeToEnd--;
-            }
-
             int index = (30 * 60 - TimeLeft) / ApocalypseSpeed;
             for (int i = 0; i < final.CellCount; i++)
             {
@@ -288,64 +279,10 @@ namespace MrBoom
                     data[x, y].DeltaX = dir.DeltaX() * 2;
                 }
             }
+        }
 
-            int playersCount = 0;
-            foreach (AbstractPlayer player in players)
-            {
-                if (player.IsAlive)
-                {
-                    playersCount++;
-                }
-            }
-
-            if (timeToEnd == -1)
-            {
-                if (playersCount == 0)
-                {
-                    timeToEnd = 60 * 3;
-                }
-                else if (players.Count != 1)
-                {
-                    List<int> live = new List<int>();
-                    for (int i = 0; i < players.Count; i++)
-                    {
-                        if (players[i].IsAlive)
-                        {
-                            live.Add(players[i].Team);
-                        }
-                    }
-
-                    if (Array.TrueForAll(live.ToArray(), val => live[0] == val))
-                    {
-                        timeToEnd = 60 * 3;
-                    }
-                }
-            }
-
-            if (timeToEnd == 0)
-            {
-                if (playersCount >= 1)
-                {
-                    for (int i = 0; i < players.Count; i++)
-                    {
-                        if (players[i].IsAlive)
-                        {
-                            Winner = players[i].Team;
-                        }
-                    }
-                    Result = GameResult.Victory;
-                }
-                else
-                {
-                    Result = GameResult.Draw;
-                }
-            }
-
-            if (TimeLeft + ApocalypseSpeed * MaxApocalypse <= 0)
-            {
-                Result = GameResult.Draw;
-            }
-
+        private void TickMap()
+        {
             for (int y = 0; y < Height; y++)
             {
                 for (int x = 0; x < Width; x++)
@@ -428,6 +365,78 @@ namespace MrBoom
                         cell.OffsetY += cell.DeltaY;
                     }
                 }
+            }
+        }
+
+        public void Update()
+        {
+            SoundsToPlay = 0;
+            time++;
+            TimeLeft--;
+
+            if (timeToEnd != -1)
+            {
+                timeToEnd--;
+            }
+
+            TickFinal();
+            TickMap();
+
+            int playersCount = 0;
+            foreach (AbstractPlayer player in players)
+            {
+                if (player.IsAlive)
+                {
+                    playersCount++;
+                }
+            }
+
+            if (timeToEnd == -1)
+            {
+                if (playersCount == 0)
+                {
+                    timeToEnd = 60 * 3;
+                }
+                else if (players.Count != 1)
+                {
+                    List<int> live = new List<int>();
+                    for (int i = 0; i < players.Count; i++)
+                    {
+                        if (players[i].IsAlive)
+                        {
+                            live.Add(players[i].Team);
+                        }
+                    }
+
+                    if (Array.TrueForAll(live.ToArray(), val => live[0] == val))
+                    {
+                        timeToEnd = 60 * 3;
+                    }
+                }
+            }
+
+            if (timeToEnd == 0)
+            {
+                if (playersCount >= 1)
+                {
+                    for (int i = 0; i < players.Count; i++)
+                    {
+                        if (players[i].IsAlive)
+                        {
+                            Winner = players[i].Team;
+                        }
+                    }
+                    Result = GameResult.Victory;
+                }
+                else
+                {
+                    Result = GameResult.Draw;
+                }
+            }
+
+            if (TimeLeft + ApocalypseSpeed * MaxApocalypse <= 0)
+            {
+                Result = GameResult.Draw;
             }
 
             hasMonsterGrid.Reset(false);
