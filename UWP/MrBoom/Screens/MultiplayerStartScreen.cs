@@ -169,7 +169,7 @@ namespace MrBoom
 
         protected IPlayerState CreatePlayer(int index, IController controller)
         {
-            if (true)
+            if (false)
             {
                 var name = nameGenerator.GenerateName();
 
