@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)LobbyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ReadOnlyByteSpan.cs" />
     <Compile Include="..\MrBoom.Common\PlayerJoinInfo.cs" />
   </ItemGroup>
 </Project>
