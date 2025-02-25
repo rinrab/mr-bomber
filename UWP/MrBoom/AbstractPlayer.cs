@@ -168,19 +168,6 @@ namespace MrBoom
 
             bool isTouchingMonster = terrain.IsTouchingMonster((X + 8) / 16, (Y + 8) / 16);
 
-            if ((cell.Type == TerrainType.Fire || isTouchingMonster) && Unplugin == 0)
-            {
-                Features = 0;
-
-                if (Damage())
-                {
-                    PlaySound(Sound.PlayerDie);
-                }
-                else
-                {
-                    PlaySound(Sound.Oioi);
-                }
-            }
             if (cell.Type == TerrainType.Apocalypse)
             {
                 Kill();
@@ -192,6 +179,21 @@ namespace MrBoom
         {
             Features |= Feature.RemoteControl | Feature.Kick;
             SetSkull(SkullType.Fast);
+        }
+
+        public override void Damage()
+        {
+            Features = 0;
+            base.Damage();
+
+            if (IsAlive)
+            {
+                PlaySound(Sound.Oioi);
+            }
+            else
+            {
+                PlaySound(Sound.PlayerDie);
+            }
         }
     }
 }

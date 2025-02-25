@@ -30,8 +30,9 @@ namespace MrBoom
                 Cell cell = terrain.GetCell((X + 8) / 16, (Y + 8) / 16);
                 if (cell.Type == TerrainType.Fire && Unplugin == 0)
                 {
-                    PlaySound(Sound.Ai);
-                    if (Damage())
+                    Damage();
+
+                    if (IsDie)
                     {
                         terrain.SetCell((X + 8) / 16, (Y + 8) / 16, terrain.GeneratePowerUp(PowerUpType.Life));
                     }
@@ -47,6 +48,12 @@ namespace MrBoom
         public override string GetDebugInfo()
         {
             return tree.ToString();
+        }
+
+        public override void Damage()
+        {
+            PlaySound(Sound.Ai);
+            base.Damage();
         }
     }
 }

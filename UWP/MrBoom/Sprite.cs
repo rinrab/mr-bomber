@@ -287,18 +287,16 @@ namespace MrBoom
             Unplugin = 0;
         }
 
-        public bool Damage()
+        public virtual void Damage()
         {
             if (LifeCount > 0)
             {
                 LifeCount--;
                 Unplugin = 165;
-                return false;
             }
-            else
+            else if (IsAlive)
             {
                 Kill();
-                return true;
             }
         }
 

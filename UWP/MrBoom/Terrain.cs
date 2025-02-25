@@ -478,6 +478,14 @@ namespace MrBoom
             foreach (Sprite sprite in GetSprites())
             {
                 sprite.Update();
+
+                Cell cell = GetCell(sprite.CellX, sprite.CellY);
+
+                if (cell.Type == TerrainType.Fire)
+                {
+                    sprite.Damage();
+                }
+
                 PlaySound(sprite.SoundsToPlay);
             }
 
