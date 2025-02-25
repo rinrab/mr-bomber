@@ -85,6 +85,30 @@ namespace MrBoom
             StartFeatures = mapData.StartFeatures;
             powerUpList = new List<PowerUpType>();
 
+            Width = mapData.Data[0].Length;
+            Height = mapData.Data.Length;
+            spawns = new List<CellCoord>();
+            TimeLeft = (mapData.Time + 31) * 60;
+            final = new Grid<byte>(Width, Height, 255);
+            players = new List<AbstractPlayer>();
+
+            StartMaxBombsCount = mapData.StartMaxBombsCount;
+            StartMaxFire = mapData.StartMaxFire;
+
+            data = new Grid<Cell>(Width, Height, new Cell(TerrainType.PermanentWall));
+
+            hasMonsterGrid = new Grid<bool>(Width, Height, false);
+            isMonsterComingGrid = new Grid<bool>(Width, Height, false);
+            killablePlayerGrid = new Grid<int>(Width, Height, 0);
+            Random.Shuffle(spawns);
+
+            InitializeBonuses();
+            InitializeMap();
+            InitializeFinal();
+        }
+
+        private void InitializeBonuses()
+        {
             foreach (var bonus in mapData.PowerUps)
             {
                 for (int i = 0; i < bonus.Count; i++)
@@ -92,11 +116,10 @@ namespace MrBoom
                     powerUpList.Add(bonus.Type);
                 }
             }
-            Width = mapData.Data[0].Length;
-            Height = mapData.Data.Length;
-            spawns = new List<CellCoord>();
-            TimeLeft = (mapData.Time + 31) * 60;
-            final = new Grid<byte>(Width, Height, 255);
+        }
+
+        private void InitializeFinal()
+        {
             for (int i = 0; i < final.CellCount; i++)
             {
                 byte fin = mapData.Final[i];
@@ -106,12 +129,10 @@ namespace MrBoom
                     MaxApocalypse = Math.Max(fin, MaxApocalypse);
                 }
             }
-            players = new List<AbstractPlayer>();
+        }
 
-            StartMaxBombsCount = mapData.StartMaxBombsCount;
-            StartMaxFire = mapData.StartMaxFire;
-
-            data = new Grid<Cell>(Width, Height, new Cell(TerrainType.PermanentWall));
+        private void InitializeMap()
+        {
             for (int y = 0; y < Height; y++)
             {
                 for (int x = 0; x < Width; x++)
@@ -156,11 +177,6 @@ namespace MrBoom
                     }
                 }
             }
-
-            hasMonsterGrid = new Grid<bool>(Width, Height, false);
-            isMonsterComingGrid = new Grid<bool>(Width, Height, false);
-            killablePlayerGrid = new Grid<int>(Width, Height, 0);
-            Random.Shuffle(spawns);
         }
 
         public void AddPlayer(AbstractPlayer player)
