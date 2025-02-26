@@ -42,6 +42,26 @@ namespace MrBoom
 
         public abstract void KickBomb(int x, int y, int dx, int dy);
 
+        public int GetSpeed(int defaultSpeed)
+        {
+            if (Features.HasFlag(Feature.RollerSkates))
+            {
+                return 4;
+            }
+            else if (Skull == SkullType.Fast)
+            {
+                return 5;
+            }
+            else if (Skull == SkullType.Slow)
+            {
+                return 1;
+            }
+            else
+            {
+                return defaultSpeed;
+            }
+        }
+
         public void Move(Directions? Direction, int speed)
         {
             void moveY(int delta)

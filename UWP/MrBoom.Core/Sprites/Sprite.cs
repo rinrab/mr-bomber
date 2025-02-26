@@ -41,20 +41,6 @@ namespace MrBoom
                 return;
             }
 
-            int speed = DefaultSpeed;
-            if (Features.HasFlag(Feature.RollerSkates))
-            {
-                speed = 4;
-            }
-            if (Skull == SkullType.Fast)
-            {
-                speed = 5;
-            }
-            if (Skull == SkullType.Slow)
-            {
-                speed = 1;
-            }
-
             if (skullTimer > 0)
             {
                 skullTimer--;
@@ -77,7 +63,7 @@ namespace MrBoom
                 cell.DeltaY = 0;
             }
 
-            Move(Direction, speed);
+            Move(Direction, GetSpeed(DefaultSpeed));
         }
 
         public void SetSkull(SkullType skullType)
