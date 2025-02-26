@@ -22,11 +22,11 @@ namespace MrBoom
             }
         }
 
-        public override void Update()
+        public override void ServerUpdate()
         {
             tree.Update();
 
-            base.Update();
+            base.ServerUpdate();
 
             if (IsAlive)
             {

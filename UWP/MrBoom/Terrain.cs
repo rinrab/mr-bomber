@@ -540,7 +540,7 @@ namespace MrBoom
 
             foreach (Sprite sprite in GetSprites())
             {
-                sprite.Update();
+                sprite.ServerUpdate();
 
                 Cell cell = GetCell(sprite.CellX, sprite.CellY);
 

@@ -2,7 +2,7 @@
 
 namespace MrBoom
 {
-    public abstract class AbstractPlayer : Sprite
+    public abstract class AbstractPlayer : Sprite, IServerPlayer
     {
         public int BombsPlaced;
         public bool rcDitonate = false;
@@ -31,11 +31,11 @@ namespace MrBoom
             Team = team;
         }
 
-        public override void Update()
+        public override void ServerUpdate()
         {
             if (IsDie)
             {
-                base.Update();
+                base.ServerUpdate();
                 return;
             }
 
@@ -46,7 +46,7 @@ namespace MrBoom
 
             rcDitonate = Features.HasFlag(Feature.RemoteControl) && rcDitonateButton;
 
-            base.Update();
+            base.ServerUpdate();
 
             int cellX = (X + 8) / 16;
             int cellY = (Y + 8) / 16;

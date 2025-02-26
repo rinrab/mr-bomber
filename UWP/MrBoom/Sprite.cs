@@ -36,7 +36,7 @@ namespace MrBoom
             cell.DeltaY = dy * 2;
         }
 
-        public virtual void Update()
+        public virtual void ServerUpdate()
         {
             SoundsToPlay = 0;
 

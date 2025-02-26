@@ -68,7 +68,7 @@ namespace MrBoom.Bot
             return Goto(GetBestBombCell());
         }
 
-        public override void Update()
+        public override void ServerUpdate()
         {
             int cellX = (X + 8) / 16;
             int cellY = (Y + 8) / 16;
@@ -226,7 +226,7 @@ namespace MrBoom.Bot
                 Direction = Direction.Reverse();
             }
 
-            base.Update();
+            base.ServerUpdate();
         }
 
         private bool IsCellDangerForApocalypse(int cellX, int cellY)

@@ -22,7 +22,7 @@ namespace MrBoom
             return $"H:{position}";
         }
 
-        public override void Update()
+        public override void ServerUpdate()
         {
             Direction = null;
             if (Controller.IsKeyDown(PlayerKeys.Up))
@@ -44,7 +44,7 @@ namespace MrBoom
             dropBombButton = Controller.IsKeyDown(PlayerKeys.Bomb);
             rcDitonateButton = Controller.IsKeyDown(PlayerKeys.RcDitonate);
 
-            base.Update();
+            base.ServerUpdate();
         }
     }
 }

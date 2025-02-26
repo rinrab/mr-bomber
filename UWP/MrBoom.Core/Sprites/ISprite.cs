@@ -7,4 +7,8 @@ namespace MrBoom
         int X { get; }
         int Y { get; }
     }
+
+    public interface IServerPlayer : ISprite, IServerGameEntity
+    {
+    }
 }
