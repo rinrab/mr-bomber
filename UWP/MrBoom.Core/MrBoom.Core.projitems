@@ -18,7 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SkullType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SoundEffectType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AbstractMonster.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sprites\AbstractPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\ServerPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\BasicMonster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MovableSprite.cs" />

@@ -21,7 +21,7 @@ namespace MrBoom
 
     public class ClientSprite : IClientSprite
     {
-        private readonly Sprite proxy;
+        private readonly ISprite proxy;
         private readonly Assets.MovingSpriteAssets animations;
 
         public int X { get => proxy.X; }
@@ -40,7 +40,7 @@ namespace MrBoom
 
         private int blinking = 0;
 
-        public ClientSprite(Sprite proxy, Assets.MovingSpriteAssets animations)
+        public ClientSprite(ISprite proxy, Assets.MovingSpriteAssets animations)
         {
             this.proxy = proxy;
             this.animations = animations;
@@ -77,6 +77,68 @@ namespace MrBoom
                     img.Draw(ctx, x, y, color);
                 }
             }
+        }
+    }
+
+    public class ClientSpriteLocalHuman : MovableSprite, IClientSprite
+    {
+        private readonly IServerPlayer proxy;
+        private readonly IClientSprite client;
+        public readonly IController Controller;
+
+        public ClientSpriteLocalHuman(ITerrainAccessor terrain, int x, int y,
+                                      IServerPlayer proxy, Assets.MovingSpriteAssets animations,
+                                      IController controller) : base(terrain, x, y)
+        {
+            this.proxy = proxy;
+            client = new ClientSprite(proxy, animations);
+            Controller = controller;
+        }
+
+        public void ClientUpdate()
+        {
+            if (Controller.IsKeyDown(PlayerKeys.Up))
+            {
+                proxy.SetDirection(Directions.Up);
+            }
+            else if (Controller.IsKeyDown(PlayerKeys.Left))
+            {
+                proxy.SetDirection(Directions.Left);
+            }
+            else if (Controller.IsKeyDown(PlayerKeys.Right))
+            {
+                proxy.SetDirection(Directions.Right);
+            }
+            else if (Controller.IsKeyDown(PlayerKeys.Down))
+            {
+                proxy.SetDirection(Directions.Down);
+            }
+            else
+            {
+                proxy.SetDirection(null);
+            }
+
+            if (Controller.IsKeyDown(PlayerKeys.Bomb))
+            {
+                proxy.ToggleDropBomb();
+            }
+
+            if (Controller.IsKeyDown(PlayerKeys.RcDitonate))
+            {
+                proxy.ToggleRemoteControl();
+            }
+
+            client.ClientUpdate();
+        }
+
+        public void Draw(SpriteBatch ctx)
+        {
+            client.Draw(ctx);
+        }
+
+        public override void KickBomb(int x, int y, int dx, int dy)
+        {
+            // nothing to kick yet
         }
     }
 }

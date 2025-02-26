@@ -20,13 +20,29 @@ namespace MrBoom
                 for (int j = 0; j < teams[i].Players.Count; j++)
                 {
                     IPlayerState playerState = teams[i].Players[j];
-                    AbstractPlayer player = playerState.GetPlayer(terrain, i);
+                    ServerPlayer player = playerState.GetPlayer(terrain, i);
+
                     terrain.AddPlayer(player);
+
+                    if (playerState is HumanPlayerState humanState)
+                    {
+                        clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(
+                            terrain, player.X, player.Y, player,
+                            assets.Players[i], humanState.Controller));
+                    }
+                    else
+                    {
+                        clientTerrain.Sprites.Add(new ClientSprite(player, assets.Players[i]));
+                    }
                 }
             }
 
             terrain.InitializeMonsters();
-            clientTerrain = new ClientTerrain(terrain, assets);
+
+            foreach (var monster in terrain.GetMonsters())
+            {
+                clientTerrain.Sprites.Add(new ClientSprite(monster, assets.Monsters[monster.Type]));
+            }
 
             Controller.Reset(controllers);
         }

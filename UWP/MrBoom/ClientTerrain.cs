@@ -46,18 +46,6 @@ namespace MrBoom
             LevelAssets = assets.Levels[LevelIndex];
 
             Sprites = new List<IClientSprite>();
-
-            int i = 0;
-            foreach (var player in proxy.GetPlayers())
-            {
-                Sprites.Add(new ClientSprite(player, assets.Players[i]));
-                i++;
-            }
-
-            foreach (var monster in proxy.GetMonsters())
-            {
-                Sprites.Add(new ClientSprite(monster, assets.Monsters[monster.Type]));
-            }
         }
 
         public Cell GetCell(int x, int y)
@@ -74,7 +62,7 @@ namespace MrBoom
         {
             Tick++;
 
-            foreach (ClientSprite sprite in Sprites)
+            foreach (IClientSprite sprite in Sprites)
             {
                 sprite.ClientUpdate();
             }
