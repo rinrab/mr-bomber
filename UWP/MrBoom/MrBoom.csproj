@@ -120,7 +120,6 @@
     <Compile Include="MultiplayerClient.cs" />
     <Compile Include="NameGenerator.cs" />
     <Compile Include="Screens\DemoScreen.cs" />
-    <Compile Include="Directions.cs" />
     <Compile Include="Screens\DrawScreen.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GamePage.xaml.cs">
