@@ -15,11 +15,6 @@ namespace MrBoom
         void Draw(SpriteBatch ctx);
     }
 
-    public interface IServerGameEntity
-    {
-        void ServerUpdate();
-    }
-
     public interface IClientSprite : IClientGameEntity, IClientDrawableGameEntity
     {
         int X { get; }
