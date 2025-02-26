@@ -58,6 +58,11 @@ namespace MrBoom
             {
                 terrain.Update();
 
+                foreach (ClientSprite sprite in terrain.ClientSprites)
+                {
+                    sprite.ClientUpdate();
+                }
+
                 if (settings.IsDebug)
                 {
                     if (state.IsKeyDown(Keys.F1))

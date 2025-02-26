@@ -6,10 +6,7 @@ namespace MrBoom
     {
         public readonly IController Controller;
 
-        public Human(Terrain map,
-                     Assets.MovingSpriteAssets animations,
-                     IController controller,
-                     int team) : base(map, animations, team)
+        public Human(Terrain map, IController controller, int team) : base(map, team)
         {
             Controller = controller;
         }

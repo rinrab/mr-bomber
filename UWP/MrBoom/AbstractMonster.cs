@@ -8,8 +8,8 @@ namespace MrBoom
     {
         protected BtNode tree;
 
-        public AbstractMonster(Terrain map,Map.MonsterData monsterData, Assets.MovingSpriteAssets animations,
-                               int x, int y) : base(map, animations, x, y, monsterData.Speed)
+        public AbstractMonster(Terrain map,Map.MonsterData monsterData,
+                               int x, int y) : base(map, x, y, monsterData.Speed)
         {
             LifeCount = monsterData.LivesCount - 1;
 

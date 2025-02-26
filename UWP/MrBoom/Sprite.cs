@@ -1,8 +1,5 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace MrBoom
 {
     public abstract class Sprite
@@ -16,7 +13,6 @@ namespace MrBoom
         public ITerrain terrain;
         public Directions? Direction { get; protected set; }
         public int frameIndex;
-        public int animateIndex;
         private bool isDie = false;
         public Feature Features;
         public SkullType? Skull { get; private set; }
@@ -26,18 +22,18 @@ namespace MrBoom
         public bool IsDie { get => isDie; }
         public bool IsAlive { get => !isDie; }
 
-        private int blinking = 0;
+        public bool HasUnplugin { get => Unplugin > 0; }
+        public bool HasSkull { get => skullTimer > 0; }
+
         private int skullTimer;
-        private readonly Assets.MovingSpriteAssets animations;
         private readonly int DefaultSpeed;
 
         public int LifeCount { get; set; }
         public int Unplugin { get; set; }
 
-        public Sprite(Terrain terrain, Assets.MovingSpriteAssets assets, int x, int y, int speed)
+        public Sprite(Terrain terrain, int x, int y, int speed)
         {
             this.terrain = terrain;
-            animations = assets;
             X = x;
             Y = y;
             DefaultSpeed = speed;
@@ -50,13 +46,11 @@ namespace MrBoom
             if (IsDie)
             {
                 frameIndex += 4;
-                animateIndex = 4;
+                AnimateIndex = 4;
                 skullTimer = 0;
                 Skull = null;
                 return;
             }
-
-            blinking++;
 
             int speed = DefaultSpeed;
             if (Features.HasFlag(Feature.RollerSkates))
@@ -189,23 +183,23 @@ namespace MrBoom
                 {
                     if (Direction == Directions.Up)
                     {
-                        animateIndex = 3;
+                        AnimateIndex = 3;
                         moveY(-1);
                     }
                     else if (Direction == Directions.Down)
                     {
-                        animateIndex = 0;
+                        AnimateIndex = 0;
                         moveY(1);
                     }
                     else if (Direction == Directions.Left)
                     {
                         moveX(-1);
-                        animateIndex = 2;
+                        AnimateIndex = 2;
                     }
                     else if (Direction == Directions.Right)
                     {
                         moveX(1);
-                        animateIndex = 1;
+                        AnimateIndex = 1;
                     }
                 }
             }
@@ -240,34 +234,6 @@ namespace MrBoom
             {
                 Y += 1;
                 AnimateIndex = 0;
-            }
-        }
-
-        public void Draw(SpriteBatch ctx)
-        {
-            if (frameIndex != -1)
-            {
-                Color color = Color.White;
-
-                AnimatedImage animation = animations.Normal[animateIndex];
-                if (Unplugin > 0 && blinking % 30 < 15)
-                {
-                    animation = animations.Ghost[animateIndex];
-                }
-                if (skullTimer > 0 && blinking % 30 > 15)
-                {
-                    animation = animations.Red[animateIndex];
-                }
-
-                Image img = animation[frameIndex / 20];
-
-                int x = X + 8 + 8 - img.Width / 2;
-                int y = Y + 16 - img.Height;
-
-                if (animateIndex != 4 || frameIndex / 20 < animations.Normal[4].Length)
-                {
-                    img.Draw(ctx, x, y, color);
-                }
             }
         }
 

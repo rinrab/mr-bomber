@@ -7,8 +7,8 @@ namespace MrBoom
     public class BasicMonster : AbstractMonster
     {
 
-        public BasicMonster(Terrain map, Map.BasicMonsterData monsterData, Assets.MovingSpriteAssets animations,
-                            int x, int y) : base(map, monsterData, animations, x, y)
+        public BasicMonster(Terrain map, Map.BasicMonsterData monsterData,
+                            int x, int y) : base(map, monsterData, x, y)
         {
             tree = new BtSequence()
             {

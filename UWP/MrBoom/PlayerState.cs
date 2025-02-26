@@ -38,7 +38,7 @@ namespace MrBoom
 
         public AbstractPlayer GetPlayer(Terrain terrain, int team)
         {
-            return new Human(terrain, terrain.assets.Players[Index], Controller, team);
+            return new Human(terrain, Controller, team);
         }
     }
 
@@ -126,7 +126,7 @@ namespace MrBoom
 
         public AbstractPlayer GetPlayer(Terrain terrain, int team)
         {
-            return new ComputerPlayer(terrain, terrain.assets.Players[Index], team, Index);
+            return new ComputerPlayer(terrain, team, Index);
         }
     }
 }

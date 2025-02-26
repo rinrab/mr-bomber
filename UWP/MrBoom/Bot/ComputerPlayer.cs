@@ -19,9 +19,7 @@ namespace MrBoom.Bot
         private readonly Grid<bool> dangerGrid;
         private readonly Grid<int> flamesGrid;
 
-        public ComputerPlayer(Terrain map,
-                              Assets.MovingSpriteAssets animations,
-                              int team, int botSeed) : base(map, animations, team)
+        public ComputerPlayer(Terrain map, int team, int botSeed) : base(map, team)
         {
             this.botSeed = botSeed;
 

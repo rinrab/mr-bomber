@@ -30,7 +30,7 @@ namespace MrBoom
 
             for (int i = 0; i < 4; i++)
             {
-                terrain.AddPlayer(new ComputerPlayer(terrain, assets.Players[i], i, i));
+                terrain.AddPlayer(new ComputerPlayer(terrain, i, i));
             }
 
             terrain.InitializeMonsters();
@@ -49,7 +49,7 @@ namespace MrBoom
 
                 for (int i = 0; i < 4; i++)
                 {
-                    terrain.AddPlayer(new ComputerPlayer(terrain, assets.Players[i], i, i));
+                    terrain.AddPlayer(new ComputerPlayer(terrain, i, i));
                 }
 
                 terrain.InitializeMonsters();

@@ -23,9 +23,7 @@ namespace MrBoom
         public int Team;
         public int TeamMask { get => 1 << Team; }
 
-        public AbstractPlayer(Terrain map,
-                              Assets.MovingSpriteAssets animations,
-                              int team) : base(map, animations, 0, 0, 3)
+        public AbstractPlayer(Terrain map, int team) : base(map, 0, 0, 3)
         {
             Features = map.StartFeatures;
             MaxBoom = map.StartMaxFire;
