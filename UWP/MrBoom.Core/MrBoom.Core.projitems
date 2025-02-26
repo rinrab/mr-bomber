@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IServerGameEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Map\Map.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Map\MapData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkullType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SoundEffectType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AbstractMonster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\BasicMonster.cs" />
