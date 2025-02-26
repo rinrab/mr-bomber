@@ -11,7 +11,7 @@ namespace MrBoom.Server
     {
         Task SendMessage(byte[] msg, IPEndPoint endPoint, CancellationToken cancellationToken);
 
-        event MessageReceivedDelegate OnMesssageReceived;
+        event MessageReceivedDelegate OnMessageReceived;
     }
 
     public class UdpServer : BackgroundService, IUdpServer
@@ -28,7 +28,7 @@ namespace MrBoom.Server
             udpClient = new UdpClient(port);
         }
 
-        public event MessageReceivedDelegate OnMesssageReceived;
+        public event MessageReceivedDelegate OnMessageReceived;
 
         public async Task SendMessage(byte[] msg, IPEndPoint endPoint, CancellationToken cancellationToken)
         {
@@ -65,7 +65,7 @@ namespace MrBoom.Server
 
                     logger.LogDebug("Received message from {RemoteEndPoint}", msg.RemoteEndPoint);
 
-                    OnMesssageReceived?.Invoke(msg);
+                    OnMessageReceived?.Invoke(msg);
                 }
             }
             catch (Exception)
