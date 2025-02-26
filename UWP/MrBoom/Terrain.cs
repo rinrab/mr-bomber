@@ -79,7 +79,7 @@ namespace MrBoom
         private readonly Grid<bool> isMonsterComingGrid;
         private readonly Grid<int> killablePlayerGrid;
 
-        public Terrain(int levelIndex, Assets assets)
+        public Terrain(int levelIndex)
         {
             monsters = new List<AbstractMonster>();
             players = new List<AbstractPlayer>();
