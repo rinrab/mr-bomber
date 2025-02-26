@@ -1,18 +1,22 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using System.Net;
 using System.Net.Sockets;
 using MrBoom.Common;
+using MrBoom.NetworkProtocol;
 
 namespace MrBoom.Server
 {
     public interface IGameLobby
     {
+        ClientInfo ClientJoin(ClientJoinRequest request, IPEndPoint ipep);
         LobbyInfo GetLobbyInfo();
         PlayerInfo PlayerJoin(PlayerJoinInfo player);
     }
 
     public class GameLobby : IGameLobby
     {
+        private readonly List<ClientInfo> clients;
         private readonly List<LobbyPlayer> players;
         private readonly ILogger logger;
         private int index = 0;
@@ -34,6 +38,19 @@ namespace MrBoom.Server
             index++;
 
             return lobbyPlayer.GetMe();
+        }
+
+        public ClientInfo ClientJoin(ClientJoinRequest request, IPEndPoint ipep)
+        {
+            ClientInfo clientInfo = new ClientInfo()
+            {
+                ClientSecret = Guid.NewGuid(),
+                IpAddress = ipep,
+            };
+
+            clients.Add(clientInfo);
+
+            return clientInfo;
         }
 
         public LobbyInfo GetLobbyInfo()
