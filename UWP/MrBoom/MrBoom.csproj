@@ -139,7 +139,6 @@
     <Compile Include="AbstractMonster.cs" />
     <Compile Include="RandomExtensions.cs" />
     <Compile Include="SkullType.cs" />
-    <Compile Include="Sprite.cs" />
     <Compile Include="PlayerState.cs" />
     <Compile Include="Screens\ResultScreen.cs" />
     <Compile Include="ScreenManager.cs" />

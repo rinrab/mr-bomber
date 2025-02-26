@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IServerGameEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MovableSprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\ITerrainAccessor.cs" />
   </ItemGroup>
   <ItemGroup>
