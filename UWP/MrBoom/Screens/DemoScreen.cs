@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Bot;
+using MrBoom.Common;
 using Windows.UI.Xaml;
 
 namespace MrBoom

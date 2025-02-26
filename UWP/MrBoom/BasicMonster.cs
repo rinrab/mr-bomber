@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using MrBoom.BehaviorTree;
+using MrBoom.Common;
 
 namespace MrBoom
 {

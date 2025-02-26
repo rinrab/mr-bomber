@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MrBoom.Common;
 
 namespace MrBoom
 {

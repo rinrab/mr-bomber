@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MrBoom
+namespace MrBoom.Common
 {
     public class NameGenerator
     {

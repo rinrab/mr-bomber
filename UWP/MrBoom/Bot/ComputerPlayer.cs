@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MrBoom.BehaviorTree;
+using MrBoom.Common;
 
 namespace MrBoom.Bot
 {

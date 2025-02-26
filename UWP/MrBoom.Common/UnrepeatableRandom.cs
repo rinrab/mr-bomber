@@ -2,7 +2,7 @@
 
 using System;
 
-namespace MrBoom
+namespace MrBoom.Common
 {
     public class UnrepeatableRandom
     {
