@@ -122,8 +122,6 @@
     <Compile Include="Human.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Screens\IScreen.cs" />
-    <Compile Include="Map.cs" />
-    <Compile Include="MapData.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MenuItem.cs" />
     <Compile Include="SkullType.cs" />
