@@ -175,7 +175,7 @@ namespace MrBoom
                 PlaySound(SoundEffectType.PlayerDie);
             }
 
-            rcDitonateButton = false;
+            dropBombButton = false;
             rcDitonateButton = false;
         }
 
