@@ -9,6 +9,9 @@
     <Import_RootNamespace>MrBoom.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)NameGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RandomExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReadOnlyByteSpan.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UnrepeatableRandom.cs" />
   </ItemGroup>
 </Project>
