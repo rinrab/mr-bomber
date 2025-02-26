@@ -100,7 +100,8 @@ namespace MrBoom.Bot
                         TerrainType type = terrain.GetCell(x, y).Type;
 
                         if (type == TerrainType.TemporaryWall ||
-                            type == TerrainType.PermanentWall)
+                            type == TerrainType.PermanentWall ||
+                            type == TerrainType.PermanentWallTextured)
                         {
                             break;
                         }

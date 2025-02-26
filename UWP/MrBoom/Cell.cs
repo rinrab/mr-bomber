@@ -7,7 +7,6 @@ namespace MrBoom
     public class Cell
     {
         public readonly TerrainType Type;
-        public AnimatedImage Images;
         public int Index;
         public int animateDelay;
         public int bombCountdown;
@@ -16,6 +15,7 @@ namespace MrBoom
         public AbstractPlayer owner;
         public Cell Next;
         public PowerUpType PowerUpType;
+        public FlameDirection FlameDirection;
         public int OffsetX;
         public int OffsetY;
         public int DeltaX;
@@ -25,6 +25,70 @@ namespace MrBoom
         {
             Type = type;
             Index = -1;
+        }
+
+        public AnimatedImage GetImages(Assets assets, Assets.Level levelAssets)
+        {
+            if (Type == TerrainType.TemporaryWall)
+            {
+                return levelAssets.Walls;
+            }
+            else if (Type == TerrainType.PermanentWallTextured)
+            {
+                return levelAssets.PermanentWalls;
+            }
+            else if (Type == TerrainType.Bomb)
+            {
+                return assets.Bomb;
+            }
+            else if (Type == TerrainType.PowerUp)
+            {
+                return assets.PowerUps[(int)PowerUpType];
+            }
+            else if (Type == TerrainType.PowerUpFire)
+            {
+                return assets.Fire;
+            }
+            else if (Type == TerrainType.Fire)
+            {
+                return assets.Flames[(int)FlameDirection];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public int GetAnimationLength()
+        {
+            if (Type == TerrainType.TemporaryWall)
+            {
+                return 8;
+            }
+            else if (Type == TerrainType.PermanentWallTextured)
+            {
+                return 8;
+            }
+            else if (Type == TerrainType.Bomb)
+            {
+                return 4;
+            }
+            else if (Type == TerrainType.PowerUp)
+            {
+                return 8;
+            }
+            else if (Type == TerrainType.PowerUpFire)
+            {
+                return 7;
+            }
+            else if (Type == TerrainType.Fire)
+            {
+                return 4;
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 
@@ -41,6 +105,18 @@ namespace MrBoom
         RollerSkate,
         Clock,
         MultiBomb,
+    }
+
+
+    public enum FlameDirection
+    {
+        BoomMid,
+        BoomHor,
+        BoomLeftEnd,
+        BoomRightEnd,
+        BoomVert,
+        BoomTopEnd,
+        BoomBottomEnd,
     }
 
     [Flags]

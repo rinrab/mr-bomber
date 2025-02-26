@@ -115,10 +115,12 @@ namespace MrBoom
                 for (int x = 0; x < terrain.Width; x++)
                 {
                     Cell cell = terrain.GetCell(x, y);
-                    if (cell.Images != null)
+                    AnimatedImage images = cell.GetImages(assets, assets.Levels[terrain.LevelIndex]);
+
+                    if (images != null)
                     {
                         int index = (cell.Index == -1) ? 0 : cell.Index;
-                        var image = cell.Images[index];
+                        Image image = images[index];
 
                         image.Draw(ctx, x * 16 + 8 + 8 - image.Width / 2 + cell.OffsetX, y * 16 + 16 - image.Height + cell.OffsetY);
                     }

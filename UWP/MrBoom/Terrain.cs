@@ -51,6 +51,7 @@ namespace MrBoom
 
         public int Width { get; }
         public int Height { get; }
+        public int LevelIndex { get; }
         public Assets assets;
         public int TimeLeft { get; private set; }
         public Sound SoundsToPlay;
@@ -65,7 +66,7 @@ namespace MrBoom
         {
             get
             {
-                return assets.BoomMid.Length * FLAME_ANIMATION_DELAY;
+                return 4 * FLAME_ANIMATION_DELAY;
             }
         }
         private readonly Grid<byte> final;
@@ -98,6 +99,8 @@ namespace MrBoom
             ClientSprites = new List<ClientSprite>();
 
             this.assets = assets;
+            LevelIndex = levelIndex;
+
             levelAssets = assets.Levels[levelIndex];
             mapData = MapData.Data[levelIndex];
             StartFeatures = mapData.StartFeatures;
@@ -163,10 +166,7 @@ namespace MrBoom
                     }
                     else if (src == '-')
                     {
-                        data[x, y] = new Cell(TerrainType.TemporaryWall)
-                        {
-                            Images = levelAssets.Walls
-                        };
+                        data[x, y] = new Cell(TerrainType.TemporaryWall);
                     }
                     else if (src == '*')
                     {
@@ -182,7 +182,6 @@ namespace MrBoom
                         int index = bonusStr.IndexOf(src);
                         data[x, y] = new Cell(TerrainType.PowerUp)
                         {
-                            Images = assets.PowerUps[index],
                             Index = 0,
                             animateDelay = 8,
                             PowerUpType = (PowerUpType)index
@@ -252,7 +251,6 @@ namespace MrBoom
                     {
                         data[i] = new Cell(TerrainType.PowerUpFire)
                         {
-                            Images = assets.Fire,
                             Index = 0,
                             Next = new Cell(TerrainType.Free)
                         };
@@ -270,12 +268,8 @@ namespace MrBoom
                     {
                         data[i] = new Cell(TerrainType.Apocalypse)
                         {
-                            Images = levelAssets.PermanentWalls,
                             Index = 0,
-                            Next = new Cell(TerrainType.PermanentWall)
-                            {
-                                Images = levelAssets.PermanentWalls,
-                            }
+                            Next = new Cell(TerrainType.PermanentWallTextured),
                         };
                         if (Math.Abs(lastApocalypseSound - TimeLeft) > 60)
                         {
@@ -313,7 +307,7 @@ namespace MrBoom
                         if (time % animateDelay == 0)
                         {
                             cell.Index++;
-                            if (cell.Index >= cell.Images.Length)
+                            if (cell.Index >= cell.GetAnimationLength())
                             {
                                 if (cell.Next == null)
                                 {
@@ -561,7 +555,7 @@ namespace MrBoom
                 bombCell.owner.BombsPlaced--;
             }
 
-            void burn(int dx, int dy, AnimatedImage image, AnimatedImage imageEnd)
+            void burn(int dx, int dy, FlameDirection middle, FlameDirection final)
             {
                 for (int i = 1; i <= maxBoom; i++)
                 {
@@ -580,9 +574,8 @@ namespace MrBoom
                     {
                         Cell next = GenerateGiven();
 
-                        data[x, y] = new Cell(TerrainType.PermanentWall)
+                        data[x, y] = new Cell(TerrainType.TemporaryWall)
                         {
-                            Images = levelAssets.Walls,
                             Index = 0,
                             animateDelay = 4,
                             Next = next
@@ -593,7 +586,6 @@ namespace MrBoom
                     {
                         data[x, y] = new Cell(TerrainType.PowerUpFire)
                         {
-                            Images = assets.Fire,
                             Index = 0,
                             animateDelay = 6,
                             Next = new Cell(TerrainType.Free)
@@ -614,7 +606,7 @@ namespace MrBoom
                     {
                         data[x, y] = new Cell(TerrainType.Fire)
                         {
-                            Images = i == maxBoom ? imageEnd : image,
+                            FlameDirection = i == maxBoom ? final : middle,
                             Index = 0,
                             animateDelay = FLAME_ANIMATION_DELAY,
                             Next = new Cell(TerrainType.Free)
@@ -627,23 +619,21 @@ namespace MrBoom
 
             data[bombX, bombY] = new Cell(TerrainType.Fire)
             {
-                Images = assets.BoomMid,
                 Index = 0,
                 animateDelay = FLAME_ANIMATION_DELAY,
                 Next = new Cell(TerrainType.Free)
             };
 
-            burn(1, 0, assets.BoomHor, assets.BoomRightEnd);
-            burn(-1, 0, assets.BoomHor, assets.BoomLeftEnd);
-            burn(0, 1, assets.BoomVert, assets.BoomBottomEnd);
-            burn(0, -1, assets.BoomVert, assets.BoomTopEnd);
+            burn(1, 0, FlameDirection.BoomHor, FlameDirection.BoomRightEnd);
+            burn(-1, 0, FlameDirection.BoomHor, FlameDirection.BoomLeftEnd);
+            burn(0, 1, FlameDirection.BoomVert, FlameDirection.BoomBottomEnd);
+            burn(0, -1, FlameDirection.BoomVert, FlameDirection.BoomTopEnd);
         }
 
         public Cell GeneratePowerUp(PowerUpType powerUpType)
         {
             return new Cell(TerrainType.PowerUp)
             {
-                Images = assets.PowerUps[(int)powerUpType],
                 Index = 0,
                 animateDelay = 8,
                 PowerUpType = powerUpType
@@ -654,7 +644,6 @@ namespace MrBoom
         {
             data[cellX, cellY] = new Cell(TerrainType.Bomb)
             {
-                Images = assets.Bomb,
                 Index = 0,
                 animateDelay = 12,
                 bombCountdown = 210,
@@ -777,7 +766,6 @@ namespace MrBoom
 
                     data[i] = new Cell(TerrainType.PermanentWall)
                     {
-                        Images = levelAssets.Walls,
                         Index = 0,
                         animateDelay = 4,
                         Next = next
@@ -808,7 +796,6 @@ namespace MrBoom
         {
             SetCell(cellX, cellY, new Cell(TerrainType.PowerUpFire)
             {
-                Images = assets.Fire,
                 Index = 0,
                 animateDelay = 6,
                 Next = new Cell(TerrainType.Free)

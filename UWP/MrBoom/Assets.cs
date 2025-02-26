@@ -73,13 +73,7 @@ namespace MrBoom
         public SoundAssets Sounds { get; private set; }
         public Level[] Levels { get; private set; }
         public AnimatedImage Bomb { get; private set; }
-        public AnimatedImage BoomMid { get; private set; }
-        public AnimatedImage BoomHor { get; private set; }
-        public AnimatedImage BoomLeftEnd { get; private set; }
-        public AnimatedImage BoomRightEnd { get; private set; }
-        public AnimatedImage BoomVert { get; private set; }
-        public AnimatedImage BoomTopEnd { get; private set; }
-        public AnimatedImage BoomBottomEnd { get; private set; }
+        public AnimatedImage[] Flames { get; private set; }
         public AnimatedImage Fire { get; private set; }
         public MovingSpriteAssets[] Players { get; private set; }
         public AnimatedImage Pause { get; private set; }
@@ -679,13 +673,16 @@ namespace MrBoom
                         permanentWalls: loadPermanentWall(fire, loadImage(imgPause, 256 + 16 * 2, 16 * 1, 16, 16))
                     ),
                 },
-                BoomMid = loadImageStripe(imgSprite2, 0 * 16, 46 + 0 * 16, 16, 16, 4),
-                BoomHor = loadImageStripe(imgSprite2, 0 * 16, 46 + 1 * 16, 16, 16, 4),
-                BoomLeftEnd = loadImageStripe(imgSprite2, 0 * 16, 46 + 2 * 16, 16, 16, 4),
-                BoomRightEnd = loadImageStripe(imgSprite2, 0 * 16, 46 + 3 * 16, 16, 16, 4),
-                BoomVert = loadImageStripe(imgSprite2, 0 * 16, 46 + 4 * 16, 16, 16, 4),
-                BoomTopEnd = loadImageStripe(imgSprite2, 0 * 16, 46 + 5 * 16, 16, 16, 4),
-                BoomBottomEnd = loadImageStripe(imgSprite2, 0 * 16, 46 + 6 * 16, 16, 16, 4),
+                Flames = new AnimatedImage[]
+                {
+                    loadImageStripe(imgSprite2, 0 * 16, 46 + 0 * 16, 16, 16, 4),
+                    loadImageStripe(imgSprite2, 0 * 16, 46 + 1 * 16, 16, 16, 4),
+                    loadImageStripe(imgSprite2, 0 * 16, 46 + 2 * 16, 16, 16, 4),
+                    loadImageStripe(imgSprite2, 0 * 16, 46 + 3 * 16, 16, 16, 4),
+                    loadImageStripe(imgSprite2, 0 * 16, 46 + 4 * 16, 16, 16, 4),
+                    loadImageStripe(imgSprite2, 0 * 16, 46 + 5 * 16, 16, 16, 4),
+                    loadImageStripe(imgSprite2, 0 * 16, 46 + 6 * 16, 16, 16, 4),
+                },
                 Fire = fire,
                 Players = loadPlayers(imgSprite, imgSprite3),
                 Pause = loadImageStripe(imgPause, 0, 0, 48, 64, 4, 0),
