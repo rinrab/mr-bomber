@@ -31,11 +31,17 @@ namespace MrBoom
 
             for (int i = 0; i < 4; i++)
             {
-                terrain.AddPlayer(new ComputerPlayer(terrain, i, i));
+                var player = new ComputerPlayer(terrain, i, i);
+                terrain.AddPlayer(player);
+                clientTerrain.Sprites.Add(new ClientSprite(player, assets.Players[i]));
             }
 
             terrain.InitializeMonsters();
-            clientTerrain = new ClientTerrain(terrain, assets);
+
+            foreach (var monster in terrain.GetMonsters())
+            {
+                clientTerrain.Sprites.Add(new ClientSprite(monster, assets.Monsters[monster.Type]));
+            }
         }
 
         public override void Update()
