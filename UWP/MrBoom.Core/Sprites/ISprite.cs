@@ -10,5 +10,8 @@ namespace MrBoom
 
     public interface IServerPlayer : ISprite, IServerGameEntity
     {
+        void SetDirection(Directions? direction);
+        void ToggleRemoteControl();
+        void ToggleDropBomb();
     }
 }

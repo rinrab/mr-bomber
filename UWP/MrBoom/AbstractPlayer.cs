@@ -5,7 +5,6 @@ namespace MrBoom
     public abstract class AbstractPlayer : Sprite, IServerPlayer
     {
         public int BombsPlaced;
-        public bool RemoteDetonate = false;
         public int MaxBoom;
         public int MaxBombsCount;
 
@@ -17,6 +16,7 @@ namespace MrBoom
             }
         }
 
+        public bool RemoteDetonate { get; private set; }
         protected bool rcDitonateButton;
         protected bool dropBombButton;
 
@@ -29,6 +29,7 @@ namespace MrBoom
             MaxBoom = terrain.StartMaxFire;
             MaxBombsCount = terrain.StartMaxBombsCount;
             Team = team;
+            RemoteDetonate = false;
         }
 
         public override void ServerUpdate()
@@ -171,6 +172,9 @@ namespace MrBoom
                 Kill();
                 PlaySound(Sound.PlayerDie);
             }
+
+            rcDitonateButton = false;
+            rcDitonateButton = false;
         }
 
         public void GiveAll()
@@ -192,6 +196,21 @@ namespace MrBoom
             {
                 PlaySound(Sound.PlayerDie);
             }
+        }
+
+        public void SetDirection(Directions? direction)
+        {
+            Direction = direction;
+        }
+
+        public void ToggleRemoteControl()
+        {
+            rcDitonateButton = true;
+        }
+
+        public void ToggleDropBomb()
+        {
+            dropBombButton = true;
         }
     }
 }
