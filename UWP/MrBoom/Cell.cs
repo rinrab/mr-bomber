@@ -27,38 +27,6 @@ namespace MrBoom
             Index = -1;
         }
 
-        public AnimatedImage GetImages(Assets assets, Assets.Level levelAssets)
-        {
-            if (Type == TerrainType.TemporaryWall)
-            {
-                return levelAssets.Walls;
-            }
-            else if (Type == TerrainType.PermanentWallTextured)
-            {
-                return levelAssets.PermanentWalls;
-            }
-            else if (Type == TerrainType.Bomb)
-            {
-                return assets.Bomb;
-            }
-            else if (Type == TerrainType.PowerUp)
-            {
-                return assets.PowerUps[(int)PowerUpType];
-            }
-            else if (Type == TerrainType.PowerUpFire)
-            {
-                return assets.Fire;
-            }
-            else if (Type == TerrainType.Fire)
-            {
-                return assets.Flames[(int)FlameDirection];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         public int GetAnimationLength()
         {
             if (Type == TerrainType.TemporaryWall)
