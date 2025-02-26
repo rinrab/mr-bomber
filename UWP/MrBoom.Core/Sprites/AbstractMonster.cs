@@ -10,11 +10,14 @@ namespace MrBoom
 
         public int Type { get; }
 
+        protected Terrain terrain;
+
         public AbstractMonster(Terrain terrain, Map.MonsterData monsterData,
                                int x, int y) : base(terrain, x, y, monsterData.Speed)
         {
             LifeCount = monsterData.LivesCount - 1;
             Type = monsterData.Type;
+            this.terrain = terrain;
 
             if (monsterData.IsSlowStart)
             {
@@ -46,6 +49,13 @@ namespace MrBoom
                     PlaySound(SoundEffectType.Ai);
                 }
             }
+        }
+
+        public override void KickBomb(int x, int y, int dx, int dy)
+        {
+            Cell cell = terrain.GetCell(x, y);
+            cell.DeltaX = dx * 2;
+            cell.DeltaY = dy * 2;
         }
 
         public override string GetDebugInfo()

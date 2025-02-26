@@ -12,20 +12,13 @@ namespace MrBoom
 
         private readonly int DefaultSpeed;
 
-        protected readonly Terrain terrain;
+        private readonly ITerrainAccessor terrain;
 
-        public Sprite(Terrain terrain, int x, int y, int speed) : base(terrain, x, y)
+        public Sprite(ITerrainAccessor terrain, int x, int y, int speed) : base(terrain, x, y)
         {
             Direction = null;
             this.terrain = terrain;
             DefaultSpeed = speed;
-        }
-
-        public override void KickBomb(int x, int y, int dx, int dy)
-        {
-            Cell cell = terrain.GetCell(x, y);
-            cell.DeltaX = dx * 2;
-            cell.DeltaY = dy * 2;
         }
 
         public virtual void ServerUpdate()

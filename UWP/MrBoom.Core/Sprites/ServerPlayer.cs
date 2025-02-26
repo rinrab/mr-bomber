@@ -25,6 +25,8 @@ namespace MrBoom
         public int Team;
         public int TeamMask { get => 1 << Team; }
 
+        protected readonly Terrain terrain;
+
         public ServerPlayer(Terrain terrain, int team) : base(terrain, 0, 0, 3)
         {
             Features = terrain.StartFeatures;
@@ -32,6 +34,7 @@ namespace MrBoom
             MaxBombsCount = terrain.StartMaxBombsCount;
             Team = team;
             RemoteDetonate = false;
+            this.terrain = terrain;
         }
 
         public override void ServerUpdate()
@@ -213,6 +216,13 @@ namespace MrBoom
         public void ToggleDropBomb()
         {
             dropBombButton = true;
+        }
+
+        public override void KickBomb(int x, int y, int dx, int dy)
+        {
+            Cell cell = terrain.GetCell(x, y);
+            cell.DeltaX = dx * 2;
+            cell.DeltaY = dy * 2;
         }
     }
 }
