@@ -9,5 +9,10 @@
     <Import_RootNamespace>MrBoom.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Cell\Cell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cell\CellCoord.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Cell\" />
   </ItemGroup>
 </Project>
