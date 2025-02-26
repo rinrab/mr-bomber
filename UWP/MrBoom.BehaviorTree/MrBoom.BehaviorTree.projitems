@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>f243830e-84f5-423e-a801-c315c474127c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MrBoom.BehaviorTree</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ActionNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BtComposite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BtDecorator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BtNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BtRepeater.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BtSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BtSequence.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BtStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DelayNode.cs" />
+  </ItemGroup>
+</Project>
