@@ -388,7 +388,7 @@ namespace MrBoom
                             cell.bombCountdown--;
                         }
 
-                        if (cell.bombCountdown == 0 || (cell.owner != null && cell.owner.rcDitonate && cell.rcAllowed))
+                        if (cell.bombCountdown == 0 || (cell.owner != null && cell.owner.RemoteDetonate && cell.rcAllowed))
                         {
                             DitonateBomb(x, y);
                             continue;

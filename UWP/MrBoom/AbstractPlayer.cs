@@ -5,7 +5,7 @@ namespace MrBoom
     public abstract class AbstractPlayer : Sprite, IServerPlayer
     {
         public int BombsPlaced;
-        public bool rcDitonate = false;
+        public bool RemoteDetonate = false;
         public int MaxBoom;
         public int MaxBombsCount;
 
@@ -44,7 +44,7 @@ namespace MrBoom
                 Direction = Direction.Reverse();
             }
 
-            rcDitonate = Features.HasFlag(Feature.RemoteControl) && rcDitonateButton;
+            RemoteDetonate = Features.HasFlag(Feature.RemoteControl) && rcDitonateButton;
 
             base.ServerUpdate();
 
