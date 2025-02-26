@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MovableSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\ITerrainAccessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cell\TerrainType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Cell\" />

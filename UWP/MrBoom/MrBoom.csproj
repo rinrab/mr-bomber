@@ -133,7 +133,6 @@
     <Compile Include="Screens\MultiplayerStartScreen.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Terrain.cs" />
-    <Compile Include="TerrainType.cs" />
     <Compile Include="Screens\VictoryScreen.cs" />
   </ItemGroup>
   <ItemGroup>
