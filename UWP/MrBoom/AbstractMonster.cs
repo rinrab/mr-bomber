@@ -10,8 +10,8 @@ namespace MrBoom
 
         public int Type { get; }
 
-        public AbstractMonster(Terrain map, Map.MonsterData monsterData,
-                               int x, int y) : base(map, x, y, monsterData.Speed)
+        public AbstractMonster(Terrain terrain, Map.MonsterData monsterData,
+                               int x, int y) : base(terrain, x, y, monsterData.Speed)
         {
             LifeCount = monsterData.LivesCount - 1;
             Type = monsterData.Type;

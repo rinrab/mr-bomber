@@ -23,11 +23,11 @@ namespace MrBoom
         public int Team;
         public int TeamMask { get => 1 << Team; }
 
-        public AbstractPlayer(Terrain map, int team) : base(map, 0, 0, 3)
+        public AbstractPlayer(Terrain terrain, int team) : base(terrain, 0, 0, 3)
         {
-            Features = map.StartFeatures;
-            MaxBoom = map.StartMaxFire;
-            MaxBombsCount = map.StartMaxBombsCount;
+            Features = terrain.StartFeatures;
+            MaxBoom = terrain.StartMaxFire;
+            MaxBombsCount = terrain.StartMaxBombsCount;
             Team = team;
         }
 

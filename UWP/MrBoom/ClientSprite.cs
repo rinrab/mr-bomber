@@ -15,10 +15,14 @@ namespace MrBoom
         void Draw(SpriteBatch ctx);
     }
 
-    public interface IClientSprite : IClientGameEntity, IClientDrawableGameEntity
+    public interface ISprite
     {
         int X { get; }
         int Y { get; }
+    }
+
+    public interface IClientSprite : IClientGameEntity, IClientDrawableGameEntity, ISprite
+    {
     }
 
     public class ClientSprite : IClientSprite

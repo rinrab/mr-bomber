@@ -53,11 +53,19 @@ namespace MrBoom
         IList<IClientSprite> Sprites { get; }
 
         Cell GetCell(int x, int y);
-
         bool IsWalkable(int x, int y);
     }
 
-    public class ClientTerrain : IClientTerrain
+    public interface ITerrainAccessor
+    {
+        int Width { get; }
+        int Height { get; }
+
+        Cell GetCell(int x, int y);
+        bool IsWalkable(int x, int y);
+    }
+
+    public class ClientTerrain : IClientTerrain, ITerrainAccessor
     {
         private readonly ITerrain proxy;
 
@@ -116,7 +124,7 @@ namespace MrBoom
         }
     }
 
-    public class Terrain : ITerrain
+    public class Terrain : ITerrain, ITerrainAccessor
     {
         public static Random Random = new Random();
 
@@ -262,8 +270,7 @@ namespace MrBoom
         {
             CellCoord spawn = GenerateSpawn().Value;
 
-            player.X = spawn.X * 16;
-            player.Y = spawn.Y * 16;
+            player.MoveTo(spawn.X * 16, spawn.Y * 16);
 
             players.Add(player);
         }

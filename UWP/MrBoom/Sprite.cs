@@ -2,92 +2,39 @@
 
 namespace MrBoom
 {
-    public abstract class Sprite
+    public abstract class MovableSprite : ISprite
     {
-        public int CellX { get => (X + 8) / 16; }
-        public int CellY { get => (Y + 8) / 16; }
-        public int AnimateIndex { get; private set; }
+        // position
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
-        private int x;
-        private int y;
-        public ITerrain terrain;
-        public Directions? Direction { get; protected set; }
+        // current cell
+        public int CellX => (X + 8) / 16;
+        public int CellY => (Y + 8) / 16;
+        public Cell Cell => TerrainAccessor.GetCell(CellX, CellY);
+
+        // animation
+        public int AnimateIndex { get; protected set; }
         public int frameIndex;
-        private bool isDie = false;
-        public Feature Features;
-        public SkullType? Skull { get; private set; }
-        public int X { get => x; set => x = value; }
-        public int Y { get => y; set => y = value; }
-        public Sound SoundsToPlay {  get; private set; }
-        public bool IsDie { get => isDie; }
-        public bool IsAlive { get => !isDie; }
 
-        public bool HasUnplugin { get => Unplugin > 0; }
-        public bool HasSkull { get => skullTimer > 0; }
+        // features
+        public Feature Features { get; protected set; }
+        public SkullType? Skull { get; protected set; }
 
-        private int skullTimer;
-        private readonly int DefaultSpeed;
+        // map source
+        protected readonly ITerrainAccessor TerrainAccessor;
 
-        public int LifeCount { get; set; }
-        public int Unplugin { get; set; }
-
-        public Sprite(Terrain terrain, int x, int y, int speed)
+        public MovableSprite(ITerrainAccessor terrain, int x, int y)
         {
-            this.terrain = terrain;
             X = x;
             Y = y;
-            DefaultSpeed = speed;
+            TerrainAccessor = terrain;
         }
 
-        public virtual void Update()
+        public abstract void KickBomb(int x, int y, int dx, int dy);
+
+        public void Move(Directions? Direction, int speed)
         {
-            SoundsToPlay = 0;
-
-            if (IsDie)
-            {
-                frameIndex += 4;
-                AnimateIndex = 4;
-                skullTimer = 0;
-                Skull = null;
-                return;
-            }
-
-            int speed = DefaultSpeed;
-            if (Features.HasFlag(Feature.RollerSkates))
-            {
-                speed = 4;
-            }
-            if (Skull == SkullType.Fast)
-            {
-                speed = 5;
-            }
-            if (Skull == SkullType.Slow)
-            {
-                speed = 1;
-            }
-
-            if (skullTimer > 0)
-            {
-                skullTimer--;
-            }
-            else
-            {
-                Skull = null;
-            }
-
-            if (Unplugin > 0)
-            {
-                Unplugin--;
-            }
-
-            Cell cell = terrain.GetCell((X + 8) / 16, (Y + 8) / 16);
-
-            if (cell.Type == TerrainType.Bomb && cell.OffsetX == 0 && cell.OffsetY == 0)
-            {
-                cell.DeltaX = 0;
-                cell.DeltaY = 0;
-            }
-
             void moveY(int delta)
             {
                 if (X % 16 == 0)
@@ -96,25 +43,25 @@ namespace MrBoom
                     int cellX = (X + 8) / 16;
                     int cellY = (Y + 8) / 16;
 
-                    if (terrain.IsWalkable(cellX, newY))
+                    if (TerrainAccessor.IsWalkable(cellX, newY))
                     {
                         Y += delta;
                     }
 
-                    if (newY == cellY && cell.Type == TerrainType.Bomb)
+                    if (newY == cellY && Cell.Type == TerrainType.Bomb)
                     {
                         Y += delta;
                     }
                     else
                     {
-                        Cell newCell = terrain.GetCell(cellX, newY);
+                        Cell newCell = TerrainAccessor.GetCell(cellX, newY);
                         if (newCell.Type == TerrainType.Bomb)
                         {
                             if (Features.HasFlag(Feature.Kick))
                             {
                                 if (newCell.DeltaX == 0)
                                 {
-                                    newCell.DeltaY = delta * 2;
+                                    KickBomb(cellX, newY, 0, delta);
                                 }
                             }
                         }
@@ -133,24 +80,25 @@ namespace MrBoom
                     int cellX = (X + 8) / 16;
                     int cellY = (Y + 8) / 16;
 
-                    if (terrain.IsWalkable(newX, cellY))
+                    if (TerrainAccessor.IsWalkable(newX, cellY))
                     {
                         X += delta;
                     }
 
-                    if (newX == cellX && cell.Type == TerrainType.Bomb)
+                    if (newX == cellX && Cell.Type == TerrainType.Bomb)
                     {
                         X += delta;
                     }
                     else
                     {
-                        Cell newCell = terrain.GetCell(newX, cellY);
+                        Cell newCell = TerrainAccessor.GetCell(newX, cellY);
                         if (newCell.Type == TerrainType.Bomb)
                         {
                             if (Features.HasFlag(Feature.Kick))
                             {
                                 if (newCell.DeltaY == 0)
                                 {
+                                    KickBomb(newX, cellY, delta, 0);
                                     newCell.DeltaX = delta * 2;
                                 }
                             }
@@ -211,12 +159,12 @@ namespace MrBoom
 
         void XAlign(int deltaY)
         {
-            if (terrain.IsWalkable((X - 1) / 16, (Y + 8) / 16 + deltaY))
+            if (TerrainAccessor.IsWalkable((X - 1) / 16, (Y + 8) / 16 + deltaY))
             {
                 X -= 1;
                 AnimateIndex = 2;
             }
-            else if (terrain.IsWalkable((X + 16) / 16, (Y + 8) / 16 + deltaY))
+            else if (TerrainAccessor.IsWalkable((X + 16) / 16, (Y + 8) / 16 + deltaY))
             {
                 X += 1;
                 AnimateIndex = 1;
@@ -225,16 +173,109 @@ namespace MrBoom
 
         void YAlign(int deltaX)
         {
-            if (terrain.IsWalkable((X + 8) / 16 + deltaX, (Y - 1) / 16))
+            if (TerrainAccessor.IsWalkable((X + 8) / 16 + deltaX, (Y - 1) / 16))
             {
                 Y -= 1;
                 AnimateIndex = 3;
             }
-            else if (terrain.IsWalkable((X + 8) / 16 + deltaX, (Y + 16) / 16))
+            else if (TerrainAccessor.IsWalkable((X + 8) / 16 + deltaX, (Y + 16) / 16))
             {
                 Y += 1;
                 AnimateIndex = 0;
             }
+        }
+
+        public void MoveTo(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+    }
+
+    public abstract class Sprite : MovableSprite
+    {
+        public Directions? Direction { get; protected set; }
+
+        private bool isDie = false;
+        public Sound SoundsToPlay {  get; private set; }
+        public bool IsDie { get => isDie; }
+        public bool IsAlive { get => !isDie; }
+
+        public bool HasUnplugin { get => Unplugin > 0; }
+        public bool HasSkull { get => skullTimer > 0; }
+
+        private int skullTimer;
+        private readonly int DefaultSpeed;
+
+        public int LifeCount { get; set; }
+        public int Unplugin { get; set; }
+
+        protected readonly Terrain terrain;
+
+        public Sprite(Terrain terrain, int x, int y, int speed) : base(terrain, x, y)
+        {
+            Direction = null;
+            this.terrain = terrain;
+            DefaultSpeed = speed;
+        }
+
+        public override void KickBomb(int x, int y, int dx, int dy)
+        {
+            Cell cell = terrain.GetCell(x, y);
+            cell.DeltaX = dx * 2;
+            cell.DeltaY = dy * 2;
+        }
+
+        public virtual void Update()
+        {
+            SoundsToPlay = 0;
+
+            if (IsDie)
+            {
+                frameIndex += 4;
+                AnimateIndex = 4;
+                skullTimer = 0;
+                Skull = null;
+                return;
+            }
+
+            int speed = DefaultSpeed;
+            if (Features.HasFlag(Feature.RollerSkates))
+            {
+                speed = 4;
+            }
+            if (Skull == SkullType.Fast)
+            {
+                speed = 5;
+            }
+            if (Skull == SkullType.Slow)
+            {
+                speed = 1;
+            }
+
+            if (skullTimer > 0)
+            {
+                skullTimer--;
+            }
+            else
+            {
+                Skull = null;
+            }
+
+            if (Unplugin > 0)
+            {
+                Unplugin--;
+            }
+
+            Cell cell = terrain.GetCell((X + 8) / 16, (Y + 8) / 16);
+
+            if (cell.Type == TerrainType.Bomb && cell.OffsetX == 0 && cell.OffsetY == 0)
+            {
+                cell.DeltaX = 0;
+                cell.DeltaY = 0;
+            }
+
+            Move(Direction, speed);
         }
 
         public void SetSkull(SkullType skullType)

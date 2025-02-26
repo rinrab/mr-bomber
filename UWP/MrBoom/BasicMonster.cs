@@ -6,7 +6,6 @@ namespace MrBoom
 {
     public class BasicMonster : AbstractMonster
     {
-
         public BasicMonster(Terrain map, Map.BasicMonsterData monsterData,
                             int x, int y) : base(map, monsterData, x, y)
         {
