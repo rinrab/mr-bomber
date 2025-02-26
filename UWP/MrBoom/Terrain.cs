@@ -30,37 +30,67 @@ namespace MrBoom
         bool IsTouchingMonster(int cellX, int cellY);
         bool IsMonsterComing(int cellX, int cellY);
         int GetKillablePlayers(int cellX, int cellY);
+
+        IEnumerable<Sprite> GetSprites();
+        IEnumerable<AbstractPlayer> GetPlayers();
+        IEnumerable<AbstractMonster> GetMonsters();
     }
 
-    public interface IClientTerrain
+    public interface IClientTerrain : IClientGameEntity
     {
+        int Tick { get; }
+
         int TimeLeft { get; }
         int ApocalypseSpeed { get; }
         int MaxApocalypse { get; }
-        int LevelIndex { get; }
 
         int Width { get; }
         int Height { get; }
+
+        int LevelIndex { get; }
+        Assets.Level LevelAssets { get; }
+
+        IList<IClientSprite> Sprites { get; }
 
         Cell GetCell(int x, int y);
 
         bool IsWalkable(int x, int y);
     }
 
-    public class ClientTerrain : IClientTerrain, IClientGameEntity
+    public class ClientTerrain : IClientTerrain
     {
         private readonly ITerrain proxy;
 
+        public int Tick { get; private set; }
         public int TimeLeft => proxy.TimeLeft;
         public int ApocalypseSpeed => proxy.ApocalypseSpeed;
         public int MaxApocalypse => proxy.MaxApocalypse;
         public int Width => proxy.Width;
         public int Height => proxy.Height;
         public int LevelIndex => proxy.LevelIndex;
+        public Assets.Level LevelAssets { get; }
 
-        public ClientTerrain(ITerrain proxy)
+        public IList<IClientSprite> Sprites { get; }
+
+        public ClientTerrain(ITerrain proxy, Assets assets)
         {
             this.proxy = proxy;
+            Tick = 0;
+            LevelAssets = assets.Levels[LevelIndex];
+
+            Sprites = new List<IClientSprite>();
+
+            int i = 0;
+            foreach (var player in proxy.GetPlayers())
+            {
+                Sprites.Add(new ClientSprite(player, assets.Players[i]));
+                i++;
+            }
+
+            foreach (var monster in proxy.GetMonsters())
+            {
+                Sprites.Add(new ClientSprite(monster, assets.Monsters[monster.Type]));
+            }
         }
 
         public Cell GetCell(int x, int y)
@@ -75,6 +105,13 @@ namespace MrBoom
 
         public void ClientUpdate()
         {
+            Tick++;
+
+            foreach (ClientSprite sprite in Sprites)
+            {
+                sprite.ClientUpdate();
+            }
+
             // sync
         }
     }
@@ -86,14 +123,12 @@ namespace MrBoom
         public int Width { get; }
         public int Height { get; }
         public int LevelIndex { get; }
-        public Assets assets;
         public int TimeLeft { get; private set; }
         public Sound SoundsToPlay;
         public GameResult Result = GameResult.None;
         public int ApocalypseSpeed { get; } = 2;
         public int MaxApocalypse { get; private set; }
 
-        public Assets.Level LevelAssets => levelAssets;
         public int Winner { get; private set; }
 
         public int FlameDuration
@@ -115,13 +150,10 @@ namespace MrBoom
         private readonly List<AbstractPlayer> players;
         private readonly List<AbstractMonster> monsters;
 
-        public List<ClientSprite> ClientSprites;
-
         public readonly Feature StartFeatures;
         public readonly int StartMaxFire;
         public readonly int StartMaxBombsCount;
 
-        private readonly Assets.Level levelAssets;
         private readonly Grid<bool> hasMonsterGrid;
         private readonly Grid<bool> isMonsterComingGrid;
         private readonly Grid<int> killablePlayerGrid;
@@ -130,12 +162,9 @@ namespace MrBoom
         {
             monsters = new List<AbstractMonster>();
             players = new List<AbstractPlayer>();
-            ClientSprites = new List<ClientSprite>();
 
-            this.assets = assets;
             LevelIndex = levelIndex;
 
-            levelAssets = assets.Levels[levelIndex];
             mapData = MapData.Data[levelIndex];
             StartFeatures = mapData.StartFeatures;
             powerUpList = new List<PowerUpType>();
@@ -237,7 +266,6 @@ namespace MrBoom
             player.Y = spawn.Y * 16;
 
             players.Add(player);
-            ClientSprites.Add(new ClientSprite(player, assets.Players[players.Count - 1]));
         }
 
         public void InitializeMonsters()
@@ -255,7 +283,6 @@ namespace MrBoom
                 AbstractMonster monster = data.GetMonster(this, spawn.Value.X * 16, spawn.Value.Y * 16);
 
                 monsters.Add(monster);
-                ClientSprites.Add(new ClientSprite(monster, assets.Monsters[data.Type]));
             }
         }
 
@@ -747,6 +774,16 @@ namespace MrBoom
             {
                 yield return sprite;
             }
+        }
+
+        public IEnumerable<AbstractPlayer> GetPlayers()
+        {
+            return players;
+        }
+
+        public IEnumerable<AbstractMonster> GetMonsters()
+        {
+            return monsters;
         }
 
         public string GetCellDebugInfo(int cellX, int cellY)

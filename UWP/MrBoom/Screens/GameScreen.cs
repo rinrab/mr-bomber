@@ -25,6 +25,7 @@ namespace MrBoom
             }
 
             terrain.InitializeMonsters();
+            clientTerrain = new ClientTerrain(terrain, assets);
 
             Controller.Reset(controllers);
         }

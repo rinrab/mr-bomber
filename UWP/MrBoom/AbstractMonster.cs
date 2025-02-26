@@ -8,10 +8,13 @@ namespace MrBoom
     {
         protected BtNode tree;
 
-        public AbstractMonster(Terrain map,Map.MonsterData monsterData,
+        public int Type { get; }
+
+        public AbstractMonster(Terrain map, Map.MonsterData monsterData,
                                int x, int y) : base(map, x, y, monsterData.Speed)
         {
             LifeCount = monsterData.LivesCount - 1;
+            Type = monsterData.Type;
 
             if (monsterData.IsSlowStart)
             {

@@ -20,13 +20,13 @@ namespace MrBoom
         void ServerUpdate();
     }
 
-    public interface IClientSprite : IClientGameEntity
+    public interface IClientSprite : IClientGameEntity, IClientDrawableGameEntity
     {
         int X { get; }
         int Y { get; }
     }
 
-    public class ClientSprite : IClientSprite, IClientDrawableGameEntity
+    public class ClientSprite : IClientSprite
     {
         private readonly Sprite proxy;
         private readonly Assets.MovingSpriteAssets animations;

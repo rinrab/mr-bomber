@@ -34,6 +34,7 @@ namespace MrBoom
             }
 
             terrain.InitializeMonsters();
+            clientTerrain = new ClientTerrain(terrain, assets);
         }
 
         public override void Update()
