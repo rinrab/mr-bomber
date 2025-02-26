@@ -116,6 +116,7 @@
     <Compile Include="Bot\TravelCostGrid.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="CellCoord.cs" />
+    <Compile Include="ClientSprite.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="MultiplayerClient.cs" />
     <Compile Include="NameGenerator.cs" />

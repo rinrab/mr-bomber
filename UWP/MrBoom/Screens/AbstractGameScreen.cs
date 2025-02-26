@@ -120,11 +120,11 @@ namespace MrBoom
                 }
             }
 
-            List<Sprite> spritesToDraw = new List<Sprite>(terrain.GetSprites());
+            List<ClientSprite> spritesToDraw = new List<ClientSprite>(terrain.ClientSprites);
 
             spritesToDraw.Sort((a, b) => a.Y - b.Y);
 
-            foreach (Sprite sprite in spritesToDraw)
+            foreach (ClientSprite sprite in spritesToDraw)
             {
                 sprite.Draw(ctx);
             }

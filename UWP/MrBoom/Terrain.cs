@@ -80,6 +80,8 @@ namespace MrBoom
         private readonly List<AbstractPlayer> players;
         private readonly List<AbstractMonster> monsters;
 
+        public List<ClientSprite> ClientSprites;
+
         public readonly Feature StartFeatures;
         public readonly int StartMaxFire;
         public readonly int StartMaxBombsCount;
@@ -92,6 +94,8 @@ namespace MrBoom
         public Terrain(int levelIndex, Assets assets)
         {
             monsters = new List<AbstractMonster>();
+            players = new List<AbstractPlayer>();
+            ClientSprites = new List<ClientSprite>();
 
             this.assets = assets;
             levelAssets = assets.Levels[levelIndex];
@@ -104,7 +108,6 @@ namespace MrBoom
             spawns = new List<CellCoord>();
             TimeLeft = (mapData.Time + 31) * 60;
             final = new Grid<byte>(Width, Height, 255);
-            players = new List<AbstractPlayer>();
 
             StartMaxBombsCount = mapData.StartMaxBombsCount;
             StartMaxFire = mapData.StartMaxFire;
@@ -201,6 +204,7 @@ namespace MrBoom
             player.Y = spawn.Y * 16;
 
             players.Add(player);
+            ClientSprites.Add(new ClientSprite(player, assets.Players[players.Count - 1]));
         }
 
         public void InitializeMonsters()
@@ -218,6 +222,7 @@ namespace MrBoom
                 AbstractMonster monster = data.GetMonster(this, assets.Monsters[data.Type], spawn.Value.X * 16, spawn.Value.Y * 16);
 
                 monsters.Add(monster);
+                ClientSprites.Add(new ClientSprite(monster, assets.Monsters[data.Type]));
             }
         }
 
