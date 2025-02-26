@@ -79,7 +79,7 @@ namespace MrBoom
         }
     }
 
-    public class Terrain : ITerrain, IClientTerrain
+    public class Terrain : ITerrain
     {
         public static Random Random = new Random();
 
