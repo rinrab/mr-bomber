@@ -56,15 +56,6 @@ namespace MrBoom
         bool IsWalkable(int x, int y);
     }
 
-    public interface ITerrainAccessor
-    {
-        int Width { get; }
-        int Height { get; }
-
-        Cell GetCell(int x, int y);
-        bool IsWalkable(int x, int y);
-    }
-
     public class ClientTerrain : IClientTerrain, ITerrainAccessor
     {
         private readonly ITerrain proxy;

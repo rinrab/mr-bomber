@@ -12,9 +12,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cell\Cell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cell\CellCoord.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IServerGameEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\MovableSprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\ITerrainAccessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Cell\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Sprites\" />
   </ItemGroup>
 </Project>
