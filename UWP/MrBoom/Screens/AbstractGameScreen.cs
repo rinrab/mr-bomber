@@ -184,22 +184,22 @@ namespace MrBoom
             }
         }
 
-        private void PlaySounds(Sound soundsToPlay)
+        private void PlaySounds(SoundEffectType soundsToPlay)
         {
             var soundAssets = assets.Sounds;
-            if (soundsToPlay.HasFlag(Sound.Bang)) soundAssets.Bang.Play();
-            if (soundsToPlay.HasFlag(Sound.PoseBomb)) soundAssets.PoseBomb.Play();
-            if (soundsToPlay.HasFlag(Sound.Sac)) soundAssets.Sac.Play();
-            if (soundsToPlay.HasFlag(Sound.Pick)) soundAssets.Pick.Play();
-            if (soundsToPlay.HasFlag(Sound.PlayerDie)) soundAssets.PlayerDie.Play();
-            if (soundsToPlay.HasFlag(Sound.Oioi)) soundAssets.Oioi.Play();
-            if (soundsToPlay.HasFlag(Sound.Ai)) soundAssets.Ai.Play();
-            if (soundsToPlay.HasFlag(Sound.Addplayer)) soundAssets.Addplayer.Play();
-            if (soundsToPlay.HasFlag(Sound.Victory)) soundAssets.Victory.Play();
-            if (soundsToPlay.HasFlag(Sound.Draw)) soundAssets.Draw.Play();
-            if (soundsToPlay.HasFlag(Sound.Clock)) soundAssets.Clock.Play();
-            if (soundsToPlay.HasFlag(Sound.TimeEnd)) soundAssets.TimeEnd.Play();
-            if (soundsToPlay.HasFlag(Sound.Skull)) soundAssets.Skull.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.Bang)) soundAssets.Bang.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.PoseBomb)) soundAssets.PoseBomb.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.Sac)) soundAssets.Sac.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.Pick)) soundAssets.Pick.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.PlayerDie)) soundAssets.PlayerDie.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.Oioi)) soundAssets.Oioi.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.Ai)) soundAssets.Ai.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.Addplayer)) soundAssets.Addplayer.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.Victory)) soundAssets.Victory.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.Draw)) soundAssets.Draw.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.Clock)) soundAssets.Clock.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.TimeEnd)) soundAssets.TimeEnd.Play();
+            if (soundsToPlay.HasFlag(SoundEffectType.Skull)) soundAssets.Skull.Play();
         }
 
         public virtual void DrawHighDPI(SpriteBatch ctx, Rectangle rect, float scale, int graphicScale)

@@ -7,7 +7,7 @@ namespace MrBoom
         public Directions? Direction { get; protected set; }
 
         private bool isDie = false;
-        public Sound SoundsToPlay {  get; private set; }
+        public SoundEffectType SoundsToPlay {  get; private set; }
         public bool IsDie { get => isDie; }
         public bool IsAlive { get => !isDie; }
 
@@ -90,7 +90,7 @@ namespace MrBoom
 
         public void SetSkull(SkullType skullType)
         {
-            PlaySound(Sound.Skull);
+            PlaySound(SoundEffectType.Skull);
 
             skullTimer = 600;
             Skull = skullType;
@@ -117,7 +117,7 @@ namespace MrBoom
             }
         }
 
-        protected void PlaySound(Sound sound)
+        protected void PlaySound(SoundEffectType sound)
         {
             SoundsToPlay |= sound;
         }

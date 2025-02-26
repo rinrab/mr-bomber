@@ -43,7 +43,7 @@ namespace MrBoom
                 if (cell.Type == TerrainType.Apocalypse)
                 {
                     Kill();
-                    PlaySound(Sound.Ai);
+                    PlaySound(SoundEffectType.Ai);
                 }
             }
         }
@@ -55,7 +55,7 @@ namespace MrBoom
 
         public override void Damage()
         {
-            PlaySound(Sound.Ai);
+            PlaySound(SoundEffectType.Ai);
             base.Damage();
         }
     }

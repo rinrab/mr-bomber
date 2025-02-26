@@ -99,7 +99,7 @@ namespace MrBoom
     }
 
     [Flags]
-    public enum Sound
+    public enum SoundEffectType
     {
         Bang = 2 << 0,
         PoseBomb = 2 << 1,

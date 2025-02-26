@@ -45,7 +45,7 @@ namespace MrBoom
         public int Height { get; }
         public int LevelIndex { get; }
         public int TimeLeft { get; private set; }
-        public Sound SoundsToPlay;
+        public SoundEffectType SoundsToPlay;
         public GameResult Result = GameResult.None;
         public int ApocalypseSpeed { get; } = 2;
         public int MaxApocalypse { get; private set; }
@@ -235,7 +235,7 @@ namespace MrBoom
                             Index = 0,
                             Next = new Cell(TerrainType.Free)
                         };
-                        PlaySound(Sound.Sac);
+                        PlaySound(SoundEffectType.Sac);
                     }
                 }
                 else if (final[i] == index && final[i] != 255)
@@ -254,7 +254,7 @@ namespace MrBoom
                         };
                         if (Math.Abs(lastApocalypseSound - TimeLeft) > 60)
                         {
-                            PlaySound(Sound.Sac);
+                            PlaySound(SoundEffectType.Sac);
                             lastApocalypseSound = TimeLeft;
                         }
                     }
@@ -571,7 +571,7 @@ namespace MrBoom
                             animateDelay = 6,
                             Next = new Cell(TerrainType.Free)
                         };
-                        PlaySound(Sound.Sac);
+                        PlaySound(SoundEffectType.Sac);
                         break;
                     }
                     else if (cell.Type == TerrainType.Bomb)
@@ -596,7 +596,7 @@ namespace MrBoom
                 }
             }
 
-            PlaySound(Sound.Bang);
+            PlaySound(SoundEffectType.Bang);
 
             data[bombX, bombY] = new Cell(TerrainType.Fire)
             {
@@ -663,7 +663,7 @@ namespace MrBoom
             return spawn;
         }
 
-        public void PlaySound(Sound sound)
+        public void PlaySound(SoundEffectType sound)
         {
             SoundsToPlay |= sound;
         }
@@ -792,7 +792,7 @@ namespace MrBoom
                 Next = new Cell(TerrainType.Free)
             });
 
-            PlaySound(Sound.Sac);
+            PlaySound(SoundEffectType.Sac);
         }
     }
 }

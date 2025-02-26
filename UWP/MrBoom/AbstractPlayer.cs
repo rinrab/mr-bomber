@@ -62,14 +62,14 @@ namespace MrBoom
                     terrain.PutBomb(cellX, cellY, MaxBoom, Features.HasFlag(Feature.RemoteControl), this);
 
                     BombsPlaced++;
-                    PlaySound(Sound.PoseBomb);
+                    PlaySound(SoundEffectType.PoseBomb);
                 }
             }
 
             void pickBonus()
             {
                 terrain.SetCell(cellX, cellY, new Cell(TerrainType.Free));
-                PlaySound(Sound.Pick);
+                PlaySound(SoundEffectType.Pick);
             }
 
             if (cell.Type == TerrainType.PowerUp)
@@ -152,7 +152,7 @@ namespace MrBoom
                     if (terrain.TimeLeft > 31 * 60 + terrain.MaxApocalypse * terrain.ApocalypseSpeed)
                     {
                         // TODO: terrain.TimeLeft += 60 * 60;
-                        PlaySound(Sound.Clock);
+                        PlaySound(SoundEffectType.Clock);
                         pickBonus();
                     }
                     else
@@ -172,7 +172,7 @@ namespace MrBoom
             if (cell.Type == TerrainType.Apocalypse)
             {
                 Kill();
-                PlaySound(Sound.PlayerDie);
+                PlaySound(SoundEffectType.PlayerDie);
             }
 
             rcDitonateButton = false;
@@ -192,11 +192,11 @@ namespace MrBoom
 
             if (IsAlive)
             {
-                PlaySound(Sound.Oioi);
+                PlaySound(SoundEffectType.Oioi);
             }
             else
             {
-                PlaySound(Sound.PlayerDie);
+                PlaySound(SoundEffectType.PlayerDie);
             }
         }
 
