@@ -102,7 +102,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Assets.cs" />
-    <Compile Include="BasicMonster.cs" />
     <Compile Include="Bot\ComputerPlayer.cs" />
     <Compile Include="Bot\TravelCostGrid.cs" />
     <Compile Include="CellClient.cs" />
@@ -127,7 +126,6 @@
     <Compile Include="MapData.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MenuItem.cs" />
-    <Compile Include="AbstractMonster.cs" />
     <Compile Include="SkullType.cs" />
     <Compile Include="PlayerState.cs" />
     <Compile Include="Screens\ResultScreen.cs" />

@@ -13,6 +13,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cell\CellCoord.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IServerGameEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\AbstractMonster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\BasicMonster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MovableSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
