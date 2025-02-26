@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)LobbyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\IMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\JoinPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NetworkException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\Packet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\PacketType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerInfo.cs" />
