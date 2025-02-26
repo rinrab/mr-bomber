@@ -247,6 +247,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="..\MrBoom.Common\MrBoom.Common.projitems" Label="Shared" />
+  <Import Project="..\MrBoom.Core\MrBoom.Core.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
