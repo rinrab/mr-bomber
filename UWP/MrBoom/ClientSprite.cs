@@ -80,43 +80,56 @@ namespace MrBoom
         }
     }
 
-    public class ClientSpriteLocalHuman : MovableSprite, IClientSprite
+    public class ClientSpriteLocalHuman : Sprite, IClientSprite
     {
         private readonly IServerPlayer proxy;
         private readonly IClientSprite client;
         public readonly IController Controller;
 
+        public override bool HasUnplugin => proxy.HasUnplugin;
+        public override bool HasSkull => proxy.HasSkull;
+
         public ClientSpriteLocalHuman(ITerrainAccessor terrain, int x, int y,
                                       IServerPlayer proxy, Assets.MovingSpriteAssets animations,
-                                      IController controller) : base(terrain, x, y)
+                                      IController controller) : base(terrain, x, y, 3)
         {
             this.proxy = proxy;
-            client = new ClientSprite(proxy, animations);
+            client = new ClientSprite(this, animations);
             Controller = controller;
+        }
+
+        private Directions? GetDirection()
+        {
+            if (Controller.IsKeyDown(PlayerKeys.Up))
+            {
+                return Directions.Up;
+            }
+            else if (Controller.IsKeyDown(PlayerKeys.Left))
+            {
+                return Directions.Left;
+            }
+            else if (Controller.IsKeyDown(PlayerKeys.Right))
+            {
+                return Directions.Right;
+            }
+            else if (Controller.IsKeyDown(PlayerKeys.Down))
+            {
+                return Directions.Down;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void ClientUpdate()
         {
-            if (Controller.IsKeyDown(PlayerKeys.Up))
-            {
-                proxy.SetDirection(Directions.Up);
-            }
-            else if (Controller.IsKeyDown(PlayerKeys.Left))
-            {
-                proxy.SetDirection(Directions.Left);
-            }
-            else if (Controller.IsKeyDown(PlayerKeys.Right))
-            {
-                proxy.SetDirection(Directions.Right);
-            }
-            else if (Controller.IsKeyDown(PlayerKeys.Down))
-            {
-                proxy.SetDirection(Directions.Down);
-            }
-            else
-            {
-                proxy.SetDirection(null);
-            }
+            Direction = GetDirection();
+
+            Features = proxy.Features;
+            Skull = proxy.Skull;
+
+            base.ServerUpdate();
 
             if (Controller.IsKeyDown(PlayerKeys.Bomb))
             {
@@ -127,6 +140,8 @@ namespace MrBoom
             {
                 proxy.ToggleRemoteControl();
             }
+
+            proxy.MoveTo(X, Y);
 
             client.ClientUpdate();
         }

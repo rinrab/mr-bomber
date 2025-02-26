@@ -27,8 +27,8 @@ namespace MrBoom
         public int LifeCount { get; set; }
         public int Unplugin { get; set; }
 
-        public bool HasUnplugin { get => Unplugin > 0; }
-        public bool HasSkull { get => skullTimer > 0; }
+        public virtual bool HasUnplugin { get => Unplugin > 0; }
+        public virtual bool HasSkull { get => skullTimer > 0; }
 
         // map source
         protected readonly ITerrainAccessor TerrainAccessor;
