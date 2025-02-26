@@ -2,7 +2,7 @@
 
 namespace MrBoom
 {
-    public class Human : AbstractPlayer
+    public class Human : ServerPlayer
     {
         public readonly IController Controller;
 

@@ -13,7 +13,7 @@ namespace MrBoom
         int VictoryCount { get; set; }
         bool IsReplaceble { get; }
 
-        AbstractPlayer GetPlayer(Terrain terrain, int team);
+        ServerPlayer GetPlayer(Terrain terrain, int team);
     }
 
     public interface IOnlinePlayerState : IPlayerState
@@ -36,9 +36,9 @@ namespace MrBoom
             Name = name;
         }
 
-        public AbstractPlayer GetPlayer(Terrain terrain, int team)
+        public ServerPlayer GetPlayer(Terrain terrain, int team)
         {
-            return new Human(terrain, Controller, team);
+            return new ServerPlayer(terrain, team);
         }
     }
 
@@ -85,7 +85,7 @@ namespace MrBoom
             isLoaded = true;
         }
 
-        public AbstractPlayer GetPlayer(Terrain terrain, int team)
+        public ServerPlayer GetPlayer(Terrain terrain, int team)
         {
             throw new NotImplementedException();
         }
@@ -105,7 +105,7 @@ namespace MrBoom
             this.info = info;
         }
 
-        public AbstractPlayer GetPlayer(Terrain terrain, int team)
+        public ServerPlayer GetPlayer(Terrain terrain, int team)
         {
             throw new NotImplementedException();
         }
@@ -124,7 +124,7 @@ namespace MrBoom
             Name = name;
         }
 
-        public AbstractPlayer GetPlayer(Terrain terrain, int team)
+        public ServerPlayer GetPlayer(Terrain terrain, int team)
         {
             return new ComputerPlayer(terrain, team, Index);
         }

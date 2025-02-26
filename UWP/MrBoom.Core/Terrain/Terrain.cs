@@ -23,7 +23,7 @@ namespace MrBoom
         int GetCellApocalypseRemainingTime(int cellX, int cellY);
 
         bool IsWalkable(int x, int y);
-        void PutBomb(int cellX, int cellY, int maxBoom, bool rcAllowed, AbstractPlayer owner);
+        void PutBomb(int cellX, int cellY, int maxBoom, bool rcAllowed, ServerPlayer owner);
         void BurnCell(int cellX, int cellY);
         void DitonateBomb(int bombX, int bombY);
         Cell GeneratePowerUp(PowerUpType powerUpType);
@@ -33,7 +33,7 @@ namespace MrBoom
         int GetKillablePlayers(int cellX, int cellY);
 
         IEnumerable<Sprite> GetSprites();
-        IEnumerable<AbstractPlayer> GetPlayers();
+        IEnumerable<ServerPlayer> GetPlayers();
         IEnumerable<AbstractMonster> GetMonsters();
     }
 
@@ -68,7 +68,7 @@ namespace MrBoom
         private readonly List<CellCoord> spawns;
         private readonly List<PowerUpType> powerUpList;
         private readonly Map mapData;
-        private readonly List<AbstractPlayer> players;
+        private readonly List<ServerPlayer> players;
         private readonly List<AbstractMonster> monsters;
 
         public readonly Feature StartFeatures;
@@ -82,7 +82,7 @@ namespace MrBoom
         public Terrain(int levelIndex)
         {
             monsters = new List<AbstractMonster>();
-            players = new List<AbstractPlayer>();
+            players = new List<ServerPlayer>();
 
             LevelIndex = levelIndex;
 
@@ -179,7 +179,7 @@ namespace MrBoom
             }
         }
 
-        public void AddPlayer(AbstractPlayer player)
+        public void AddPlayer(ServerPlayer player)
         {
             CellCoord spawn = GenerateSpawn().Value;
 
@@ -365,7 +365,7 @@ namespace MrBoom
         private void HandleGameEnded()
         {
             int playersCount = 0;
-            foreach (AbstractPlayer player in players)
+            foreach (ServerPlayer player in players)
             {
                 if (player.IsAlive)
                 {
@@ -449,7 +449,7 @@ namespace MrBoom
             }
 
             killablePlayerGrid.Reset(0);
-            foreach (AbstractPlayer player in players)
+            foreach (ServerPlayer player in players)
             {
                 // TODO: Check for unplugin.
                 killablePlayerGrid[player.CellX, player.CellY] |= (1 << player.Team);
@@ -621,7 +621,7 @@ namespace MrBoom
             };
         }
 
-        public void PutBomb(int cellX, int cellY, int maxBoom, bool rcAllowed, AbstractPlayer owner)
+        public void PutBomb(int cellX, int cellY, int maxBoom, bool rcAllowed, ServerPlayer owner)
         {
             data[cellX, cellY] = new Cell(TerrainType.Bomb)
             {
@@ -696,7 +696,7 @@ namespace MrBoom
             }
         }
 
-        public IEnumerable<AbstractPlayer> GetPlayers()
+        public IEnumerable<ServerPlayer> GetPlayers()
         {
             return players;
         }
@@ -777,7 +777,7 @@ namespace MrBoom
 
         public void GiveAll()
         {
-            foreach (AbstractPlayer player in players)
+            foreach (ServerPlayer player in players)
             {
                 player.GiveAll();
             }

@@ -33,6 +33,7 @@ namespace MrBoom
             int levelIndex = ScreenManager.GetNextLevel();
 
             terrain = new Terrain(levelIndex);
+            clientTerrain = new ClientTerrain(terrain, assets);
 
             ScreenManager.NextSong(assets.Sounds, MapData.Data[levelIndex].Song);
         }

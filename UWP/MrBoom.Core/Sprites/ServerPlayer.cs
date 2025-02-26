@@ -4,7 +4,7 @@ using MrBoom.Common;
 
 namespace MrBoom
 {
-    public abstract class AbstractPlayer : Sprite, IServerPlayer
+    public class ServerPlayer : Sprite, IServerPlayer
     {
         public int BombsPlaced;
         public int MaxBoom;
@@ -25,7 +25,7 @@ namespace MrBoom
         public int Team;
         public int TeamMask { get => 1 << Team; }
 
-        public AbstractPlayer(Terrain terrain, int team) : base(terrain, 0, 0, 3)
+        public ServerPlayer(Terrain terrain, int team) : base(terrain, 0, 0, 3)
         {
             Features = terrain.StartFeatures;
             MaxBoom = terrain.StartMaxFire;

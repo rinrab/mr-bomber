@@ -8,7 +8,7 @@ using MrBoom.Common;
 
 namespace MrBoom.Bot
 {
-    public class ComputerPlayer : AbstractPlayer
+    public class ComputerPlayer : ServerPlayer
     {
         private readonly BtNode tree;
         private readonly TravelCostGrid travelCostGrid;

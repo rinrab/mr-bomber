@@ -12,7 +12,7 @@ namespace MrBoom
         public int bombCountdown;
         public int maxBoom;
         public bool rcAllowed;
-        public AbstractPlayer owner;
+        public ServerPlayer owner;
         public Cell Next;
         public PowerUpType PowerUpType;
         public FlameDirection FlameDirection;
