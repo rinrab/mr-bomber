@@ -9,7 +9,11 @@
     <Import_RootNamespace>MrBoom.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\IMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LobbyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\JoinPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Packet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\PacketType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReadOnlyByteSpan.cs" />
     <Compile Include="..\MrBoom.Common\PlayerJoinInfo.cs" />

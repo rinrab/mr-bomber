@@ -7,7 +7,7 @@ namespace MrBoom.Server
     public interface IGameLobby
     {
         LobbyInfo GetLobbyInfo();
-        PlayerInfo JoinPlayer(PlayerJoinInfo player);
+        PlayerInfo PlayerJoin(PlayerJoinInfo player);
     }
 
     public class GameLobby : IGameLobby
@@ -20,7 +20,7 @@ namespace MrBoom.Server
             players = new List<LobbyPlayer>();
         }
 
-        public PlayerInfo JoinPlayer(PlayerJoinInfo player)
+        public PlayerInfo PlayerJoin(PlayerJoinInfo player)
         {
             LobbyPlayer lobbyPlayer = new LobbyPlayer(player.Name);
 

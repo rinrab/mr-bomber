@@ -20,7 +20,7 @@ namespace MrBoom.Server
         [HttpPost]
         public PlayerInfo Post([FromBody] PlayerJoinInfo player)
         {
-            return lobby.JoinPlayer(player);
+            return lobby.PlayerJoin(player);
         }
 
         [HttpGet]
