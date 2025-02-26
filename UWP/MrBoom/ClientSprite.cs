@@ -5,7 +5,28 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MrBoom
 {
-    public class ClientSprite
+    public interface IClientGameEntity
+    {
+        void ClientUpdate();
+    }
+
+    public interface IClientDrawableGameEntity
+    {
+        void Draw(SpriteBatch ctx);
+    }
+
+    public interface IServerGameEntity
+    {
+        void ServerUpdate();
+    }
+
+    public interface IClientSprite : IClientGameEntity
+    {
+        int X { get; }
+        int Y { get; }
+    }
+
+    public class ClientSprite : IClientSprite, IClientDrawableGameEntity
     {
         private readonly Sprite proxy;
         private readonly Assets.MovingSpriteAssets animations;
@@ -24,11 +45,6 @@ namespace MrBoom
         public void ClientUpdate()
         {
             blinking++;
-        }
-
-        public void ServerUpdate()
-        {
-            proxy.Update();
         }
 
         public void Draw(SpriteBatch ctx)

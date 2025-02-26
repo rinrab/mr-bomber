@@ -10,6 +10,7 @@ namespace MrBoom
     {
         int Width { get; }
         int Height { get; }
+        int LevelIndex { get; }
 
         Cell GetCell(int x, int y);
         void SetCell(int x, int y, Cell cell);
@@ -36,6 +37,7 @@ namespace MrBoom
         int TimeLeft { get; }
         int ApocalypseSpeed { get; }
         int MaxApocalypse { get; }
+        int LevelIndex { get; }
 
         int Width { get; }
         int Height { get; }
@@ -43,6 +45,38 @@ namespace MrBoom
         Cell GetCell(int x, int y);
 
         bool IsWalkable(int x, int y);
+    }
+
+    public class ClientTerrain : IClientTerrain, IClientGameEntity
+    {
+        private readonly ITerrain proxy;
+
+        public int TimeLeft => proxy.TimeLeft;
+        public int ApocalypseSpeed => proxy.ApocalypseSpeed;
+        public int MaxApocalypse => proxy.MaxApocalypse;
+        public int Width => proxy.Width;
+        public int Height => proxy.Height;
+        public int LevelIndex => proxy.LevelIndex;
+
+        public ClientTerrain(ITerrain proxy)
+        {
+            this.proxy = proxy;
+        }
+
+        public Cell GetCell(int x, int y)
+        {
+            return proxy.GetCell(x, y);
+        }
+
+        public bool IsWalkable(int x, int y)
+        {
+            return proxy.IsWalkable(x, y);
+        }
+
+        public void ClientUpdate()
+        {
+            // sync
+        }
     }
 
     public class Terrain : ITerrain, IClientTerrain
