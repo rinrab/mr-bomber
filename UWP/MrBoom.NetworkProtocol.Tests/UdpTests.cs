@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MrBoom.Common.Messages;
 using MrBoom.Common;
 using System.Net.Sockets;
+using System.Net;
 
 namespace MrBoom.NetworkProtocol.Tests
 {
@@ -26,7 +27,7 @@ namespace MrBoom.NetworkProtocol.Tests
                 packet.WriteTo(new BinaryWriter(stream));
 
                 var client = new UdpClient(0);
-                client.Connect("localhost", 5297);
+                client.Connect("master._mrboomserver.test.mrbomber.online", 5297);
 
                 await client.SendAsync(stream.GetBuffer(), (int)stream.Length);
             }
