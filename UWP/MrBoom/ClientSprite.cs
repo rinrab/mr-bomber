@@ -27,6 +27,17 @@ namespace MrBoom
         public int X { get => proxy.X; }
         public int Y { get => proxy.Y; }
 
+        public int AnimateIndex => proxy.AnimateIndex;
+        public int frameIndex => proxy.frameIndex;
+
+        public Feature Features => proxy.Features;
+        public SkullType? Skull => proxy.Skull;
+
+        public int LifeCount => proxy.LifeCount;
+
+        public bool HasUnplugin => proxy.HasUnplugin;
+        public bool HasSkull => proxy.HasSkull;
+
         private int blinking = 0;
 
         public ClientSprite(Sprite proxy, Assets.MovingSpriteAssets animations)

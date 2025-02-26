@@ -15,11 +15,20 @@ namespace MrBoom
 
         // animation
         public int AnimateIndex { get; protected set; }
-        public int frameIndex;
+        public int frameIndex { get; protected set; }
 
         // features
         public Feature Features { get; protected set; }
         public SkullType? Skull { get; protected set; }
+
+        // metadata
+        protected int skullTimer;
+
+        public int LifeCount { get; set; }
+        public int Unplugin { get; set; }
+
+        public bool HasUnplugin { get => Unplugin > 0; }
+        public bool HasSkull { get => skullTimer > 0; }
 
         // map source
         protected readonly ITerrainAccessor TerrainAccessor;

@@ -10,14 +10,7 @@ namespace MrBoom
         public bool IsDie { get; private set; } = false;
         public bool IsAlive { get => !IsDie; }
 
-        public bool HasUnplugin { get => Unplugin > 0; }
-        public bool HasSkull { get => skullTimer > 0; }
-
-        private int skullTimer;
         private readonly int DefaultSpeed;
-
-        public int LifeCount { get; set; }
-        public int Unplugin { get; set; }
 
         protected readonly Terrain terrain;
 

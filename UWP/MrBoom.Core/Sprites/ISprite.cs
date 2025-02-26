@@ -6,6 +6,17 @@ namespace MrBoom
     {
         int X { get; }
         int Y { get; }
+
+        int AnimateIndex { get; }
+        int frameIndex { get; }
+
+        Feature Features { get; }
+        SkullType? Skull { get; }
+
+        int LifeCount { get; }
+
+        bool HasUnplugin { get; }
+        bool HasSkull { get; }
     }
 
     public interface IServerPlayer : ISprite, IServerGameEntity
