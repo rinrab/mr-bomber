@@ -6,10 +6,9 @@ namespace MrBoom
     {
         public Directions? Direction { get; protected set; }
 
-        private bool isDie = false;
         public SoundEffectType SoundsToPlay {  get; private set; }
-        public bool IsDie { get => isDie; }
-        public bool IsAlive { get => !isDie; }
+        public bool IsDie { get; private set; } = false;
+        public bool IsAlive { get => !IsDie; }
 
         public bool HasUnplugin { get => Unplugin > 0; }
         public bool HasSkull { get => skullTimer > 0; }
@@ -98,7 +97,7 @@ namespace MrBoom
 
         public void Kill()
         {
-            isDie = true;
+            IsDie = true;
             Direction = null;
             frameIndex = 0;
             Unplugin = 0;
