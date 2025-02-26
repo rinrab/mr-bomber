@@ -63,7 +63,7 @@ namespace MrBoom.Server
                         }
                     }
 
-                    logger.LogDebug("Received message from {RemoteEndPoint}", msg.RemoteEndPoint);
+                    logger.LogInformation("Received message from {RemoteEndPoint}", msg.RemoteEndPoint);
 
                     OnMessageReceived?.Invoke(msg);
                 }
