@@ -10,4 +10,8 @@
 
   <Import Project="..\MrBoom.NetworkProtocol\MrBoom.NetworkProtocol.projitems" Label="Shared" />
 
+  <Import Project="..\MrBoom.Core\MrBoom.Core.projitems" Label="Shared" />
+
+  <Import Project="..\MrBoom.BehaviorTree\MrBoom.BehaviorTree.projitems" Label="Shared" />
+
 </Project>

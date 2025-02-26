@@ -68,7 +68,9 @@ Global
 		SolutionGuid = {5C44B369-FC14-4BBF-ACAC-1810FEE338B9}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MrBoom.BehaviorTree\MrBoom.BehaviorTree.projitems*{3df78d4f-1afc-42e1-98b8-70baf3006bf2}*SharedItemsImports = 5
 		MrBoom.Common\MrBoom.Common.projitems*{3df78d4f-1afc-42e1-98b8-70baf3006bf2}*SharedItemsImports = 5
+		MrBoom.Core\MrBoom.Core.projitems*{3df78d4f-1afc-42e1-98b8-70baf3006bf2}*SharedItemsImports = 5
 		MrBoom.NetworkProtocol\MrBoom.NetworkProtocol.projitems*{3df78d4f-1afc-42e1-98b8-70baf3006bf2}*SharedItemsImports = 5
 		MrBoom.Core\MrBoom.Core.projitems*{4549c6dd-a258-474f-9b90-01c0b4e91c62}*SharedItemsImports = 13
 		MrBoom.BehaviorTree\MrBoom.BehaviorTree.projitems*{5bd7ecae-1e4e-44b2-ae53-06438c74ecd3}*SharedItemsImports = 4
