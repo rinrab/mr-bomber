@@ -13,6 +13,8 @@ namespace MrBoom.Server
             builder.Services.AddSingleton<IUdpServer, UdpServer>();
             builder.Services.AddHostedService(serviceProvider => (UdpServer)serviceProvider.GetRequiredService<IUdpServer>());
 
+            builder.Services.AddHostedService<LobbyServer>();
+
             builder.Services.AddControllers();
 
             var app = builder.Build();

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using System.Net.Sockets;
 using MrBoom.Common;
 
 namespace MrBoom.Server
@@ -13,11 +14,13 @@ namespace MrBoom.Server
     public class GameLobby : IGameLobby
     {
         private readonly List<LobbyPlayer> players;
+        private readonly ILogger logger;
         private int index = 0;
 
-        public GameLobby()
+        public GameLobby(ILogger<GameLobby> logger)
         {
             players = new List<LobbyPlayer>();
+            this.logger = logger;
         }
 
         public PlayerInfo PlayerJoin(PlayerJoinInfo player)
