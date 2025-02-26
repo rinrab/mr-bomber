@@ -29,7 +29,7 @@ namespace MrBoom
 
         private readonly string helpText =
             "welcome to mr.bomber " +
-            $"v{Game.Version}!!!   " +
+            $"v{Version.VersionString}!!!   " +
             "players can join using their drop bomb button second press or enter will start game   " +
             "gamepad controller: d-pad or left stick - move  a button - drop bomb  b button radio control   " +
             "right keyboard: arrows - move  ctrl - drop  bomb  shift - radio control   " +

@@ -731,7 +731,7 @@ namespace MrBoom
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine($"DEBUG INFO");
-            sb.AppendLine($"Version: {Game.Version}");
+            sb.AppendLine($"Version: {Version.VersionString}");
 
             foreach (Sprite sprite in GetSprites())
             {

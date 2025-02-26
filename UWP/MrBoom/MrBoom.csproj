@@ -132,6 +132,7 @@
     <Compile Include="Team.cs" />
     <Compile Include="Terrain.cs" />
     <Compile Include="Screens\VictoryScreen.cs" />
+    <Compile Include="Version.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

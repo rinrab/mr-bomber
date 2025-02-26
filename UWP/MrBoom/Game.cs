@@ -15,11 +15,6 @@ namespace MrBoom
         public List<Team> Teams;
         public Assets assets;
 
-        public static readonly string Version =
-            $"{Package.Current.Id.Version.Major}." +
-            $"{Package.Current.Id.Version.Minor}." +
-            $"{Package.Current.Id.Version.Build}";
-
         private readonly GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private RenderTarget2D renderTarget;
