@@ -18,6 +18,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MrBoom.Core", "MrBoom.Core\
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MrBoom.BehaviorTree", "MrBoom.BehaviorTree\MrBoom.BehaviorTree.shproj", "{F243830E-84F5-423E-A801-C315C474127C}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MrBoom.NetworkProtocol", "MrBoom.NetworkProtocol\MrBoom.NetworkProtocol.shproj", "{E9791093-ACC9-47FF-816F-1C9E6DBEEEBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -67,12 +69,16 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MrBoom.Common\MrBoom.Common.projitems*{3df78d4f-1afc-42e1-98b8-70baf3006bf2}*SharedItemsImports = 5
+		MrBoom.NetworkProtocol\MrBoom.NetworkProtocol.projitems*{3df78d4f-1afc-42e1-98b8-70baf3006bf2}*SharedItemsImports = 5
 		MrBoom.BehaviorTree\MrBoom.BehaviorTree.projitems*{4549c6dd-a258-474f-9b90-01c0b4e91c62}*SharedItemsImports = 13
 		MrBoom.Core\MrBoom.Core.projitems*{4549c6dd-a258-474f-9b90-01c0b4e91c62}*SharedItemsImports = 13
 		MrBoom.BehaviorTree\MrBoom.BehaviorTree.projitems*{5bd7ecae-1e4e-44b2-ae53-06438c74ecd3}*SharedItemsImports = 4
 		MrBoom.Common\MrBoom.Common.projitems*{5bd7ecae-1e4e-44b2-ae53-06438c74ecd3}*SharedItemsImports = 4
 		MrBoom.Core\MrBoom.Core.projitems*{5bd7ecae-1e4e-44b2-ae53-06438c74ecd3}*SharedItemsImports = 4
+		MrBoom.NetworkProtocol\MrBoom.NetworkProtocol.projitems*{5bd7ecae-1e4e-44b2-ae53-06438c74ecd3}*SharedItemsImports = 4
 		MrBoom.Common\MrBoom.Common.projitems*{b9ea1282-fab1-4070-a3b1-f34cbc7e6036}*SharedItemsImports = 13
+		MrBoom.Common\MrBoom.Common.projitems*{e9791093-acc9-47ff-816f-1c9e6dbeeebd}*SharedItemsImports = 13
+		MrBoom.NetworkProtocol\MrBoom.NetworkProtocol.projitems*{e9791093-acc9-47ff-816f-1c9e6dbeeebd}*SharedItemsImports = 13
 		MrBoom.BehaviorTree\MrBoom.BehaviorTree.projitems*{f243830e-84f5-423e-a801-c315c474127c}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
