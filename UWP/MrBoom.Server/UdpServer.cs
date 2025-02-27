@@ -45,10 +45,13 @@ namespace MrBoom.Server
 
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    UdpReceiveResult msg;
                     try
                     {
-                        msg = await udpClient.ReceiveAsync(stoppingToken);
+                        UdpReceiveResult msg = await udpClient.ReceiveAsync(stoppingToken);
+
+                        OnMessageReceived?.Invoke(msg);
+
+                        logger.LogInformation("Received message from {RemoteEndPoint}", msg.RemoteEndPoint);
                     }
                     catch (SocketException ex)
                     {
@@ -62,10 +65,6 @@ namespace MrBoom.Server
                             throw;
                         }
                     }
-
-                    logger.LogInformation("Received message from {RemoteEndPoint}", msg.RemoteEndPoint);
-
-                    OnMessageReceived?.Invoke(msg);
                 }
             }
             catch (Exception)
