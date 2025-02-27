@@ -61,16 +61,10 @@ namespace MrBoom.Server
             {
                 lobby.ServerUpdate();
 
-                var msg = FormatLobbyInfoMessage();
-
-                using var stream = new MemoryStream();
-                using var writer = new BinaryWriter(stream);
-
-                msg.WriteTo(writer);
-
                 foreach (var client in lobby.GetClients())
                 {
-                    _ = udpServer.SendMessage(stream.ToArray(), client.IpAddress, stoppingToken);
+                    _ = udpServer.SendPacket(new Packet(FormatLobbyInfoMessage()),
+                                             client.IpAddress, stoppingToken);
                 }
 
                 await Task.Delay(1000 / 60, stoppingToken);
