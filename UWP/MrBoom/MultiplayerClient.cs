@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using MrBoom.Common;
 using MrBoom.NetworkProtocol;
@@ -15,6 +16,8 @@ using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom
 {
+    public delegate void PacketReceivedDelegate(Packet packet);
+
     public class MultiplayerClient
     {
         private HttpClient client;
@@ -23,10 +26,29 @@ namespace MrBoom
         // public Uri MasterServerUri = new Uri("http://master._mrboomserver.test.mrbomber.online:5296");
         public Uri MasterServerUri = new Uri("http://localhost:5296");
 
+        public event PacketReceivedDelegate OnPacketReceived;
+
         public MultiplayerClient()
         {
             client = new HttpClient();
             udpClient = new UdpClient();
+        }
+
+        public async Task ListenAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                UdpReceiveResult msg = await udpClient.ReceiveAsync();
+
+                using (Stream stream = new MemoryStream(msg.Buffer))
+                using (BinaryReader reader = new BinaryReader(stream))
+                {
+                    var packet = new Packet();
+                    packet.ReadFrom(reader);
+
+                    OnPacketReceived?.Invoke(packet);
+                }
+            }
         }
 
         public async Task ConnectLobby(ClientJoinResponse lobby)

@@ -66,6 +66,7 @@ namespace MrBoom
             {
                 ClientJoinResponse lobby = await multiplayerClient.JoinLobby(new ClientJoinRequest { });
                 await multiplayerClient.ConnectLobby(lobby);
+                await multiplayerClient.ListenAsync(default);
             }
             catch (Exception ex)
             {
