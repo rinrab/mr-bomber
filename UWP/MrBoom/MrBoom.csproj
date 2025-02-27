@@ -108,6 +108,7 @@
     <Compile Include="ClientTerrain.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="MultiplayerClient.cs" />
+    <Compile Include="Screens\ClientGameScreen.cs" />
     <Compile Include="Screens\DemoScreen.cs" />
     <Compile Include="Screens\DrawScreen.cs" />
     <Compile Include="Game.cs" />
