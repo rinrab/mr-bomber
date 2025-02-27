@@ -10,7 +10,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using MrBoom.Common;
-using MrBoom.Common.Messages;
 using MrBoom.NetworkProtocol;
 using MrBoom.NetworkProtocol.Messages;
 

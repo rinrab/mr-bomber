@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace MrBoom.Common
+namespace MrBoom.NetworkProtocol.Messages
 {
     public interface IMessage
     {

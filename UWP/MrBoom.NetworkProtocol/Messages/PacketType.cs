@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MrBoom.Common
+namespace MrBoom.NetworkProtocol.Messages
 {
     public enum PacketType
     {

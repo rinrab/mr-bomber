@@ -3,7 +3,7 @@ using System.IO;
 using MrBoom.Common.Messages;
 using MrBoom.NetworkProtocol.Messages;
 
-namespace MrBoom.Common
+namespace MrBoom.NetworkProtocol.Messages
 {
     public class Packet : IMessage
     {

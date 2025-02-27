@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace MrBoom.Common.Messages
+namespace MrBoom.NetworkProtocol.Messages
 {
     class PlayerJoin : IMessage
     {
