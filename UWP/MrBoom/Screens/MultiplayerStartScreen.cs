@@ -56,9 +56,47 @@ namespace MrBoom
             teamMode = settings.TeamMode;
 
             multiplayerClient = new MultiplayerClient();
+            multiplayerClient.OnPacketReceived += OnPacketReceived;
             Task.Run(InitializeMultiplayerClientAsync);
 
             teams.Clear();
+        }
+
+        private void OnPacketReceived(Packet packet)
+        {
+            if (packet.Message is LobbyInfo lobby)
+            {
+                Dictionary<Guid, IPlayerState> oldPlayers = new Dictionary<Guid, IPlayerState>();
+
+                foreach (var player in players)
+                {
+                    if (player is IOnlinePlayerState onlinePlayer)
+                    {
+                        oldPlayers[onlinePlayer.Id] = player;
+                    }
+                }
+
+                players.Clear();
+
+                for (int i = 0; i < lobby.Players.Count; i++)
+                {
+                    var player = lobby.Players[i];
+
+                    if (oldPlayers.TryGetValue(player.Id, out var val))
+                    {
+                        if (val is OnlinePlayerState onlinePlayer)
+                        {
+                            onlinePlayer.OnLoaded(player);
+                        }
+
+                        players.Add(val);
+                    }
+                    else
+                    {
+                        players.Add(new OnlineRemotePlayerState(player));
+                    }
+                }
+            }
         }
 
         private async Task InitializeMultiplayerClientAsync()
@@ -72,37 +110,6 @@ namespace MrBoom
             catch (Exception ex)
             {
             }
-        }
-
-        private async Task ServerTickAsync()
-        {
-            //var lobby = await multiplayerClient.GetLobby();
-
-            //Dictionary<Guid, IPlayerState> oldPlayers = new Dictionary<Guid, IPlayerState>();
-
-            //foreach (var player in players)
-            //{
-            //    if (player is IOnlinePlayerState onlinePlayer)
-            //    {
-            //        oldPlayers[onlinePlayer.Id] = player;
-            //    }
-            //}
-
-            //players.Clear();
-
-            //for (int i = 0; i < lobby.Players.Count; i++)
-            //{
-            //    var player = lobby.Players[i];
-
-            //    if (oldPlayers.TryGetValue(player.Id, out var val))
-            //    {
-            //        players.Add(val);
-            //    }
-            //    else
-            //    {
-            //        players.Add(new OnlineRemotePlayerState(player));
-            //    }
-            //}
         }
 
         public void Draw(SpriteBatch ctx)
@@ -189,18 +196,8 @@ namespace MrBoom
         {
             if (settings.IsOnline)
             {
-                var name = nameGenerator.GenerateName();
-
-                var player = new OnlinePlayerState(controller, name);
-
-                _ = multiplayerClient.SendPacket(new Packet
-                {
-                    Message = new PlayerJoin
-                    {
-                        Name = name,
-                    }
-                });
-
+                var player = new OnlinePlayerState(controller);
+                _ = player.RequestServer(multiplayerClient);
                 return player;
             }
             else
@@ -248,11 +245,6 @@ namespace MrBoom
         public void Update()
         {
             tick++;
-
-            if (tick % 20 == 0 && settings.IsOnline)
-            {
-                Task.Run(ServerTickAsync);
-            }
 
             if (menu == null)
             {
@@ -340,6 +332,8 @@ namespace MrBoom
                     Application.Current.Exit();
                 }
             }
+
+            multiplayerClient.CheckPackets();
         }
 
         private void Start()

@@ -23,6 +23,8 @@ namespace MrBoom
         private HttpClient client;
         private UdpClient udpClient;
 
+        private Queue<byte[]> packetQueue = new Queue<byte[]>();
+
         // public Uri MasterServerUri = new Uri("http://master._mrboomserver.test.mrbomber.online:5296");
         public Uri MasterServerUri = new Uri("http://localhost:5296");
 
@@ -34,13 +36,11 @@ namespace MrBoom
             udpClient = new UdpClient();
         }
 
-        public async Task ListenAsync(CancellationToken stoppingToken)
+        public void CheckPackets()
         {
-            while (!stoppingToken.IsCancellationRequested)
+            while (packetQueue.TryDequeue(out var bytes))
             {
-                UdpReceiveResult msg = await udpClient.ReceiveAsync();
-
-                using (Stream stream = new MemoryStream(msg.Buffer))
+                using (Stream stream = new MemoryStream(bytes))
                 using (BinaryReader reader = new BinaryReader(stream))
                 {
                     var packet = new Packet();
@@ -48,6 +48,15 @@ namespace MrBoom
 
                     OnPacketReceived?.Invoke(packet);
                 }
+            }
+        }
+
+        public async Task ListenAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                UdpReceiveResult msg = await udpClient.ReceiveAsync();
+                packetQueue.Enqueue(msg.Buffer);
             }
         }
 
