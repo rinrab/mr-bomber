@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using MrBoom.Common;
-using MrBoom.Common.Messages;
+using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.NetworkProtocol.Tests
 {
