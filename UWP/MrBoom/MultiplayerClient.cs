@@ -65,12 +65,12 @@ namespace MrBoom
                 await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<LobbyInfo> GetLobby()
+        public async Task<Common.LobbyInfo> GetLobby()
         {
             HttpResponseMessage response = await client.GetAsync(
                 new Uri("http://localhost:5296/api/v1/game"));
 
-            return JsonSerializer.Deserialize<LobbyInfo>(
+            return JsonSerializer.Deserialize<Common.LobbyInfo>(
                 await response.Content.ReadAsStringAsync());
         }
     }
