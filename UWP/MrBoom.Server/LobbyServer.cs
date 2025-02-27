@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using Microsoft.Extensions.Logging;
-using MrBoom.Common;
-using System.Net.Sockets;
+using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.Server
 {
@@ -20,14 +18,11 @@ namespace MrBoom.Server
             this.udpServer = udpServer;
             this.logger = logger;
 
-            udpServer.OnMessageReceived += OnMessageReceived;
+            udpServer.OnPacketReceived += OnMessageReceived;
         }
 
-        private void OnMessageReceived(UdpReceiveResult msg)
+        private void OnMessageReceived(Packet packet)
         {
-            var packet = new Packet();
-            packet.ReadFrom(new BinaryReader(new MemoryStream(msg.Buffer)));
-            logger.LogInformation("Received message {Message}", packet.Message);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

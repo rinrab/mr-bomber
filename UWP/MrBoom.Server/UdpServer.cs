@@ -2,16 +2,17 @@
 
 using System.Net.Sockets;
 using System.Net;
+using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.Server
 {
-    public delegate void MessageReceivedDelegate(UdpReceiveResult msg);
+    public delegate void PacketReceivedDelegate(Packet packet);
 
     public interface IUdpServer
     {
         Task SendMessage(byte[] msg, IPEndPoint endPoint, CancellationToken cancellationToken);
 
-        event MessageReceivedDelegate OnMessageReceived;
+        event PacketReceivedDelegate OnPacketReceived;
     }
 
     public class UdpServer : BackgroundService, IUdpServer
@@ -28,7 +29,7 @@ namespace MrBoom.Server
             udpClient = new UdpClient(port);
         }
 
-        public event MessageReceivedDelegate OnMessageReceived;
+        public event PacketReceivedDelegate OnPacketReceived;
 
         public async Task SendMessage(byte[] msg, IPEndPoint endPoint, CancellationToken cancellationToken)
         {
@@ -49,9 +50,29 @@ namespace MrBoom.Server
                     {
                         UdpReceiveResult msg = await udpClient.ReceiveAsync(stoppingToken);
 
-                        OnMessageReceived?.Invoke(msg);
+                        using Stream stream = new MemoryStream(msg.Buffer);
+                        using BinaryReader reader = new BinaryReader(stream);
 
-                        logger.LogInformation("Received message from {RemoteEndPoint}", msg.RemoteEndPoint);
+                        try
+                        {
+                            var packet = new Packet();
+                            packet.ReadFrom(reader);
+
+                            try
+                            {
+                                OnPacketReceived?.Invoke(packet);
+                                logger.LogInformation("Received packet {Packet} from {RemoteEndPoint}", packet, msg.RemoteEndPoint);
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.LogError(ex, "Failed to process message from {RemoteEndPoint}", msg.RemoteEndPoint);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.LogError(ex, "Failed to read message from {RemoteEndPoint}", msg.RemoteEndPoint);
+                            continue;
+                        }
                     }
                     catch (SocketException ex)
                     {
