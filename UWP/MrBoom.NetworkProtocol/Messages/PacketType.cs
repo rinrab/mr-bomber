@@ -7,5 +7,6 @@ namespace MrBoom.Common
     public enum PacketType
     {
         PlayerJoin = 1,
+        ClientJoin = 2,
     }
 }

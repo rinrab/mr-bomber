@@ -27,6 +27,11 @@ namespace MrBoom.Common
                 Message = new PlayerJoin();
                 Message.ReadFrom(reader);
             }
+            else if (type == PacketType.ClientJoin)
+            {
+                Message = new ClientJoin();
+                Message.ReadFrom(reader);
+            }
             else
             {
                 throw new NetworkException();
@@ -38,6 +43,14 @@ namespace MrBoom.Common
             if (Message is PlayerJoin)
             {
                 writer.Write((byte)PacketType.PlayerJoin);
+            }
+            else if (Message is ClientJoin)
+            {
+                writer.Write((byte)PacketType.ClientJoin);
+            }
+            else
+            {
+                throw new NetworkException();
             }
 
             Message.WriteTo(writer);
