@@ -91,7 +91,9 @@ Global
 		MrBoom.Common\MrBoom.Common.projitems*{5bd7ecae-1e4e-44b2-ae53-06438c74ecd3}*SharedItemsImports = 4
 		MrBoom.Core\MrBoom.Core.projitems*{5bd7ecae-1e4e-44b2-ae53-06438c74ecd3}*SharedItemsImports = 4
 		MrBoom.NetworkProtocol\MrBoom.NetworkProtocol.projitems*{5bd7ecae-1e4e-44b2-ae53-06438c74ecd3}*SharedItemsImports = 4
+		MrBoom.BehaviorTree\MrBoom.BehaviorTree.projitems*{ab81fa18-4e63-4229-a0c4-e0fa24839883}*SharedItemsImports = 5
 		MrBoom.Common\MrBoom.Common.projitems*{ab81fa18-4e63-4229-a0c4-e0fa24839883}*SharedItemsImports = 5
+		MrBoom.Core\MrBoom.Core.projitems*{ab81fa18-4e63-4229-a0c4-e0fa24839883}*SharedItemsImports = 5
 		MrBoom.NetworkProtocol\MrBoom.NetworkProtocol.projitems*{ab81fa18-4e63-4229-a0c4-e0fa24839883}*SharedItemsImports = 5
 		MrBoom.Common\MrBoom.Common.projitems*{b9ea1282-fab1-4070-a3b1-f34cbc7e6036}*SharedItemsImports = 13
 		MrBoom.NetworkProtocol\MrBoom.NetworkProtocol.projitems*{e9791093-acc9-47ff-816f-1c9e6dbeeebd}*SharedItemsImports = 13
