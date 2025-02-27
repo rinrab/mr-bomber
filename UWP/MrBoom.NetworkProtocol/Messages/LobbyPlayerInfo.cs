@@ -15,14 +15,14 @@ namespace MrBoom.NetworkProtocol.Messages
         public void ReadFrom(BinaryReader reader)
         {
             Index = reader.ReadByte();
-            Id = new Guid(reader.ReadBytes(16));
+            Id = reader.ReadGuid();
             Name = reader.ReadString();
         }
 
         public void WriteTo(BinaryWriter writer)
         {
             writer.Write(Index);
-            writer.Write(Id.ToByteArray());
+            writer.Write(Id);
             writer.Write(Name);
         }
     }

@@ -9,6 +9,7 @@
     <Import_RootNamespace>MrBoom.NetworkProtocol</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BinaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientJoinRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientJoinResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LobbyInfo.cs" />
