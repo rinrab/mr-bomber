@@ -24,14 +24,15 @@ namespace MrBoom.Server
         [HttpPost]
         public ClientJoinResponse Post([FromBody] ClientJoinRequest req)
         {
-            var endpoint = new IPEndPoint(Request.HttpContext.Connection.RemoteIpAddress!,
-                                          Request.HttpContext.Connection.RemotePort);
+            //var endpoint = new IPEndPoint(Request.HttpContext.Connection.RemoteIpAddress!,
+            //                              Request.HttpContext.Connection.RemotePort);
 
-            var clientInfo = lobby.ClientJoin(req, endpoint);
+            // var clientInfo = lobby.ClientJoin(req, endpoint);
 
             return new ClientJoinResponse
             {
-                ClientSecret = clientInfo.ClientSecret,
+                //ClientSecret = clientInfo.ClientSecret,
+                ClientSecret = new Guid(),
                 LobbyIp = "lobby01._mrboomserver.test.mrbomber.online",
                 LobbyPort = 5297,
             };

@@ -6,7 +6,7 @@ using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.Server
 {
-    public delegate void PacketReceivedDelegate(Packet packet);
+    public delegate void PacketReceivedDelegate(Packet packet, IPEndPoint endPoint);
 
     public interface IUdpServer
     {
@@ -60,7 +60,7 @@ namespace MrBoom.Server
 
                             try
                             {
-                                OnPacketReceived?.Invoke(packet);
+                                OnPacketReceived?.Invoke(packet, msg.RemoteEndPoint);
                                 logger.LogInformation("Received packet {Packet} from {RemoteEndPoint}", packet, msg.RemoteEndPoint);
                             }
                             catch (Exception ex)

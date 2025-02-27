@@ -10,7 +10,9 @@ namespace MrBoom.Server
     public interface IGameLobby
     {
         ClientInfo ClientJoin(ClientJoinRequest request, IPEndPoint ipep);
+        IEnumerable<ClientInfo> GetClients();
         LobbyInfo GetLobbyInfo();
+        IEnumerable<LobbyPlayer> GetPlayers();
         PlayerInfo PlayerJoin(PlayerJoinInfo player);
     }
 
@@ -68,6 +70,16 @@ namespace MrBoom.Server
             {
                 Players = players,
             };
+        }
+
+        public IEnumerable<ClientInfo> GetClients()
+        {
+            return clients;
+        }
+
+        public IEnumerable<LobbyPlayer> GetPlayers()
+        {
+            return players;
         }
     }
 }
