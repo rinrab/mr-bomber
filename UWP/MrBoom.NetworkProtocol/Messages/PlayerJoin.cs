@@ -7,16 +7,16 @@ namespace MrBoom.NetworkProtocol.Messages
 {
     class PlayerJoin : IMessage
     {
-        public string Name { get; set; }
+        public Guid Id { get; set; }
 
         public void ReadFrom(BinaryReader reader)
         {
-            Name = reader.ReadString();
+            Id = reader.ReadGuid();
         }
 
         public void WriteTo(BinaryWriter writer)
         {
-            writer.Write(Name);
+            writer.Write(Id);
         }
     }
 }

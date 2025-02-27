@@ -14,7 +14,7 @@ namespace MrBoom.NetworkProtocol.Tests
             {
                 var msg = new PlayerJoin
                 {
-                    Name = "yemete kudasai"
+                    Id = new Guid("00000000-0000-0000-0000-000000000011"),
                 };
                 var packet = new Packet(msg);
                 packet.WriteTo(new BinaryWriter(stream));
