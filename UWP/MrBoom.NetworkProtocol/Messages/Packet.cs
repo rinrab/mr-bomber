@@ -31,6 +31,11 @@ namespace MrBoom.NetworkProtocol.Messages
                 Message = new ClientJoin();
                 Message.ReadFrom(reader);
             }
+            else if (type == PacketType.LobbyInfo)
+            {
+                Message = new LobbyInfo();
+                Message.ReadFrom(reader);
+            }
             else
             {
                 throw new NetworkException();
@@ -46,6 +51,10 @@ namespace MrBoom.NetworkProtocol.Messages
             else if (Message is ClientJoin)
             {
                 writer.Write((byte)PacketType.ClientJoin);
+            }
+            else if (Message is LobbyInfo)
+            {
+                writer.Write((byte)PacketType.LobbyInfo);
             }
             else
             {

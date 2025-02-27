@@ -8,5 +8,6 @@ namespace MrBoom.NetworkProtocol.Messages
     {
         PlayerJoin = 1,
         ClientJoin = 2,
+        LobbyInfo = 3,
     }
 }
