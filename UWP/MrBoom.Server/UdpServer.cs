@@ -10,6 +10,7 @@ namespace MrBoom.Server
 
     public interface IUdpServer
     {
+        Task SendPacket(Packet packet, IPEndPoint endPoint, CancellationToken cancellationToken);
         Task SendMessage(byte[] msg, IPEndPoint endPoint, CancellationToken cancellationToken);
 
         event PacketReceivedDelegate OnPacketReceived;
@@ -34,6 +35,16 @@ namespace MrBoom.Server
         public async Task SendMessage(byte[] msg, IPEndPoint endPoint, CancellationToken cancellationToken)
         {
             await udpClient.SendAsync(msg, endPoint, cancellationToken);
+        }
+
+        public async Task SendPacket(Packet packet, IPEndPoint endPoint, CancellationToken cancellationToken)
+        {
+            using var stream = new MemoryStream();
+            using var writer = new BinaryWriter(stream);
+
+            packet.WriteTo(writer);
+
+            await SendMessage(stream.ToArray(), endPoint, cancellationToken);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
