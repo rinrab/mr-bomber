@@ -5,7 +5,7 @@ using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.Common
 {
-    class Packet : IMessage
+    public class Packet : IMessage
     {
         public IMessage Message { get; set; }
 
