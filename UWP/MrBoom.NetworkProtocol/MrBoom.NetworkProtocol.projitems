@@ -13,6 +13,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)ClientJoinRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientJoinResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\ClientJoin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\GameCellInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\GameInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\GameSpriteInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\GameTerrainInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\IMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\LobbyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\LobbyPlayerInfo.cs" />
