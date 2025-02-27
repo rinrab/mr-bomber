@@ -25,4 +25,8 @@
 
   <Import Project="..\MrBoom.Common\MrBoom.Common.projitems" Label="Shared" />
 
+  <Import Project="..\MrBoom.BehaviorTree\MrBoom.BehaviorTree.projitems" Label="Shared" />
+
+  <Import Project="..\MrBoom.Core\MrBoom.Core.projitems" Label="Shared" />
+
 </Project>
