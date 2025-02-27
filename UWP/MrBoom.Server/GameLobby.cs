@@ -8,6 +8,7 @@ namespace MrBoom.Server
     public interface IGameLobby : IServerGameEntity
     {
         int StartIn { get; }
+        Terrain Terrain { get; }
 
         ClientInfo ClientJoin(ClientJoinRequest request, IPEndPoint ipep);
         IEnumerable<ClientInfo> GetClients();
@@ -25,12 +26,16 @@ namespace MrBoom.Server
         private int tick = 0;
         public int StartIn { get; private set; } = -1;
 
+        public Terrain Terrain { get; }
+
         public GameLobby(ILogger<GameLobby> logger)
         {
             players = new List<LobbyPlayer>();
             clients = new List<ClientInfo>();
 
             this.logger = logger;
+
+            Terrain = new Terrain(1);
         }
 
         public LobbyPlayer PlayerJoin(Guid id)
@@ -41,6 +46,8 @@ namespace MrBoom.Server
             lobbyPlayer.Index = index;
 
             players.Add(lobbyPlayer);
+            Terrain.AddPlayer(new ServerPlayer(Terrain, index));
+
             index++;
 
             return lobbyPlayer;

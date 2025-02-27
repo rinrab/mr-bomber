@@ -101,6 +101,9 @@ namespace MrBoom
                     }
                 }
             }
+            else if (packet.Message is GameInfo gi)
+            {
+            }
         }
 
         private async Task InitializeMultiplayerClientAsync()

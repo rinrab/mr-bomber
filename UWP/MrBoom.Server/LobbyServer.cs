@@ -55,6 +55,42 @@ namespace MrBoom.Server
             };
         }
 
+        private IMessage FormatGameInfoMessage()
+        {
+            var grid = new Grid<GameCellInfo>(lobby.Terrain.Width, lobby.Terrain.Height);
+            for (int i = 0; i < grid.CellCount; i++)
+            {
+                Cell cell = lobby.Terrain.GetCell(grid.GetCellX(i), grid.GetCellY(i));
+
+                grid[i] = new GameCellInfo
+                {
+                    Type = cell.Type,
+                };
+            }
+
+            var sprites = new List<GameSpriteInfo>();
+            foreach (Sprite sprite in lobby.Terrain.GetSprites())
+            {
+                sprites.Add(new GameSpriteInfo
+                {
+                    X = sprite.X,
+                    Y = sprite.Y,
+                });
+            }
+
+            return new GameInfo
+            {
+                LevelIndex = lobby.Terrain.LevelIndex,
+                Terrain = new GameTerrainInfo
+                {
+                    Width = lobby.Terrain.Width,
+                    Height = lobby.Terrain.Height,
+                    Grid = grid,
+                },
+                Sprites = sprites,
+            };
+        }
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (true)
@@ -64,6 +100,9 @@ namespace MrBoom.Server
                 foreach (var client in lobby.GetClients())
                 {
                     _ = udpServer.SendPacket(new Packet(FormatLobbyInfoMessage()),
+                                             client.IpAddress, stoppingToken);
+
+                    _ = udpServer.SendPacket(new Packet(FormatGameInfoMessage()),
                                              client.IpAddress, stoppingToken);
                 }
 
