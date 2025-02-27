@@ -8,7 +8,7 @@ namespace MrBoom
         int Y { get; }
 
         int AnimateIndex { get; }
-        int frameIndex { get; }
+        int FrameIndex { get; }
 
         Feature Features { get; }
         SkullType? Skull { get; }

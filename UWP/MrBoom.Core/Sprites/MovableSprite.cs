@@ -15,7 +15,7 @@ namespace MrBoom
 
         // animation
         public int AnimateIndex { get; protected set; }
-        public int frameIndex { get; protected set; }
+        public int FrameIndex { get; protected set; }
 
         // features
         public Feature Features { get; protected set; }
@@ -142,13 +142,13 @@ namespace MrBoom
 
             if (Direction.HasValue)
             {
-                frameIndex++;
+                FrameIndex++;
 
                 int move = 0;
                 if (speed == 1)
-                    move = (frameIndex % 3 == 0) ? 1 : 0;
+                    move = (FrameIndex % 3 == 0) ? 1 : 0;
                 else if (speed == 2)
-                    move = (frameIndex % 2 == 0) ? 1 : 0;
+                    move = (FrameIndex % 2 == 0) ? 1 : 0;
                 else if (speed == 3)
                     move = 1;
                 else if (speed == 4)
@@ -182,7 +182,7 @@ namespace MrBoom
             }
             else
             {
-                frameIndex = 0;
+                FrameIndex = 0;
             }
         }
 

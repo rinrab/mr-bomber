@@ -28,7 +28,7 @@ namespace MrBoom
         public int Y { get => proxy.Y; }
 
         public int AnimateIndex => proxy.AnimateIndex;
-        public int frameIndex => proxy.frameIndex;
+        public int FrameIndex => proxy.FrameIndex;
 
         public Feature Features => proxy.Features;
         public SkullType? Skull => proxy.Skull;
@@ -53,7 +53,7 @@ namespace MrBoom
 
         public void Draw(SpriteBatch ctx)
         {
-            if (proxy.frameIndex != -1)
+            if (proxy.FrameIndex != -1)
             {
                 Color color = Color.White;
 
@@ -67,12 +67,12 @@ namespace MrBoom
                     animation = animations.Red[proxy.AnimateIndex];
                 }
 
-                Image img = animation[proxy.frameIndex / 20];
+                Image img = animation[proxy.FrameIndex / 20];
 
                 int x = X + 8 + 8 - img.Width / 2;
                 int y = Y + 16 - img.Height;
 
-                if (proxy.AnimateIndex != 4 || proxy.frameIndex / 20 < animations.Normal[4].Length)
+                if (proxy.AnimateIndex != 4 || proxy.FrameIndex / 20 < animations.Normal[4].Length)
                 {
                     img.Draw(ctx, x, y, color);
                 }

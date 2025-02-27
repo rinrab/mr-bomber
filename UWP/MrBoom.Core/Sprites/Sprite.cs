@@ -27,7 +27,7 @@ namespace MrBoom
 
             if (IsDie)
             {
-                frameIndex += 4;
+                FrameIndex += 4;
                 AnimateIndex = 4;
                 skullTimer = 0;
                 Skull = null;
@@ -71,7 +71,7 @@ namespace MrBoom
         {
             IsDie = true;
             Direction = null;
-            frameIndex = 0;
+            FrameIndex = 0;
             Unplugin = 0;
         }
 
