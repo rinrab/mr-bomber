@@ -12,7 +12,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)ClientJoinRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientJoinResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LobbyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\ClientJoin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\IMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\LobbyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\LobbyPlayerInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\PlayerJoin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NetworkException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\Packet.cs" />
