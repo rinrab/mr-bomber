@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Common;
+using MrBoom.NetworkProtocol;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;
 
@@ -52,9 +53,23 @@ namespace MrBoom
             nameGenerator = new NameGenerator(Terrain.Random);
             players = new List<IPlayerState>();
             teamMode = settings.TeamMode;
+
             multiplayerClient = new MultiplayerClient();
+            Task.Run(InitializeMultiplayerClientAsync);
 
             teams.Clear();
+        }
+
+        private async Task InitializeMultiplayerClientAsync()
+        {
+            try
+            {
+                ClientJoinResponse lobby = await multiplayerClient.JoinLobby(new ClientJoinRequest { });
+                await multiplayerClient.ConnectLobby(lobby);
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         private async Task ServerTickAsync()
