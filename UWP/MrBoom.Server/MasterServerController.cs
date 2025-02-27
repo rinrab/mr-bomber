@@ -33,6 +33,7 @@ namespace MrBoom.Server
             {
                 ClientSecret = clientInfo.ClientSecret,
                 LobbyIp = "lobby01._mrboomserver.test.mrbomber.online",
+                LobbyPort = 5297,
             };
         }
     }
