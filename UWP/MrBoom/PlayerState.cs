@@ -2,7 +2,7 @@
 
 using System;
 using MrBoom.Bot;
-using MrBoom.Common;
+using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom
 {
@@ -78,7 +78,7 @@ namespace MrBoom
             _name = name;
         }
 
-        public void OnLoaded(PlayerInfo info)
+        public void OnLoaded(LobbyPlayerInfo info)
         {
             _id = info.Id;
             Index = info.Index;
@@ -93,14 +93,14 @@ namespace MrBoom
 
     public class OnlineRemotePlayerState : IPlayerState
     {
-        private PlayerInfo info;
+        private LobbyPlayerInfo info;
 
         public int Index { get => info.Index; }
         public string Name { get => info.Name; }
         public int VictoryCount { get; set; }
         public bool IsReplaceble => false;
 
-        public OnlineRemotePlayerState(PlayerInfo info)
+        public OnlineRemotePlayerState(LobbyPlayerInfo info)
         {
             this.info = info;
         }

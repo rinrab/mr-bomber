@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Common;
 using MrBoom.NetworkProtocol;
+using MrBoom.NetworkProtocol.Messages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;
 
@@ -75,33 +76,33 @@ namespace MrBoom
 
         private async Task ServerTickAsync()
         {
-            var lobby = await multiplayerClient.GetLobby();
+            //var lobby = await multiplayerClient.GetLobby();
 
-            Dictionary<Guid, IPlayerState> oldPlayers = new Dictionary<Guid, IPlayerState>();
+            //Dictionary<Guid, IPlayerState> oldPlayers = new Dictionary<Guid, IPlayerState>();
 
-            foreach (var player in players)
-            {
-                if (player is IOnlinePlayerState onlinePlayer)
-                {
-                    oldPlayers[onlinePlayer.Id] = player;
-                }
-            }
+            //foreach (var player in players)
+            //{
+            //    if (player is IOnlinePlayerState onlinePlayer)
+            //    {
+            //        oldPlayers[onlinePlayer.Id] = player;
+            //    }
+            //}
 
-            players.Clear();
+            //players.Clear();
 
-            for (int i = 0; i < lobby.Players.Count; i++)
-            {
-                var player = lobby.Players[i];
+            //for (int i = 0; i < lobby.Players.Count; i++)
+            //{
+            //    var player = lobby.Players[i];
 
-                if (oldPlayers.TryGetValue(player.Id, out var val))
-                {
-                    players.Add(val);
-                }
-                else
-                {
-                    players.Add(new OnlineRemotePlayerState(player));
-                }
-            }
+            //    if (oldPlayers.TryGetValue(player.Id, out var val))
+            //    {
+            //        players.Add(val);
+            //    }
+            //    else
+            //    {
+            //        players.Add(new OnlineRemotePlayerState(player));
+            //    }
+            //}
         }
 
         public void Draw(SpriteBatch ctx)
@@ -192,14 +193,12 @@ namespace MrBoom
 
                 var player = new OnlinePlayerState(controller, name);
 
-                Task.Run(async () =>
+                _ = multiplayerClient.SendPacket(new Packet
                 {
-                    var res = await multiplayerClient.Join(new PlayerJoinInfo
+                    Message = new PlayerJoin
                     {
                         Name = name,
-                    });
-
-                    player.OnLoaded(res);
+                    }
                 });
 
                 return player;

@@ -1,14 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MrBoom.Common.Messages;
-using MrBoom.Common;
 using System.Net.Sockets;
-using System.Net;
+using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.NetworkProtocol.Tests
 {

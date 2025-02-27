@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Net;
-using System.Net.Sockets;
-using MrBoom.Common;
 using MrBoom.NetworkProtocol;
 
 namespace MrBoom.Server
@@ -11,9 +9,8 @@ namespace MrBoom.Server
     {
         ClientInfo ClientJoin(ClientJoinRequest request, IPEndPoint ipep);
         IEnumerable<ClientInfo> GetClients();
-        LobbyInfo GetLobbyInfo();
         IEnumerable<LobbyPlayer> GetPlayers();
-        PlayerInfo PlayerJoin(PlayerJoinInfo player);
+        LobbyPlayer PlayerJoin();
     }
 
     public class GameLobby : IGameLobby
@@ -31,9 +28,9 @@ namespace MrBoom.Server
             this.logger = logger;
         }
 
-        public PlayerInfo PlayerJoin(PlayerJoinInfo player)
+        public LobbyPlayer PlayerJoin()
         {
-            LobbyPlayer lobbyPlayer = new LobbyPlayer(player.Name);
+            LobbyPlayer lobbyPlayer = new LobbyPlayer("qqq");
 
             lobbyPlayer.Id = Guid.NewGuid();
             lobbyPlayer.Index = index;
@@ -41,7 +38,7 @@ namespace MrBoom.Server
             players.Add(lobbyPlayer);
             index++;
 
-            return lobbyPlayer.GetMe();
+            return lobbyPlayer;
         }
 
         public ClientInfo ClientJoin(ClientJoinRequest request, IPEndPoint ipep)
@@ -55,21 +52,6 @@ namespace MrBoom.Server
             clients.Add(clientInfo);
 
             return clientInfo;
-        }
-
-        public LobbyInfo GetLobbyInfo()
-        {
-            List<PlayerInfo> players = new List<PlayerInfo>();
-
-            foreach (LobbyPlayer player in this.players)
-            {
-                players.Add(player.GetMe());
-            }
-
-            return new LobbyInfo
-            {
-                Players = players,
-            };
         }
 
         public IEnumerable<ClientInfo> GetClients()

@@ -12,7 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)BinaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientJoinRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientJoinResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LobbyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\ClientJoin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\IMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\LobbyInfo.cs" />
@@ -21,7 +20,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)NetworkException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\Packet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\PacketType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PlayerInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PlayerJoinInfo.cs" />
   </ItemGroup>
 </Project>

@@ -74,26 +74,14 @@ namespace MrBoom
             return JsonSerializer.Deserialize<ClientJoinResponse>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<PlayerInfo> Join(PlayerJoinInfo player)
+        public async Task SendPacket(Packet packet)
         {
-            HttpContent content = new StringContent(
-                JsonSerializer.Serialize(player),
-                Encoding.UTF8, "application/json");
-
-            HttpResponseMessage response = await client.PostAsync(
-                new Uri("http://localhost:5296/api/v1/game"), content);
-
-            return JsonSerializer.Deserialize<PlayerInfo>(
-                await response.Content.ReadAsStringAsync());
-        }
-
-        public async Task<Common.LobbyInfo> GetLobby()
-        {
-            HttpResponseMessage response = await client.GetAsync(
-                new Uri("http://localhost:5296/api/v1/game"));
-
-            return JsonSerializer.Deserialize<Common.LobbyInfo>(
-                await response.Content.ReadAsStringAsync());
+            using (var stream = new MemoryStream())
+            using (var writer = new BinaryWriter(stream))
+            {
+                packet.WriteTo(writer);
+                await udpClient.SendAsync(stream.GetBuffer(), (int)stream.Length);
+            }
         }
     }
 }

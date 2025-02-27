@@ -15,15 +15,5 @@ namespace MrBoom.Server
         {
             Name = name;
         }
-
-        public PlayerInfo GetMe()
-        {
-            return new PlayerInfo
-            {
-                Name = Name,
-                Id = Id,
-                Index = Index,
-            };
-        }
     }
 }
