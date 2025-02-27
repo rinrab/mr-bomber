@@ -34,32 +34,34 @@ namespace MrBoom.Server
             }
         }
 
+        private IMessage FormatLobbyInfoMessage()
+        {
+            var players = new List<LobbyPlayerInfo>();
+
+            foreach (var player in lobby.GetPlayers())
+            {
+                players.Add(new LobbyPlayerInfo
+                {
+                    Id = player.Id,
+                    Index = (byte)player.Index,
+                    Name = player.Name
+                });
+            }
+
+            return new LobbyInfo
+            {
+                Players = players,
+                StartIn = lobby.StartIn,
+            };
+        }
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (true)
             {
                 lobby.ServerUpdate();
 
-                var players = new List<LobbyPlayerInfo>();
-
-                foreach (var player in lobby.GetPlayers())
-                {
-                    players.Add(new LobbyPlayerInfo
-                    {
-                        Id = player.Id,
-                        Index = (byte)player.Index,
-                        Name = player.Name
-                    });
-                }
-
-                var msg = new Packet
-                {
-                    Message = new LobbyInfo
-                    {
-                        Players = players,
-                        StartIn = lobby.StartIn,
-                    }
-                };
+                var msg = FormatLobbyInfoMessage();
 
                 using var stream = new MemoryStream();
                 using var writer = new BinaryWriter(stream);
