@@ -24,6 +24,8 @@ namespace MrBoom.Server
         public GameLobby(ILogger<GameLobby> logger)
         {
             players = new List<LobbyPlayer>();
+            clients = new List<ClientInfo>();
+
             this.logger = logger;
         }
 
