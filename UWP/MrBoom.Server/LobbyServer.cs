@@ -28,6 +28,10 @@ namespace MrBoom.Server
             {
                 lobby.ClientJoin(null, endPoint);
             }
+            else if (packet.Message is PlayerJoin playerJoin)
+            {
+                lobby.PlayerJoin(playerJoin.Id);
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
