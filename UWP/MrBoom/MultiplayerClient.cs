@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using MrBoom.Common;
 using MrBoom.Common.Messages;
 using MrBoom.NetworkProtocol;
+using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom
 {
@@ -33,9 +34,9 @@ namespace MrBoom
         {
             udpClient.Connect(lobby.LobbyIp, lobby.LobbyPort);
 
-            var msg = new Packet(new PlayerJoin
+            var msg = new Packet(new ClientJoin
             {
-                Name = "sigma boy"
+                ClientSecret = lobby.ClientSecret,
             });
 
             using (var stream = new MemoryStream())
