@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using MrBoom.Common.Messages;
 using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.NetworkProtocol.Messages
