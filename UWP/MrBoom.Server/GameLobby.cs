@@ -5,8 +5,10 @@ using MrBoom.NetworkProtocol;
 
 namespace MrBoom.Server
 {
-    public interface IGameLobby
+    public interface IGameLobby : IServerGameEntity
     {
+        int StartIn { get; }
+
         ClientInfo ClientJoin(ClientJoinRequest request, IPEndPoint ipep);
         IEnumerable<ClientInfo> GetClients();
         IEnumerable<LobbyPlayer> GetPlayers();
@@ -19,6 +21,9 @@ namespace MrBoom.Server
         private readonly List<LobbyPlayer> players;
         private readonly ILogger logger;
         private int index = 0;
+
+        private int tick = 0;
+        public int StartIn { get; private set; } = -1;
 
         public GameLobby(ILogger<GameLobby> logger)
         {
@@ -62,6 +67,21 @@ namespace MrBoom.Server
         public IEnumerable<LobbyPlayer> GetPlayers()
         {
             return players;
+        }
+
+        public void ServerUpdate()
+        {
+            tick++;
+
+            if (players.Count >= 2 && StartIn == -1)
+            {
+                StartIn = 600;
+            }
+
+            if (StartIn > 0)
+            {
+                StartIn--;
+            }
         }
     }
 }

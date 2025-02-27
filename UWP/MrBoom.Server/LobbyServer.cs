@@ -38,6 +38,8 @@ namespace MrBoom.Server
         {
             while (true)
             {
+                lobby.ServerUpdate();
+
                 var players = new List<LobbyPlayerInfo>();
 
                 foreach (var player in lobby.GetPlayers())
@@ -55,6 +57,7 @@ namespace MrBoom.Server
                     Message = new LobbyInfo
                     {
                         Players = players,
+                        StartIn = lobby.StartIn,
                     }
                 };
 
@@ -65,10 +68,10 @@ namespace MrBoom.Server
 
                 foreach (var client in lobby.GetClients())
                 {
-                    await udpServer.SendMessage(stream.ToArray(), client.IpAddress, stoppingToken);
+                    _ = udpServer.SendMessage(stream.ToArray(), client.IpAddress, stoppingToken);
                 }
 
-                await Task.Delay(100, stoppingToken);
+                await Task.Delay(1000 / 60, stoppingToken);
             }
         }
     }

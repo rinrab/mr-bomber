@@ -42,6 +42,8 @@ namespace MrBoom
         private readonly List<IPlayerState> players;
         private Menu menu;
 
+        private int multiplayerStartIn;
+
         public MultiplayerStartScreen(Assets assets, List<Team> teams, List<IController> controllers, Settings settings)
         {
             this.assets = assets;
@@ -66,6 +68,8 @@ namespace MrBoom
         {
             if (packet.Message is LobbyInfo lobby)
             {
+                multiplayerStartIn = lobby.StartIn;
+
                 Dictionary<Guid, IPlayerState> oldPlayers = new Dictionary<Guid, IPlayerState>();
 
                 foreach (var player in players)
@@ -187,6 +191,10 @@ namespace MrBoom
                 text = text.Substring(0, Math.Min((startTick - 600) / 6, text.Length));
 
                 Game.DrawString(ctx, (320 - text.Length * 8) / 2, 200 - 10, text, assets.Alpha[1]);
+            }
+            if (multiplayerStartIn >= 0)
+            {
+                Game.DrawString(ctx, 8, 200 - 20, multiplayerStartIn.ToString(), assets.Alpha[1]);
             }
 
             menu?.Draw(ctx);
@@ -310,6 +318,11 @@ namespace MrBoom
                 else
                 {
                     startTick++;
+                }
+
+                if (multiplayerStartIn > 0)
+                {
+                    multiplayerStartIn--;
                 }
             }
             else

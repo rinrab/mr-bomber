@@ -11,12 +11,14 @@ namespace MrBoom.NetworkProtocol.Messages
 {
     public class LobbyInfo : IMessage
     {
+        public int StartIn { get; set; }
         public List<LobbyPlayerInfo> Players { get; set; }
 
         public void ReadFrom(BinaryReader reader)
         {
-            int count = reader.ReadByte();
+            StartIn = reader.ReadInt32();
 
+            int count = reader.ReadByte();
             Players = new List<LobbyPlayerInfo>(count);
 
             for (int i = 0; i < count; i++)
@@ -29,8 +31,9 @@ namespace MrBoom.NetworkProtocol.Messages
 
         public void WriteTo(BinaryWriter writer)
         {
-            writer.Write((byte)Players.Count);
+            writer.Write(StartIn);
 
+            writer.Write((byte)Players.Count);
             foreach (var player in Players)
             {
                 player.WriteTo(writer);
