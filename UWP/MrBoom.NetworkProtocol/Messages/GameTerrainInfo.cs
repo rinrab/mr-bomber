@@ -8,10 +8,10 @@ namespace MrBoom.NetworkProtocol.Messages
 {
     public class GameTerrainInfo : IMessage
     {
-        int Width { get; set; }
-        int Height { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
 
-        Grid<GameCellInfo> Grid { get; set; }
+        public Grid<GameCellInfo> Grid { get; set; }
 
         public void ReadFrom(BinaryReader reader)
         {

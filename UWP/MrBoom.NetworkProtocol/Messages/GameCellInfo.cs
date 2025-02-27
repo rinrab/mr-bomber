@@ -6,7 +6,7 @@ namespace MrBoom.NetworkProtocol.Messages
 {
     public class GameCellInfo : IMessage
     {
-        TerrainType Type;
+        public TerrainType Type;
 
         public void ReadFrom(BinaryReader reader)
         {
