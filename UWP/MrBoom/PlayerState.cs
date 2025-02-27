@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System;
+using System.Threading.Tasks;
 using MrBoom.Bot;
 using MrBoom.NetworkProtocol.Messages;
 
@@ -44,45 +45,51 @@ namespace MrBoom
 
     public class OnlinePlayerState : IOnlinePlayerState
     {
-        private Guid _id = Guid.Empty;
+        public enum SyncState
+        {
+            ClientInitialized,
+            ServerRequested,
+            ServerApproved,
+            ServerRejected,
+        }
+
+        public SyncState State = SyncState.ClientInitialized;
 
         public IController Controller { get; }
         public int Index { get; private set; }
-        private string _name;
         public int VictoryCount { get; set; }
         public bool IsReplaceble => false;
 
-        private bool isLoaded = false;
+        public string Name { get; private set; }
 
-        public string Name
-        {
-            get
-            {
-                if (!isLoaded)
-                {
-                    return "...";
-                }
-                else
-                {
-                    return _name;
-                }
-            }
-        }
+        public Guid Id { get; }
 
-        public Guid Id { get => _id; }
-
-        public OnlinePlayerState(IController controller, string name)
+        public OnlinePlayerState(IController controller)
         {
             Controller = controller;
             Index = -1;
-            _name = name;
+            Id = Guid.NewGuid();
+            Name = "...";
         }
 
         public void OnLoaded(LobbyPlayerInfo info)
         {
-            _id = info.Id;
+            Name = info.Name;
+            State = SyncState.ServerApproved;
             Index = info.Index;
-            isLoaded = true;
+        }
+
+        public async Task RequestServer(MultiplayerClient multiplayerClient)
+        {
+            State = SyncState.ServerRequested;
+
+            await multiplayerClient.SendPacket(new Packet
+            {
+                Message = new PlayerJoin
+                {
+                    Id = Id,
+                }
+            });
         }
 
         public ServerPlayer GetPlayer(Terrain terrain, int team)

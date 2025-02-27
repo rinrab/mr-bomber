@@ -10,7 +10,7 @@ namespace MrBoom.Server
         ClientInfo ClientJoin(ClientJoinRequest request, IPEndPoint ipep);
         IEnumerable<ClientInfo> GetClients();
         IEnumerable<LobbyPlayer> GetPlayers();
-        LobbyPlayer PlayerJoin();
+        LobbyPlayer PlayerJoin(Guid id);
     }
 
     public class GameLobby : IGameLobby
@@ -28,11 +28,11 @@ namespace MrBoom.Server
             this.logger = logger;
         }
 
-        public LobbyPlayer PlayerJoin()
+        public LobbyPlayer PlayerJoin(Guid id)
         {
             LobbyPlayer lobbyPlayer = new LobbyPlayer("qqq");
 
-            lobbyPlayer.Id = Guid.NewGuid();
+            lobbyPlayer.Id = id;
             lobbyPlayer.Index = index;
 
             players.Add(lobbyPlayer);
