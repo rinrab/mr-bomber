@@ -23,6 +23,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MovableSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\IPlayerProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\ISpriteProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\ITerrainAccessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cell\TerrainType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\ITerrainProxy.cs" />

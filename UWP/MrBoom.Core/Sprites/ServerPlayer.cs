@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using MrBoom.Common;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom
 {
-    public class ServerPlayer : Sprite, IServerPlayer, IServerGameEntity
+    public class ServerPlayer : Sprite, IPlayerProxy, IServerPlayer, IServerGameEntity
     {
         public int BombsPlaced;
         public int MaxBoom;

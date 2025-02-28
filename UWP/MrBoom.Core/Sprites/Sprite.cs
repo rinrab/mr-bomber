@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Terrain;
+
 namespace MrBoom
 {
-    public abstract class Sprite : MovableSprite, IServerGameEntity
+    public abstract class Sprite : MovableSprite, ISpriteProxy, IServerGameEntity
     {
         public Directions? Direction { get; protected set; }
 

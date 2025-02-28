@@ -2,6 +2,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom
 {
@@ -21,7 +22,7 @@ namespace MrBoom
 
     public class ClientSprite : IClientSprite
     {
-        private readonly ISprite proxy;
+        private readonly ISpriteProxy proxy;
         private readonly Assets.MovingSpriteAssets animations;
 
         public int X { get => proxy.X; }
@@ -40,7 +41,7 @@ namespace MrBoom
 
         private int blinking = 0;
 
-        public ClientSprite(ISprite proxy, Assets.MovingSpriteAssets animations)
+        public ClientSprite(ISpriteProxy proxy, Assets.MovingSpriteAssets animations)
         {
             this.proxy = proxy;
             this.animations = animations;
@@ -82,7 +83,7 @@ namespace MrBoom
 
     public class ClientSpriteLocalHuman : Sprite, IClientSprite
     {
-        private readonly IServerPlayer proxy;
+        private readonly IPlayerProxy proxy;
         private readonly IClientSprite client;
         public readonly IController Controller;
 
@@ -90,7 +91,7 @@ namespace MrBoom
         public override bool HasSkull => proxy.HasSkull;
 
         public ClientSpriteLocalHuman(ITerrainAccessor terrain, int x, int y,
-                                      IServerPlayer proxy, Assets.MovingSpriteAssets animations,
+                                      IPlayerProxy proxy, Assets.MovingSpriteAssets animations,
                                       IController controller) : base(terrain, x, y, 3)
         {
             this.proxy = proxy;
