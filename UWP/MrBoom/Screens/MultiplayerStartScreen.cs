@@ -357,7 +357,7 @@ namespace MrBoom
         {
             if (settings.IsOnline)
             {
-                ScreenManager.SetScreen(new OnlineGameScreen(assets, multiplayerClient));
+                ScreenManager.SetScreen(new OnlineGameScreen(assets, multiplayerClient, players));
                 return;
             }
 

@@ -1,27 +1,36 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Collections.Generic;
+using System.Linq;
 using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.NetworkProtocol.Proxy
 {
-    public class TerrainProxy : ITerrainProxy
+    public class TerrainProxy : ITerrainProxy, IRemoteProxy
     {
-        public GameInfo Message;
+        private GameInfo message;
 
         public int TimeLeft { get; set; }
         public int ApocalypseSpeed { get; set; }
         public int MaxApocalypse { get; set; }
-        public int Width => Message.Terrain.Width;
-        public int Height => Message.Terrain.Width;
-        public int LevelIndex => Message.LevelIndex;
+        public int Width => message.Terrain.Width;
+        public int Height => message.Terrain.Width;
+        public int LevelIndex => message.LevelIndex;
 
-        public IList<ISprite> Sprites { get; }
+        private IList<SpriteProxy> _sprites;
+        public ICollection<ISpriteProxy> Sprites
+        {
+            get
+            {
+
+
+                return _sprites.Cast<ISpriteProxy>().ToList();
+            }
+        }
 
         public TerrainProxy()
         {
-            Sprites = new List<ISprite>();
         }
 
         public void ClientUpdate()
@@ -30,7 +39,7 @@ namespace MrBoom.NetworkProtocol.Proxy
 
         public Cell GetCell(int x, int y)
         {
-            var cell = Message.Terrain.Grid[x, y];
+            var cell = message.Terrain.Grid[x, y];
 
             if (cell == null)
             {
@@ -65,6 +74,30 @@ namespace MrBoom.NetworkProtocol.Proxy
 
                 default:
                     return true;
+            }
+        }
+
+        public void SetIncomingMessage(IMessage message)
+        {
+            this.message = (GameInfo)message;
+
+            if (_sprites == null)
+            {
+                _sprites = new List<SpriteProxy>(this.message.Sprites.Count);
+
+                foreach (var submessage in this.message.Sprites)
+                {
+                    var sprite = new SpriteProxy();
+                    sprite.SetIncomingMessage(submessage);
+                    _sprites.Add(sprite);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < this.message.Sprites.Count && i < _sprites.Count; i++)
+                {
+                    _sprites[i].SetIncomingMessage(this.message.Sprites[i]);
+                }
             }
         }
     }

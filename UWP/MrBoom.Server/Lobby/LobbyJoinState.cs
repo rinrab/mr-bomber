@@ -76,7 +76,7 @@ namespace MrBoom.Server.Lobby
         {
             if (lobby.GetPlayerCount() >= 2 && startIn == -1)
             {
-                startIn = 600;
+                startIn = 60 * 3;
             }
 
             if (startIn == 0)

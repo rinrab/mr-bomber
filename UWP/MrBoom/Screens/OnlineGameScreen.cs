@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,14 +14,16 @@ namespace MrBoom.Screens
     public class OnlineGameScreen : ClientGameScreen
     {
         private readonly MultiplayerClient multiplayerClient;
+        private readonly List<IPlayerState> players;
         private readonly TerrainProxy terrainProxy;
 
-        public OnlineGameScreen(Assets assets, MultiplayerClient multiplayerClient) : base(assets)
+        public OnlineGameScreen(Assets assets, MultiplayerClient multiplayerClient, List<IPlayerState> players) : base(assets)
         {
             terrainProxy = new TerrainProxy();
-            clientTerrain = new ClientTerrain(terrainProxy, assets);
 
             this.multiplayerClient = multiplayerClient;
+            this.players = players;
+
             multiplayerClient.OnPacketReceived += OnPacketReceived;
         }
 
@@ -28,7 +31,24 @@ namespace MrBoom.Screens
         {
             if (packet.Message is GameInfo gameInfo)
             {
-                terrainProxy.Message = gameInfo;
+                terrainProxy.SetIncomingMessage(gameInfo);
+
+                if (clientTerrain == null)
+                {
+                    InitializeTerrain();
+                }
+            }
+        }
+
+        private void InitializeTerrain()
+        {
+            clientTerrain = new ClientTerrain(terrainProxy, assets);
+
+            int i = 0;
+            foreach (var spriteProxy in terrainProxy.Sprites)
+            {
+                clientTerrain.Sprites.Add(new ClientSprite(spriteProxy, assets.Players[i]));
+                i++;
             }
         }
 
@@ -36,7 +56,7 @@ namespace MrBoom.Screens
         {
             multiplayerClient.CheckPackets();
 
-            if (terrainProxy.Message != null)
+            if (clientTerrain != null)
             {
                 terrainProxy.ClientUpdate();
                 base.Update();
@@ -45,7 +65,7 @@ namespace MrBoom.Screens
 
         public override void Draw(SpriteBatch ctx)
         {
-            if (terrainProxy.Message != null)
+            if (clientTerrain != null)
             {
                 base.Draw(ctx);
             }

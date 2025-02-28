@@ -9,6 +9,8 @@
     <Import_RootNamespace>MrBoom.NetworkProtocol.Proxy</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)IRemoteProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SpriteProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TerrainProxy.cs" />
   </ItemGroup>
 </Project>
