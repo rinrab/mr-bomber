@@ -8,8 +8,6 @@ namespace MrBoom.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddSingleton<IGameLobby, GameLobby>();
-
             builder.Services.AddSingleton<IUdpServer, UdpServer>();
             builder.Services.AddHostedService(serviceProvider => (UdpServer)serviceProvider.GetRequiredService<IUdpServer>());
 

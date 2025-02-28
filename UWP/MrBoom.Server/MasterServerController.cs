@@ -12,13 +12,10 @@ namespace MrBoom.Server
     public class MasterServerController : ControllerBase
     {
         private ILogger<MasterServerController> logger;
-        private readonly IGameLobby lobby;
 
-        public MasterServerController(ILogger<MasterServerController> logger,
-                                      IGameLobby lobby)
+        public MasterServerController(ILogger<MasterServerController> logger)
         {
             this.logger = logger;
-            this.lobby = lobby;
         }
 
         [HttpPost]
