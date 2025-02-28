@@ -10,8 +10,7 @@ namespace MrBoom.Server.Lobby
         private readonly ILobbyStateManager state;
         private readonly ILogger logger;
 
-        private readonly List<ClientInfo> clients;
-        private readonly List<LobbyPlayer> players;
+        private readonly ILobby lobby;
 
         protected int startIn = -1;
 
@@ -20,15 +19,14 @@ namespace MrBoom.Server.Lobby
             this.state = state;
             this.logger = logger;
 
-            clients = new List<ClientInfo>();
-            players = new List<LobbyPlayer>();
+            lobby = new Lobby();
         }
 
         private IMessage FormatLobbyInfoMessage()
         {
             var p = new List<LobbyPlayerInfo>();
 
-            foreach (var player in players)
+            foreach (var player in lobby.GetPlayers())
             {
                 p.Add(new LobbyPlayerInfo
                 {
@@ -49,7 +47,7 @@ namespace MrBoom.Server.Lobby
         {
             if (packet.Message is ClientJoin clientJoin)
             {
-                clients.Add(new ClientInfo
+                lobby.AddClient(new ClientInfo
                 {
                     ClientSecret = clientJoin.ClientSecret,
                     IpAddress = endPoint
@@ -57,17 +55,17 @@ namespace MrBoom.Server.Lobby
             }
             else if (packet.Message is PlayerJoin playerJoin)
             {
-                players.Add(new LobbyPlayer("qqq")
+                lobby.AddPlayer(new LobbyPlayer("qqq")
                 {
                     Id = playerJoin.Id,
-                    Index = players.Count,
+                    Index = lobby.GetPlayerCount(),
                 });
             }
         }
 
         public async Task SendPackets(IUdpServer udpServer, CancellationToken stoppingToken)
         {
-            foreach (ClientInfo client in clients)
+            foreach (ClientInfo client in lobby.GetClients())
             {
                 await udpServer.SendPacket(new Packet(FormatLobbyInfoMessage()),
                                            client.IpAddress, stoppingToken);
@@ -76,14 +74,14 @@ namespace MrBoom.Server.Lobby
 
         public void ServerUpdate()
         {
-            if (players.Count >= 2 && startIn == -1)
+            if (lobby.GetPlayerCount() >= 2 && startIn == -1)
             {
                 startIn = 600;
             }
 
             if (startIn == 0)
             {
-                state.SetState(new LobbyPlayState(state, logger, clients, players));
+                state.SetState(new LobbyPlayState(state, logger, lobby));
             }
             else if (startIn > 0)
             {

@@ -11,17 +11,15 @@ namespace MrBoom.Server.Lobby
     {
         private readonly ILobbyStateManager state;
         private readonly ILogger logger;
-        private readonly List<ClientInfo> clients;
-        private readonly List<LobbyPlayer> players;
+        private readonly ILobby lobby;
 
         public Terrain Terrain { get; }
 
-        public LobbyPlayState(ILobbyStateManager state, ILogger logger, List<ClientInfo> clients, List<LobbyPlayer> players)
+        public LobbyPlayState(ILobbyStateManager state, ILogger logger, ILobby lobby)
         {
             this.state = state;
             this.logger = logger;
-            this.clients = clients;
-            this.players = players;
+            this.lobby = lobby;
 
             Terrain = new Terrain(1);
         }
@@ -72,7 +70,7 @@ namespace MrBoom.Server.Lobby
 
         public async Task SendPackets(IUdpServer udpServer, CancellationToken stoppingToken)
         {
-            foreach (ClientInfo client in clients)
+            foreach (ClientInfo client in lobby.GetClients())
             {
                 await udpServer.SendPacket(new Packet(FormatGameInfoMessage()),
                                            client.IpAddress, stoppingToken);
