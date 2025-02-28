@@ -2,8 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using MrBoom.Common;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom
 {
@@ -37,7 +39,7 @@ namespace MrBoom
         IEnumerable<AbstractMonster> GetMonsters();
     }
 
-    public class Terrain : ITerrain, ITerrainAccessor
+    public class Terrain : ITerrain, ITerrainAccessor, ITerrainProxy
     {
         public static Random Random = new Random();
 
@@ -59,6 +61,9 @@ namespace MrBoom
                 return 4 * FLAME_ANIMATION_DELAY;
             }
         }
+
+        public IList<ISprite> Sprites => GetSprites().Cast<ISprite>().ToList();
+
         private readonly Grid<byte> final;
         private int lastApocalypseSound = -1;
         private readonly Grid<Cell> data;

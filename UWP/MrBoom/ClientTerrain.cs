@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Collections.Generic;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom
 {
@@ -26,7 +27,8 @@ namespace MrBoom
 
     public class ClientTerrain : IClientTerrain, ITerrainAccessor
     {
-        private readonly ITerrain proxy;
+        private readonly ITerrainProxy proxy;
+        private readonly Assets assets;
 
         public int Tick { get; private set; }
         public int TimeLeft => proxy.TimeLeft;
@@ -35,16 +37,16 @@ namespace MrBoom
         public int Width => proxy.Width;
         public int Height => proxy.Height;
         public int LevelIndex => proxy.LevelIndex;
-        public Assets.Level LevelAssets { get; }
+        public Assets.Level LevelAssets => assets.Levels[LevelIndex];
 
         public IList<IClientSprite> Sprites { get; }
 
-        public ClientTerrain(ITerrain proxy, Assets assets)
+        public ClientTerrain(ITerrainProxy proxy, Assets assets)
         {
             this.proxy = proxy;
-            Tick = 0;
-            LevelAssets = assets.Levels[LevelIndex];
+            this.assets = assets;
 
+            Tick = 0;
             Sprites = new List<IClientSprite>();
         }
 

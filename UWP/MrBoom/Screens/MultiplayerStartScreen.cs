@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Common;
 using MrBoom.NetworkProtocol;
 using MrBoom.NetworkProtocol.Messages;
+using MrBoom.Screens;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;
 
@@ -354,6 +355,12 @@ namespace MrBoom
 
         private void Start()
         {
+            if (settings.IsOnline)
+            {
+                ScreenManager.SetScreen(new OnlineGameScreen(assets, multiplayerClient));
+                return;
+            }
+
             if (players.Count == 1)
             {
                 players.Add(new BotPlayerState(players.Count, "bot"));
