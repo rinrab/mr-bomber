@@ -26,6 +26,7 @@ namespace MrBoom.Server.Lobby
 
         public void ServerUpdate()
         {
+            Terrain.Update();
         }
 
         public void OnPacketReceived(Packet packet, IPEndPoint endPoint)
