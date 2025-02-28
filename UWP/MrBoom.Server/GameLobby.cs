@@ -1,107 +1,38 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using System;
 using System.Net;
 using MrBoom.NetworkProtocol;
 using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.Server
 {
-    public class GameLobby : ILobbyState
+    public class LobbyJoinState : ILobbyState
     {
-        private readonly List<ClientInfo> clients;
-        private readonly List<LobbyPlayer> players;
         private readonly ILobbyStateManager state;
         private readonly ILogger logger;
-        private int index = 0;
 
-        private int tick = 0;
-        public int StartIn { get; private set; } = -1;
+        private readonly List<ClientInfo> clients;
+        private readonly List<LobbyPlayer> players;
 
-        public Terrain Terrain { get; }
+        protected int startIn = -1;
 
-        public GameLobby(ILobbyStateManager state, ILogger logger)
+        public LobbyJoinState(ILobbyStateManager state, ILogger logger)
         {
-            players = new List<LobbyPlayer>();
-            clients = new List<ClientInfo>();
-
             this.state = state;
             this.logger = logger;
 
-            Terrain = new Terrain(1);
-        }
-
-        public LobbyPlayer PlayerJoin(Guid id)
-        {
-            LobbyPlayer lobbyPlayer = new LobbyPlayer("qqq");
-
-            lobbyPlayer.Id = id;
-            lobbyPlayer.Index = index;
-
-            players.Add(lobbyPlayer);
-            Terrain.AddPlayer(new ServerPlayer(Terrain, index));
-
-            index++;
-
-            return lobbyPlayer;
-        }
-
-        public ClientInfo ClientJoin(ClientJoinRequest request, IPEndPoint ipep)
-        {
-            ClientInfo clientInfo = new ClientInfo()
-            {
-                ClientSecret = Guid.NewGuid(),
-                IpAddress = ipep,
-            };
-
-            clients.Add(clientInfo);
-
-            return clientInfo;
-        }
-
-        public IEnumerable<ClientInfo> GetClients()
-        {
-            return clients;
-        }
-
-        public IEnumerable<LobbyPlayer> GetPlayers()
-        {
-            return players;
-        }
-
-        public void ServerUpdate()
-        {
-            tick++;
-
-            if (players.Count >= 2 && StartIn == -1)
-            {
-                StartIn = 600;
-            }
-
-            if (StartIn > 0)
-            {
-                StartIn--;
-            }
-        }
-
-        public void OnPacketReceived(Packet packet, IPEndPoint endPoint)
-        {
-            if (packet.Message is ClientJoin clientJoin)
-            {
-                ClientJoin(null, endPoint);
-            }
-            else if (packet.Message is PlayerJoin playerJoin)
-            {
-                PlayerJoin(playerJoin.Id);
-            }
+            clients = new List<ClientInfo>();
+            players = new List<LobbyPlayer>();
         }
 
         private IMessage FormatLobbyInfoMessage()
         {
-            var players = new List<LobbyPlayerInfo>();
+            var p = new List<LobbyPlayerInfo>();
 
-            foreach (var player in GetPlayers())
+            foreach (var player in players)
             {
-                players.Add(new LobbyPlayerInfo
+                p.Add(new LobbyPlayerInfo
                 {
                     Id = player.Id,
                     Index = (byte)player.Index,
@@ -111,9 +42,84 @@ namespace MrBoom.Server
 
             return new LobbyInfo
             {
-                Players = players,
-                StartIn = StartIn,
+                Players = p,
+                StartIn = startIn,
             };
+        }
+
+        public void OnPacketReceived(Packet packet, IPEndPoint endPoint)
+        {
+            if (packet.Message is ClientJoin clientJoin)
+            {
+                clients.Add(new ClientInfo
+                {
+                    ClientSecret = clientJoin.ClientSecret,
+                    IpAddress = endPoint
+                });
+            }
+            else if (packet.Message is PlayerJoin playerJoin)
+            {
+                players.Add(new LobbyPlayer("qqq")
+                {
+                    Id = playerJoin.Id,
+                    Index = players.Count,
+                });
+           }
+        }
+
+        public async Task SendPackets(IUdpServer udpServer, CancellationToken stoppingToken)
+        {
+            foreach (ClientInfo client in clients)
+            {
+                await udpServer.SendPacket(new Packet(FormatLobbyInfoMessage()),
+                                           client.IpAddress, stoppingToken);
+            }
+        }
+
+        public void ServerUpdate()
+        {
+            if (players.Count >= 2 && startIn == -1)
+            {
+                startIn = 600;
+            }
+
+            if (startIn == 0)
+            {
+                state.SetState(new GameLobby(state, logger, clients, players));
+            }
+            else if (startIn > 0)
+            {
+                startIn--;
+            }
+        }
+    }
+
+    public class GameLobby : ILobbyState
+    {
+        private readonly ILobbyStateManager state;
+        private readonly ILogger logger;
+        private readonly List<ClientInfo> clients;
+        private readonly List<LobbyPlayer> players;
+
+        public Terrain Terrain { get; }
+
+        public GameLobby(ILobbyStateManager state, ILogger logger, List<ClientInfo> clients, List<LobbyPlayer> players)
+        {
+            this.state = state;
+            this.logger = logger;
+            this.clients = clients;
+            this.players = players;
+
+            Terrain = new Terrain(1);
+        }
+
+
+        public void ServerUpdate()
+        {
+        }
+
+        public void OnPacketReceived(Packet packet, IPEndPoint endPoint)
+        {
         }
 
         private IMessage FormatGameInfoMessage()
@@ -154,11 +160,8 @@ namespace MrBoom.Server
 
         public async Task SendPackets(IUdpServer udpServer, CancellationToken stoppingToken)
         {
-            foreach (var client in GetClients())
+            foreach (ClientInfo client in clients)
             {
-                await udpServer.SendPacket(new Packet(FormatLobbyInfoMessage()),
-                                           client.IpAddress, stoppingToken);
-
                 await udpServer.SendPacket(new Packet(FormatGameInfoMessage()),
                                            client.IpAddress, stoppingToken);
             }

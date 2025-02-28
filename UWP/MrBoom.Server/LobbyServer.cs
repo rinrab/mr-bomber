@@ -58,7 +58,7 @@ namespace MrBoom.Server
             this.logger = logger;
             state = new LobbyStateHolder();
 
-            state.SetState(new GameLobby(state, logger));
+            state.SetState(new LobbyJoinState(state, logger));
 
             udpServer.OnPacketReceived += OnMessageReceived;
         }
