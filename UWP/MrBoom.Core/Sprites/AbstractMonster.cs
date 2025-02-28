@@ -4,7 +4,7 @@ using MrBoom.BehaviorTree;
 
 namespace MrBoom
 {
-    public abstract class AbstractMonster : Sprite
+    public abstract class AbstractMonster : Sprite, IServerGameEntity
     {
         protected BtNode tree;
 
