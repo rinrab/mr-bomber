@@ -22,6 +22,13 @@ namespace MrBoom.Server.Lobby
             this.lobby = lobby;
 
             Terrain = new Terrain(1);
+
+            foreach (LobbyPlayer player in lobby.GetPlayers())
+            {
+                Terrain.AddPlayer(new ServerPlayer(Terrain, player.Index));
+            }
+
+            Terrain.InitializeMonsters();
         }
 
         public void ServerUpdate()
