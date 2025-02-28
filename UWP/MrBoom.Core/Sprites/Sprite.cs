@@ -2,7 +2,7 @@
 
 namespace MrBoom
 {
-    public abstract class Sprite : MovableSprite
+    public abstract class Sprite : MovableSprite, IServerGameEntity
     {
         public Directions? Direction { get; protected set; }
 

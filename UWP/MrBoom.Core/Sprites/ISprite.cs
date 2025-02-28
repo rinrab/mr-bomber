@@ -19,7 +19,7 @@ namespace MrBoom
         bool HasSkull { get; }
     }
 
-    public interface IServerPlayer : ISprite, IServerGameEntity
+    public interface IServerPlayer : ISprite
     {
         void SetDirection(Directions? direction);
         void ToggleRemoteControl();

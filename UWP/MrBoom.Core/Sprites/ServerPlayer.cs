@@ -4,7 +4,7 @@ using MrBoom.Common;
 
 namespace MrBoom
 {
-    public class ServerPlayer : Sprite, IServerPlayer
+    public class ServerPlayer : Sprite, IServerPlayer, IServerGameEntity
     {
         public int BombsPlaced;
         public int MaxBoom;
