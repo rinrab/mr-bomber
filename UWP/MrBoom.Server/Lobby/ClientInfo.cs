@@ -2,7 +2,7 @@
 
 using System.Net;
 
-namespace MrBoom.Server
+namespace MrBoom.Server.Lobby
 {
     public class ClientInfo
     {

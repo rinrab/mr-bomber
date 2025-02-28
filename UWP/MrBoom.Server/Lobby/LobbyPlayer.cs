@@ -1,9 +1,13 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 
+
+// Copyright (c) Timofei Zhakov. All rights reserved.
+
+
 using MrBoom.Common;
 
-namespace MrBoom.Server
+namespace MrBoom.Server.Lobby
 {
     public class LobbyPlayer
     {

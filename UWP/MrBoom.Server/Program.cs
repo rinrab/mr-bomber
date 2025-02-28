@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Server.Lobby;
+
 namespace MrBoom.Server
 {
     public class Program

@@ -3,7 +3,7 @@
 using System.Net;
 using MrBoom.NetworkProtocol.Messages;
 
-namespace MrBoom.Server
+namespace MrBoom.Server.Lobby
 {
     public class LobbyJoinState : ILobbyState
     {
@@ -62,7 +62,7 @@ namespace MrBoom.Server
                     Id = playerJoin.Id,
                     Index = players.Count,
                 });
-           }
+            }
         }
 
         public async Task SendPackets(IUdpServer udpServer, CancellationToken stoppingToken)

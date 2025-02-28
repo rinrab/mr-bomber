@@ -3,7 +3,7 @@
 using System.Net;
 using MrBoom.NetworkProtocol.Messages;
 
-namespace MrBoom.Server
+namespace MrBoom.Server.Lobby
 {
     public interface ILobbyState : IServerGameEntity
     {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MrBoom.NetworkProtocol;
 
-namespace MrBoom.Server
+namespace MrBoom.Server.Master
 {
     [Route("api/v1/master/join")]
     [ApiController]
