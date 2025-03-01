@@ -41,6 +41,11 @@ namespace MrBoom.NetworkProtocol.Messages
                 Message = new GameInfo();
                 Message.ReadFrom(reader);
             }
+            else if (type == PacketType.ClientUpdate)
+            {
+                Message = new ClientUpdateMessage();
+                Message.ReadFrom(reader);
+            }
             else
             {
                 throw new NetworkException();
@@ -64,6 +69,10 @@ namespace MrBoom.NetworkProtocol.Messages
             else if (Message is GameInfo)
             {
                 writer.Write((byte)PacketType.GameInfo);
+            }
+            else if (Message is ClientUpdateMessage)
+            {
+                writer.Write((byte)PacketType.ClientUpdate);
             }
             else
             {

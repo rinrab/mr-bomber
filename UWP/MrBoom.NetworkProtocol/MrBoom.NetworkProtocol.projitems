@@ -13,6 +13,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ClientJoinRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientJoinResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\ClientJoin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\ClientPlayerUpdateMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\ClientUpdateMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\GameCellInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\GameInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\GameSpriteInfo.cs" />
