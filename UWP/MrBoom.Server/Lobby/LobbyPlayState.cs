@@ -58,6 +58,7 @@ namespace MrBoom.Server.Lobby
             {
                 sprites.Add(new GameSpriteInfo
                 {
+                    Type = sprite is ServerPlayer ? GameSpriteType.Player : GameSpriteType.Monster,
                     X = sprite.X,
                     Y = sprite.Y,
                 });

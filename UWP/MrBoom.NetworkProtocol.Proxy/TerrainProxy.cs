@@ -87,8 +87,19 @@ namespace MrBoom.NetworkProtocol.Proxy
 
                 foreach (var submessage in this.message.Sprites)
                 {
-                    var sprite = new SpriteProxy();
+                    SpriteProxy sprite;
+
+                    if (submessage.Type == GameSpriteType.Player)
+                    {
+                        sprite = new PlayerProxy();
+                    }
+                    else
+                    {
+                        sprite = new SpriteProxy();
+                    }
+
                     sprite.SetIncomingMessage(submessage);
+
                     _sprites.Add(sprite);
                 }
             }

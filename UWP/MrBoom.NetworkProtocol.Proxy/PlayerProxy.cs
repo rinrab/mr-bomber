@@ -1,0 +1,45 @@
+﻿// Copyright (c) Timofei Zhakov. All rights reserved.
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using MrBoom.Core.Terrain;
+using MrBoom.NetworkProtocol.Messages;
+
+namespace MrBoom.NetworkProtocol.Proxy
+{
+    public class PlayerProxy : SpriteProxy, IPlayerProxy, IRemoteProxy
+    {
+        private int x;
+        private int y;
+
+        private bool dropBomb = false;
+        private bool remoteControl = false;
+
+        public void MoveTo(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        public void SetDirection(Directions? direction)
+        {
+        }
+
+        public void ToggleDropBomb()
+        {
+            dropBomb = true;
+        }
+
+        public void ToggleRemoteControl()
+        {
+            remoteControl = true;
+        }
+
+        public override void SetIncomingMessage(IMessage message)
+        {
+            dropBomb = false;
+            remoteControl = false;
+        }
+    }
+}

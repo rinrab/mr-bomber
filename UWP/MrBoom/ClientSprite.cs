@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Core.Terrain;
@@ -129,6 +130,11 @@ namespace MrBoom
 
             Features = proxy.Features;
             Skull = proxy.Skull;
+
+            if (Math.Abs(X - proxy.X) + Math.Abs(Y - proxy.Y) > 8)
+            {
+                MoveTo(proxy.X, proxy.Y);
+            }
 
             base.ServerUpdate();
 

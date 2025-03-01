@@ -43,6 +43,8 @@ namespace MrBoom
         private readonly List<IPlayerState> players;
         private Menu menu;
 
+        private readonly IDictionary<Guid, IPlayerState> playerIndex;
+
         private int multiplayerStartIn;
 
         public MultiplayerStartScreen(Assets assets, List<Team> teams, List<IController> controllers, Settings settings)
@@ -56,6 +58,7 @@ namespace MrBoom
             joinedControllers = new List<IController>();
             nameGenerator = new NameGenerator(Terrain.Random);
             players = new List<IPlayerState>();
+            playerIndex = new Dictionary<Guid, IPlayerState>();
             teamMode = settings.TeamMode;
 
             multiplayerClient = new MultiplayerClient();
@@ -71,23 +74,13 @@ namespace MrBoom
             {
                 multiplayerStartIn = lobby.StartIn;
 
-                Dictionary<Guid, IPlayerState> oldPlayers = new Dictionary<Guid, IPlayerState>();
-
-                foreach (var player in players)
-                {
-                    if (player is IOnlinePlayerState onlinePlayer)
-                    {
-                        oldPlayers[onlinePlayer.Id] = player;
-                    }
-                }
-
                 players.Clear();
 
                 for (int i = 0; i < lobby.Players.Count; i++)
                 {
                     var player = lobby.Players[i];
 
-                    if (oldPlayers.TryGetValue(player.Id, out var val))
+                    if (playerIndex.TryGetValue(player.Id, out IPlayerState val))
                     {
                         if (val is OnlinePlayerState onlinePlayer)
                         {
@@ -209,6 +202,7 @@ namespace MrBoom
             if (settings.IsOnline)
             {
                 var player = new OnlinePlayerState(controller);
+                playerIndex.Add(player.Id, player);
                 _ = player.RequestServer(multiplayerClient);
                 return player;
             }
