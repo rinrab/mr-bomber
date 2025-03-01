@@ -13,6 +13,6 @@ namespace MrBoom.Core.Terrain
         int MaxApocalypse { get; }
         int LevelIndex { get; }
 
-        ICollection<ISpriteProxy> Sprites { get; }
+        IList<ISpriteProxy> Sprites { get; }
     }
 }

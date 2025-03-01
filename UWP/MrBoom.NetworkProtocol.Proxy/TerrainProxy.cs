@@ -19,7 +19,7 @@ namespace MrBoom.NetworkProtocol.Proxy
         public int LevelIndex => message.LevelIndex;
 
         private IList<SpriteProxy> _sprites;
-        public ICollection<ISpriteProxy> Sprites
+        public IList<ISpriteProxy> Sprites
         {
             get
             {
