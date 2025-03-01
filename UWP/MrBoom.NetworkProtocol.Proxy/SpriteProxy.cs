@@ -27,5 +27,10 @@ namespace MrBoom.NetworkProtocol.Proxy
         {
             this.message = (GameSpriteInfo)message;
         }
+
+        public virtual IMessage GetOutcomingMessage()
+        {
+            return null;
+        }
     }
 }

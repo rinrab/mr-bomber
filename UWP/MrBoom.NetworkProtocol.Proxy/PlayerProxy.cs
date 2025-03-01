@@ -10,11 +10,18 @@ namespace MrBoom.NetworkProtocol.Proxy
 {
     public class PlayerProxy : SpriteProxy, IPlayerProxy, IRemoteProxy
     {
+        private readonly int index;
+
         private int x;
         private int y;
 
         private bool dropBomb = false;
         private bool remoteControl = false;
+
+        public PlayerProxy(int index)
+        {
+            this.index = index;
+        }
 
         public void MoveTo(int x, int y)
         {
@@ -40,6 +47,20 @@ namespace MrBoom.NetworkProtocol.Proxy
         {
             dropBomb = false;
             remoteControl = false;
+
+            base.SetIncomingMessage(message);
+        }
+
+        public override IMessage GetOutcomingMessage()
+        {
+            return new ClientPlayerUpdateMessage
+            {
+                Index = (byte)index,
+                MoveToX = x,
+                MoveToY = y,
+                DropBomb = dropBomb,
+                RemoteControl = remoteControl,
+            };
         }
     }
 }

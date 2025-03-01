@@ -38,6 +38,25 @@ namespace MrBoom.Server.Lobby
 
         public void OnPacketReceived(Packet packet, IPEndPoint endPoint)
         {
+            if (packet.Message is ClientUpdateMessage clientUpdate)
+            {
+                foreach (var spriteUpdate in clientUpdate.SpriteUpdates)
+                {
+                    var sprite = (IServerPlayer)Terrain.Sprites[spriteUpdate.Index];
+
+                    sprite.MoveTo(spriteUpdate.MoveToX, spriteUpdate.MoveToY);
+
+                    if (spriteUpdate.DropBomb)
+                    {
+                        sprite.ToggleDropBomb();
+                    }
+
+                    if (spriteUpdate.RemoteControl)
+                    {
+                        sprite.ToggleRemoteControl();
+                    }
+                }
+            }
         }
 
         private IMessage FormatGameInfoMessage()

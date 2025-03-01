@@ -7,5 +7,6 @@ namespace MrBoom.NetworkProtocol.Proxy
     public interface IRemoteProxy
     {
         void SetIncomingMessage(IMessage message);
+        IMessage GetOutcomingMessage();
     }
 }

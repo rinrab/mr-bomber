@@ -73,6 +73,9 @@ namespace MrBoom.Screens
             if (clientTerrain != null)
             {
                 terrainProxy.ClientUpdate();
+
+                _ = multiplayerClient.SendPacket(new Packet(terrainProxy.GetOutcomingMessage()));
+
                 base.Update();
             }
         }

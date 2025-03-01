@@ -84,6 +84,7 @@ namespace MrBoom.NetworkProtocol.Proxy
             if (_sprites == null)
             {
                 _sprites = new List<SpriteProxy>(this.message.Sprites.Count);
+                int i = 0;
 
                 foreach (var submessage in this.message.Sprites)
                 {
@@ -91,7 +92,7 @@ namespace MrBoom.NetworkProtocol.Proxy
 
                     if (submessage.Type == GameSpriteType.Player)
                     {
-                        sprite = new PlayerProxy();
+                        sprite = new PlayerProxy(i);
                     }
                     else
                     {
@@ -101,6 +102,7 @@ namespace MrBoom.NetworkProtocol.Proxy
                     sprite.SetIncomingMessage(submessage);
 
                     _sprites.Add(sprite);
+                    i++;
                 }
             }
             else
@@ -110,6 +112,26 @@ namespace MrBoom.NetworkProtocol.Proxy
                     _sprites[i].SetIncomingMessage(this.message.Sprites[i]);
                 }
             }
+        }
+
+        public IMessage GetOutcomingMessage()
+        {
+            var sprites = new List<ClientPlayerUpdateMessage>();
+
+            foreach (var sprite in _sprites)
+            {
+                var msg = sprite.GetOutcomingMessage();
+
+                if (msg != null)
+                {
+                    sprites.Add((ClientPlayerUpdateMessage)msg);
+                }
+            }
+
+            return new ClientUpdateMessage
+            {
+                SpriteUpdates = sprites,
+            };
         }
     }
 }
