@@ -9,7 +9,7 @@ namespace MrBoom.NetworkProtocol.Proxy
     {
         private GameSpriteInfo message;
 
-        public int X => message.X;
+        public virtual int X => message.X;
         public int Y => message.Y;
 
         public int AnimateIndex => 0;
@@ -23,7 +23,7 @@ namespace MrBoom.NetworkProtocol.Proxy
         public bool HasUnplugin => false;
         public bool HasSkull => false;
 
-        public void SetIncomingMessage(IMessage message)
+        public virtual void SetIncomingMessage(IMessage message)
         {
             this.message = (GameSpriteInfo)message;
         }
