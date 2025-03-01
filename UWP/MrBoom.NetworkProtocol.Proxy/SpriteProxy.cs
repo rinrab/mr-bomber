@@ -10,7 +10,7 @@ namespace MrBoom.NetworkProtocol.Proxy
         private GameSpriteInfo message;
 
         public virtual int X => message.X;
-        public int Y => message.Y;
+        public virtual int Y => message.Y;
 
         public int AnimateIndex => 0;
         public int FrameIndex => 0;
