@@ -2,6 +2,7 @@
 
 using System.Net;
 using MrBoom.NetworkProtocol.Messages;
+using Haukcode.HighResolutionTimer;
 
 namespace MrBoom.Server.Lobby
 {
@@ -44,7 +45,7 @@ namespace MrBoom.Server.Lobby
         }
     }
 
-    public class LobbyServer : BackgroundService
+    public class LobbyServer : TimerService
     {
         private readonly IUdpServer udpServer;
         private readonly ILogger logger;
@@ -52,7 +53,7 @@ namespace MrBoom.Server.Lobby
         private readonly LobbyStateHolder state;
 
         public LobbyServer(IUdpServer udpServer,
-                           ILogger<LobbyServer> logger)
+                           ILogger<LobbyServer> logger) : base(1000 / 60)
         {
             this.udpServer = udpServer;
             this.logger = logger;
@@ -68,15 +69,10 @@ namespace MrBoom.Server.Lobby
             state.OnPacketReceived(packet, endPoint);
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task TickAsync(CancellationToken stoppingToken)
         {
-            while (true)
-            {
-                state.ServerUpdate();
-                await state.SendPackets(udpServer, stoppingToken);
-
-                await Task.Delay(1000 / 60, stoppingToken);
-            }
+            state.ServerUpdate();
+            await state.SendPackets(udpServer, stoppingToken);
         }
     }
 }
