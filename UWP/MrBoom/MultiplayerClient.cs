@@ -28,6 +28,8 @@ namespace MrBoom
         // public Uri MasterServerUri = new Uri("http://master._mrboomserver.test.mrbomber.online:5296");
         public Uri MasterServerUri = new Uri("http://localhost:5296");
 
+        public Guid ClientSecret { get; private set; }
+
         public event PacketReceivedDelegate OnPacketReceived;
 
         public MultiplayerClient()
@@ -66,7 +68,7 @@ namespace MrBoom
 
             var msg = new Packet(new ClientJoin
             {
-                ClientSecret = lobby.ClientSecret,
+                ClientSecret = ClientSecret,
             });
 
             using (var stream = new MemoryStream())
@@ -80,7 +82,11 @@ namespace MrBoom
         {
             HttpContent content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync(new Uri(MasterServerUri, "api/v1/master/join"), content);
-            return JsonSerializer.Deserialize<ClientJoinResponse>(await response.Content.ReadAsStringAsync());
+            ClientJoinResponse res = JsonSerializer.Deserialize<ClientJoinResponse>(await response.Content.ReadAsStringAsync());
+
+            res.ClientSecret = res.ClientSecret;
+
+            return res;
         }
 
         public async Task SendPacket(Packet packet)
