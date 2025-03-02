@@ -29,7 +29,7 @@ namespace MrBoom.Server.Master
             return new ClientJoinResponse
             {
                 //ClientSecret = clientInfo.ClientSecret,
-                ClientSecret = new Guid(),
+                ClientSecret = Guid.NewGuid(),
                 LobbyIp = "lobby01._mrboomserver.test.mrbomber.online",
                 LobbyPort = 5297,
             };
