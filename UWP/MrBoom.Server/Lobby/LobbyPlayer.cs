@@ -8,6 +8,8 @@ namespace MrBoom.Server.Lobby
         public Guid Id { get; set; }
         public int Index { get; set; }
 
+        public ClientInfo Client { get; set; }
+
         public LobbyPlayer(string name)
         {
             Name = name;

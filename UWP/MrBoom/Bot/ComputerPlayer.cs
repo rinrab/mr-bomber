@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using MrBoom.BehaviorTree;
 using MrBoom.Common;
+using MrBoom.Core;
 
 namespace MrBoom.Bot
 {
@@ -20,7 +21,7 @@ namespace MrBoom.Bot
         private readonly Grid<bool> dangerGrid;
         private readonly Grid<int> flamesGrid;
 
-        public ComputerPlayer(Terrain map, int team, int botSeed) : base(map, team)
+        public ComputerPlayer(Terrain map, int team, int botSeed) : base(map, team, new ClientInfoFake())
         {
             this.botSeed = botSeed;
 

@@ -1,12 +1,14 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core;
+
 namespace MrBoom
 {
     public class Human : ServerPlayer
     {
         public readonly IController Controller;
 
-        public Human(Terrain map, IController controller, int team) : base(map, team)
+        public Human(Terrain map, IController controller, int team) : base(map, team, new ClientInfoFake())
         {
             Controller = controller;
         }

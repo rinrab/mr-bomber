@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using MrBoom.Common;
+using MrBoom.Core;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom
@@ -26,9 +27,11 @@ namespace MrBoom
         public int Team;
         public int TeamMask { get => 1 << Team; }
 
+        public IClientInfo ClientInfo { get; private set; }
+
         protected readonly Terrain terrain;
 
-        public ServerPlayer(Terrain terrain, int team) : base(terrain, 0, 0, 3)
+        public ServerPlayer(Terrain terrain, int team, IClientInfo clientInfo) : base(terrain, 0, 0, 3)
         {
             Features = terrain.StartFeatures;
             MaxBoom = terrain.StartMaxFire;
@@ -36,6 +39,7 @@ namespace MrBoom
             Team = team;
             RemoteDetonate = false;
             this.terrain = terrain;
+            ClientInfo = clientInfo;
         }
 
         public override void ServerUpdate()

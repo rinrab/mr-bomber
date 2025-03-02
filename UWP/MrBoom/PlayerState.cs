@@ -3,6 +3,7 @@
 using System;
 using System.Threading.Tasks;
 using MrBoom.Bot;
+using MrBoom.Core;
 using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom
@@ -39,7 +40,7 @@ namespace MrBoom
 
         public ServerPlayer GetPlayer(Terrain terrain, int team)
         {
-            return new ServerPlayer(terrain, team);
+            return new ServerPlayer(terrain, team, new ClientInfoFake());
         }
     }
 
@@ -88,6 +89,7 @@ namespace MrBoom
                 Message = new PlayerJoin
                 {
                     Id = Id,
+                    ClientSecret = multiplayerClient.ClientSecret,
                 }
             });
         }

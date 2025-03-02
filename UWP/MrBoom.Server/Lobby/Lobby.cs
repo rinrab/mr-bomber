@@ -11,6 +11,8 @@ namespace MrBoom.Server.Lobby
 
         void AddClient(ClientInfo client);
         void AddPlayer(LobbyPlayer player);
+
+        ClientInfo? GetClient(Guid id);
     }
 
     public class Lobby : ILobby
@@ -32,6 +34,11 @@ namespace MrBoom.Server.Lobby
         public void AddPlayer(LobbyPlayer player)
         {
             players.Add(player);
+        }
+
+        public ClientInfo? GetClient(Guid id)
+        {
+            return clients.FirstOrDefault(item => item.ClientSecret == id);
         }
 
         public IEnumerable<ClientInfo> GetClients()

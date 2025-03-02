@@ -55,10 +55,18 @@ namespace MrBoom.Server.Lobby
             }
             else if (packet.Message is PlayerJoin playerJoin)
             {
+                ClientInfo? client = lobby.GetClient(playerJoin.ClientSecret);
+
+                if (client == null)
+                {
+                    return; // fuck off mister client. ur fake
+                }
+
                 lobby.AddPlayer(new LobbyPlayer("qqq")
                 {
                     Id = playerJoin.Id,
                     Index = lobby.GetPlayerCount(),
+                    Client = client,
                 });
             }
         }

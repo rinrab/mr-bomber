@@ -25,7 +25,7 @@ namespace MrBoom.Server.Lobby
 
             foreach (LobbyPlayer player in lobby.GetPlayers())
             {
-                Terrain.AddPlayer(new ServerPlayer(Terrain, player.Index));
+                Terrain.AddPlayer(new ServerPlayer(Terrain, player.Index, player.Client.CorishInfo));
             }
 
             Terrain.InitializeMonsters();
