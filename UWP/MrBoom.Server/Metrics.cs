@@ -17,8 +17,38 @@ namespace MrBoom.Server
         public long PacketsReceived { get; set; }
         public long BytesReceived { get; set; }
 
+        public double AverageBytesReceived
+        {
+            get
+            {
+                if (PacketsReceived == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return BytesReceived / PacketsReceived;
+                }
+            }
+        }
+
         public int PacketsSent { get; set; }
         public int BytesSent { get; set; }
+
+        public double AverageBytesSent
+        {
+            get
+            {
+                if (PacketsSent == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return BytesSent / PacketsSent;
+                }
+            }
+        }
     }
 
     public class Metrics : IMetrics

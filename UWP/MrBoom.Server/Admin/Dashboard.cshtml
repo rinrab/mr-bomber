@@ -8,8 +8,8 @@
 	<thead>
 		<tr>
 			<th style="min-width: 200px">IP</th>
-			<th style="min-width: 150px">Received</th>
-			<th style="min-width: 150px">Sent</th>
+			<th style="min-width: 200px">Received</th>
+			<th style="min-width: 200px">Sent</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -17,8 +17,8 @@
 		{
 			<tr>
 				<td>@entry.Key</td>
-				<td>@entry.Value.PacketsReceived (@(entry.Value.BytesReceived / 1024) KB)</td>
-				<td>@entry.Value.PacketsSent (@(entry.Value.BytesSent / 1024) KB)</td>
+				<td>@entry.Value.PacketsReceived (@(entry.Value.BytesReceived / 1024) KB, @entry.Value.AverageBytesReceived bytes / Packet)</td>
+				<td>@entry.Value.PacketsSent (@(entry.Value.BytesSent / 1024) KB, @entry.Value.AverageBytesSent bytes / Packet)</td>
 			</tr>
 		}
 	</tbody>
