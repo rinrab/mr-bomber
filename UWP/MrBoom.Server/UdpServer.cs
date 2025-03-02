@@ -72,7 +72,7 @@ namespace MrBoom.Server
                             try
                             {
                                 OnPacketReceived?.Invoke(packet, msg.RemoteEndPoint);
-                                logger.LogInformation("Received packet {Packet} from {RemoteEndPoint}", packet, msg.RemoteEndPoint);
+                                logger.LogDebug("Received packet {Packet} from {RemoteEndPoint}", packet, msg.RemoteEndPoint);
                             }
                             catch (Exception ex)
                             {
