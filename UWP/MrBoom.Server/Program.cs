@@ -17,9 +17,16 @@ namespace MrBoom.Server
 
             builder.Services.AddControllers();
 
+            builder.Services.AddRazorPages(options =>
+            {
+                options.RootDirectory = "/Admin";
+            });
+
             var app = builder.Build();
 
             app.MapControllers();
+
+            app.MapRazorPages();
 
             app.Run();
         }
