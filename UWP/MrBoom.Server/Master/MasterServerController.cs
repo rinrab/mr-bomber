@@ -4,6 +4,7 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MrBoom.NetworkProtocol;
+using MrBoom.Server.Lobby;
 
 namespace MrBoom.Server.Master
 {
@@ -12,10 +13,12 @@ namespace MrBoom.Server.Master
     public class MasterServerController : ControllerBase
     {
         private ILogger<MasterServerController> logger;
+        private readonly ILobbyProvider lobbyProvider;
 
-        public MasterServerController(ILogger<MasterServerController> logger)
+        public MasterServerController(ILogger<MasterServerController> logger, ILobbyProvider lobbyProvider)
         {
             this.logger = logger;
+            this.lobbyProvider = lobbyProvider;
         }
 
         [HttpPost]
@@ -32,6 +35,7 @@ namespace MrBoom.Server.Master
                 ClientSecret = Guid.NewGuid(),
                 LobbyIp = "lobby01._mrboomserver.test.mrbomber.online",
                 LobbyPort = 5297,
+                LobbyId = lobbyProvider.AssignLobby(),
             };
         }
     }

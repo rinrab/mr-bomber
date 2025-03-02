@@ -30,6 +30,8 @@ namespace MrBoom
 
         public Guid ClientSecret { get; private set; }
 
+        public Guid LobbyId { get; private set; }
+
         public event PacketReceivedDelegate OnPacketReceived;
 
         public MultiplayerClient()
@@ -66,10 +68,14 @@ namespace MrBoom
         {
             udpClient.Connect(lobby.LobbyIp, lobby.LobbyPort);
 
-            var msg = new Packet(new ClientJoin
+            var msg = new Packet()
             {
-                ClientSecret = ClientSecret,
-            });
+                Lobby = LobbyId,
+                Message = new ClientJoin
+                {
+                    ClientSecret = ClientSecret,
+                },
+            };
 
             using (var stream = new MemoryStream())
             {
@@ -84,7 +90,8 @@ namespace MrBoom
             HttpResponseMessage response = await client.PostAsync(new Uri(MasterServerUri, "api/v1/master/join"), content);
             ClientJoinResponse res = JsonSerializer.Deserialize<ClientJoinResponse>(await response.Content.ReadAsStringAsync());
 
-            res.ClientSecret = res.ClientSecret;
+            ClientSecret = res.ClientSecret;
+            LobbyId = res.LobbyId;
 
             return res;
         }

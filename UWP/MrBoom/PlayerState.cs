@@ -86,6 +86,7 @@ namespace MrBoom
 
             await multiplayerClient.SendPacket(new Packet
             {
+                Lobby = multiplayerClient.LobbyId,
                 Message = new PlayerJoin
                 {
                     Id = Id,

@@ -26,6 +26,11 @@ namespace MrBoom.Server.Lobby
             current = state;
         }
 
+        public ILobbyState GetState()
+        {
+            return current;
+        }
+
         public void OnPacketReceived(Packet packet, IPEndPoint endPoint)
         {
             current?.OnPacketReceived(packet, endPoint);
@@ -45,36 +50,92 @@ namespace MrBoom.Server.Lobby
         }
     }
 
-    public class LobbyServer : TimerService
+    public interface ILobbyProvider
+    {
+        Guid CreateLobby();
+        Guid AssignLobby();
+    }
+
+    public class LobbyServer : TimerService, ILobbyProvider
     {
         private readonly IUdpServer udpServer;
         private readonly ILogger logger;
 
-        private readonly LobbyStateHolder state;
+        private readonly Dictionary<Guid, LobbyStateHolder> lobbies;
 
         public LobbyServer(IUdpServer udpServer,
                            ILogger<LobbyServer> logger) : base(1000 / 20)
         {
             this.udpServer = udpServer;
             this.logger = logger;
-            state = new LobbyStateHolder();
 
-            state.SetState(new LobbyJoinState(state, logger));
+            lobbies = new Dictionary<Guid, LobbyStateHolder>();
 
             udpServer.OnPacketReceived += OnMessageReceived;
         }
 
+        public Guid CreateLobby()
+        {
+            Guid id = Guid.NewGuid();
+
+            var state = new LobbyStateHolder();
+            state.SetState(new LobbyJoinState(state, logger));
+
+            lock (lobbies)
+            {
+                lobbies.Add(id, state);
+            }
+
+            logger.LogInformation("Created lobby {lobby}", id);
+
+            return id;
+        }
+
+        public Guid AssignLobby()
+        {
+            lock (lobbies)
+            {
+                foreach (var lobby in lobbies)
+                {
+                    if (lobby.Value.GetState() is LobbyJoinState)
+                    {
+                        return lobby.Key;
+                    }
+                }
+
+                return CreateLobby();
+            }
+        }
+
         private void OnMessageReceived(Packet packet, IPEndPoint endPoint)
         {
-            state.OnPacketReceived(packet, endPoint);
+            lock (lobbies)
+            {
+                if (lobbies.TryGetValue(packet.Lobby, out var lobby))
+                {
+                    lobby.OnPacketReceived(packet, endPoint);
+                }
+                else
+                {
+                    logger.LogWarning("Rejected packet from {endPoint}, because lobby {lobby} doesn't exist.",
+                                      endPoint, packet.Lobby);
+                    // we are so sigmas for you
+                }
+            }
         }
 
         protected override async Task TickAsync(CancellationToken stoppingToken)
         {
-            state.ServerUpdate();
-            state.ServerUpdate();
-            state.ServerUpdate();
-            await state.SendPackets(udpServer, stoppingToken);
+            lock (lobbies)
+            {
+                foreach (LobbyStateHolder lobby in lobbies.Values)
+                {
+                    lobby.ServerUpdate();
+                    lobby.ServerUpdate();
+                    lobby.ServerUpdate();
+                    _ = lobby.SendPackets(udpServer, stoppingToken);
+                }
+            }
         }
     }
 }

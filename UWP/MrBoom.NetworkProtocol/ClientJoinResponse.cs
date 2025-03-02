@@ -16,6 +16,10 @@ namespace MrBoom.NetworkProtocol
         public int LobbyPort { get; set; }
 
         [JsonRequired]
+        [JsonPropertyName("lobby_id")]
+        public Guid LobbyId { get; set; }
+
+        [JsonRequired]
         [JsonPropertyName("client_secret")]
         public Guid ClientSecret { get; set; }
     }

@@ -7,6 +7,7 @@ namespace MrBoom.NetworkProtocol.Messages
     public class Packet : IMessage
     {
         public IMessage Message { get; set; }
+        public Guid Lobby { get; set; }
 
         public Packet()
         {
@@ -19,6 +20,8 @@ namespace MrBoom.NetworkProtocol.Messages
 
         public void ReadFrom(BinaryReader reader)
         {
+            Lobby = reader.ReadGuid();
+
             var type = (PacketType)reader.ReadByte();
 
             if (type == PacketType.PlayerJoin)
@@ -54,6 +57,8 @@ namespace MrBoom.NetworkProtocol.Messages
 
         public void WriteTo(BinaryWriter writer)
         {
+            writer.Write(Lobby);
+
             if (Message is PlayerJoin)
             {
                 writer.Write((byte)PacketType.PlayerJoin);
