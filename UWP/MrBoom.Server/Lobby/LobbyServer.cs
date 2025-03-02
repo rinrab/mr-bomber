@@ -53,7 +53,7 @@ namespace MrBoom.Server.Lobby
         private readonly LobbyStateHolder state;
 
         public LobbyServer(IUdpServer udpServer,
-                           ILogger<LobbyServer> logger) : base(1000 / 60)
+                           ILogger<LobbyServer> logger) : base(1000 / 20)
         {
             this.udpServer = udpServer;
             this.logger = logger;
@@ -71,6 +71,8 @@ namespace MrBoom.Server.Lobby
 
         protected override async Task TickAsync(CancellationToken stoppingToken)
         {
+            state.ServerUpdate();
+            state.ServerUpdate();
             state.ServerUpdate();
             await state.SendPackets(udpServer, stoppingToken);
         }
