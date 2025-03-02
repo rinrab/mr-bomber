@@ -45,24 +45,30 @@ namespace MrBoom.Screens
         {
             clientTerrain = new ClientTerrain(terrainProxy, assets);
 
-            int i = 0;
-            foreach (var spriteProxy in terrainProxy.Sprites)
+            for (int i = 0; i < terrainProxy.Sprites.Count; i++)
             {
-                if (spriteProxy is IPlayerProxy playerProxy)
+                ISpriteProxy proxy = terrainProxy.Sprites[i];
+
+                if (proxy is IPlayerProxy playerProxy)
                 {
                     IPlayerState player = players[i];
 
-                    clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(terrainProxy, 0, 0,
-                                                                         playerProxy,
-                                                                         assets.Players[i],
-                                                                         ((OnlinePlayerState)player).Controller));
+                    if (player is OnlinePlayerState onlinePlayer)
+                    {
+                        clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(terrainProxy, playerProxy.X, playerProxy.Y,
+                                                                             playerProxy,
+                                                                             assets.Players[i],
+                                                                             onlinePlayer.Controller));
+                    }
+                    else
+                    {
+                        clientTerrain.Sprites.Add(new ClientSprite(proxy, assets.Players[i]));
+                    }
                 }
                 else
                 {
-                    clientTerrain.Sprites.Add(new ClientSprite(spriteProxy, assets.Players[i]));
+                    clientTerrain.Sprites.Add(new ClientSprite(proxy, assets.Players[i]));
                 }
-
-                i++;
             }
         }
 

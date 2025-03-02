@@ -63,7 +63,7 @@ namespace MrBoom.Server.Lobby
             }
         }
 
-        private IMessage FormatGameInfoMessage()
+        private IMessage FormatGameInfoMessage(ClientInfo client)
         {
             var grid = new Grid<GameCellInfo>(Terrain.Width, Terrain.Height);
             for (int i = 0; i < grid.CellCount; i++)
@@ -79,12 +79,32 @@ namespace MrBoom.Server.Lobby
             var sprites = new List<GameSpriteInfo>();
             foreach (Sprite sprite in Terrain.GetSprites())
             {
-                sprites.Add(new GameSpriteInfo
+                var spriteMsg = new GameSpriteInfo
                 {
-                    Type = sprite is ServerPlayer ? GameSpriteType.Player : GameSpriteType.Monster,
                     X = sprite.X,
                     Y = sprite.Y,
-                });
+                };
+
+                GameSpriteType type;
+                if (sprite is ServerPlayer serverPlayer)
+                {
+                    if (serverPlayer.ClientInfo.Equals(client.CorishInfo))
+                    {
+                        type = GameSpriteType.PlayerMe;
+                    }
+                    else
+                    {
+                        type = GameSpriteType.Player;
+                    }
+                }
+                else
+                {
+                    type = GameSpriteType.Monster;
+                }
+
+                spriteMsg.Type = type;
+
+                sprites.Add(spriteMsg);
             }
 
             return new GameInfo
@@ -104,7 +124,7 @@ namespace MrBoom.Server.Lobby
         {
             foreach (ClientInfo client in lobby.GetClients())
             {
-                await udpServer.SendPacket(new Packet(FormatGameInfoMessage()),
+                await udpServer.SendPacket(new Packet(FormatGameInfoMessage(client)),
                                            client.IpAddress, stoppingToken);
             }
         }

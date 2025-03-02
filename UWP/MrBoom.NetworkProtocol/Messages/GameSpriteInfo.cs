@@ -8,6 +8,7 @@ namespace MrBoom.NetworkProtocol.Messages
     {
         Monster,
         Player,
+        PlayerMe,
     }
 
     public class GameSpriteInfo : IMessage

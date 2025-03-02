@@ -90,7 +90,7 @@ namespace MrBoom.NetworkProtocol.Proxy
                 {
                     SpriteProxy sprite;
 
-                    if (submessage.Type == GameSpriteType.Player)
+                    if (submessage.Type == GameSpriteType.PlayerMe)
                     {
                         sprite = new PlayerProxy(i);
                     }
