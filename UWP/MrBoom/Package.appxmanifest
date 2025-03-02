@@ -49,5 +49,6 @@
 
   <Capabilities>
     <Capability Name="internetClientServer"/>
-    <Capability Name="internetClient"/></Capabilities>
+    <Capability Name="internetClient"/>
+    <Capability Name="privateNetworkClientServer"/></Capabilities>
 </Package>
