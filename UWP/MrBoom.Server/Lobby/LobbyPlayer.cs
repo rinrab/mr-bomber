@@ -4,7 +4,6 @@
 
 // Copyright (c) Timofei Zhakov. All rights reserved.
 
-
 using MrBoom.Common;
 
 namespace MrBoom.Server.Lobby
