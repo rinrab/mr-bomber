@@ -11,10 +11,13 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Cell\Cell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cell\CellCoord.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClientInfoFake.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IClientInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IServerGameEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Map\Map.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Map\MapData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClientInfoGuid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkullType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SoundEffectType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AbstractMonster.cs" />
