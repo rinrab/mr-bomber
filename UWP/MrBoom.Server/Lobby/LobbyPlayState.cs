@@ -44,7 +44,11 @@ namespace MrBoom.Server.Lobby
                 {
                     var sprite = (IServerPlayer)Terrain.Sprites[spriteUpdate.Index];
 
-                    sprite.MoveTo(spriteUpdate.MoveToX, spriteUpdate.MoveToY);
+                    if (Math.Abs(sprite.X - spriteUpdate.MoveToX) +
+                        Math.Abs(sprite.Y - spriteUpdate.MoveToY) < 8)
+                    {
+                        sprite.MoveTo(spriteUpdate.MoveToX, spriteUpdate.MoveToY);
+                    }
 
                     if (spriteUpdate.DropBomb)
                     {
