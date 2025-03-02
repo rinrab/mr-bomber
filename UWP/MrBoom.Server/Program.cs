@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using MrBoom.Server.Lobby;
 
 namespace MrBoom.Server
@@ -21,6 +22,8 @@ namespace MrBoom.Server
             {
                 options.RootDirectory = "/Admin";
             });
+
+            builder.Services.AddSingleton<IMetrics, Metrics>();
 
             var app = builder.Build();
 

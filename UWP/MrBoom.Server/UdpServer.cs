@@ -23,10 +23,13 @@ namespace MrBoom.Server
         // TOOD: Add configuration.
         private readonly int port = 5297;
         private UdpClient udpClient;
+        private IMetrics metrics;
 
-        public UdpServer(ILogger<UdpServer> logger)
+        public UdpServer(ILogger<UdpServer> logger, IMetrics metrics)
         {
             this.logger = logger;
+            this.metrics = metrics;
+
             udpClient = new UdpClient(port);
         }
 
@@ -44,7 +47,11 @@ namespace MrBoom.Server
 
             packet.WriteTo(writer);
 
-            await SendMessage(stream.ToArray(), endPoint, cancellationToken);
+            byte[] buffer = stream.GetBuffer();
+
+            metrics.PacketSent(endPoint, buffer.Length);
+
+            await SendMessage(buffer, endPoint, cancellationToken);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -60,6 +67,8 @@ namespace MrBoom.Server
                     try
                     {
                         UdpReceiveResult msg = await udpClient.ReceiveAsync(stoppingToken);
+
+                        metrics.PacketReceived(msg.RemoteEndPoint, msg.Buffer.Length);
 
                         using Stream stream = new MemoryStream(msg.Buffer);
                         using BinaryReader reader = new BinaryReader(stream);
