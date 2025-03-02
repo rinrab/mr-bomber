@@ -70,9 +70,24 @@ namespace MrBoom.Server.Lobby
             {
                 Cell cell = Terrain.GetCell(grid.GetCellX(i), grid.GetCellY(i));
 
+                int subType = 0;
+                if (cell.Type == TerrainType.PowerUp)
+                {
+                    subType = (int)cell.PowerUpType;
+                }
+                else if (cell.Type == TerrainType.Fire)
+                {
+                    subType = (int)cell.FlameDirection;
+                }
+
                 grid[i] = new GameCellInfo
                 {
                     Type = cell.Type,
+                    SubType = subType,
+                    Index = cell.Index,
+                    AnimateDelay = cell.animateDelay,
+                    OffsetX = cell.OffsetX,
+                    OffsetY = cell.OffsetY,
                 };
             }
 

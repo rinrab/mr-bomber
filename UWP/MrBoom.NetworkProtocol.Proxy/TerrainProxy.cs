@@ -47,9 +47,23 @@ namespace MrBoom.NetworkProtocol.Proxy
             }
             else
             {
-                return new Cell(cell.Type)
+                Cell newCell = new Cell(cell.Type);
+
+                if (cell.Type == TerrainType.PowerUp)
                 {
-                };
+                    newCell.PowerUpType = (PowerUpType)cell.SubType;
+                }
+                else if (cell.Type == TerrainType.Fire)
+                {
+                    newCell.FlameDirection = (FlameDirection)cell.SubType;
+                }
+
+                newCell.Index = cell.Index;
+                newCell.animateDelay = cell.AnimateDelay;
+                newCell.OffsetX = cell.OffsetX;
+                newCell.OffsetY = cell.OffsetY;
+
+                return newCell;
             }
         }
 
