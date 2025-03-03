@@ -25,8 +25,9 @@ namespace MrBoom
 
         private Queue<byte[]> packetQueue = new Queue<byte[]>();
 
-        public Uri MasterServerUri = new Uri("http://master._mrboomserver.test.mrbomber.online:5296");
+        // public Uri MasterServerUri = new Uri("http://master._mrboomserver.test.mrbomber.online:5296");
         // public Uri MasterServerUri = new Uri("http://localhost:5296");
+        public Uri MasterServerUri = new Uri("http://mrbomber.online");
 
         public Guid ClientSecret { get; private set; }
 
