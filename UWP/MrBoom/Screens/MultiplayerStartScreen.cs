@@ -45,7 +45,7 @@ namespace MrBoom
 
         private readonly IDictionary<Guid, IPlayerState> playerIndex;
 
-        private int multiplayerStartIn;
+        private int multiplayerStartIn = -1;
 
         public MultiplayerStartScreen(Assets assets, List<Team> teams, List<IController> controllers, Settings settings)
         {
@@ -97,6 +97,10 @@ namespace MrBoom
             }
             else if (packet.Message is GameInfo gi)
             {
+                if (multiplayerStartIn < 30 && multiplayerStartIn != -1)
+                {
+                    ScreenManager.SetScreen(new OnlineGameScreen(assets, multiplayerClient, players));
+                }
             }
         }
 
@@ -351,7 +355,6 @@ namespace MrBoom
         {
             if (settings.IsOnline)
             {
-                ScreenManager.SetScreen(new OnlineGameScreen(assets, multiplayerClient, players));
                 return;
             }
 
