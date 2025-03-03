@@ -17,7 +17,7 @@ sudo setcap CAP_NET_BIND_SERVICE=+eip /srv/mr-bomber/MrBoom.Server
 /srv/mr-bomber/MrBoom.Server
 
 sudo mkdir /etc/systemd/system/ -p
-sudo copy mr-bomber.service /etc/systemd/system/mr-bomber.service
+sudo cp mr-bomber.service /etc/systemd/system/mr-bomber.service
 sudo systemctl daemon-reload
 
 sudo systemctl start mr-bomber
