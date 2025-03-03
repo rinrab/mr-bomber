@@ -20,6 +20,13 @@ namespace MrBoom.Server.Lobby
 
         public bool IsDead => DateTime.UtcNow - LastPacketReceivedTime > TimeSpan.FromSeconds(5);
 
+        public ClientInfo(IPEndPoint ipAddress, Guid clientSecret)
+        {
+            IpAddress = ipAddress;
+            ClientSecret = clientSecret;
+            OnPacketReceived();
+        }
+
         public void OnPacketReceived()
         {
             LastPacketReceivedTime = DateTime.UtcNow;

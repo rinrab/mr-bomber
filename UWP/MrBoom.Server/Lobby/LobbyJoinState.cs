@@ -47,11 +47,7 @@ namespace MrBoom.Server.Lobby
         {
             if (packet.Message is ClientJoin clientJoin)
             {
-                lobby.AddClient(new ClientInfo
-                {
-                    ClientSecret = clientJoin.ClientSecret,
-                    IpAddress = endPoint
-                });
+                lobby.AddClient(new ClientInfo(endPoint, clientJoin.ClientSecret));
             }
             else if (packet.Message is PlayerJoin playerJoin)
             {
@@ -62,12 +58,25 @@ namespace MrBoom.Server.Lobby
                     return; // fuck off mister client. ur fake
                 }
 
+                client.OnPacketReceived();
+
                 lobby.AddPlayer(new LobbyPlayer("qqq")
                 {
                     Id = playerJoin.Id,
                     Index = lobby.GetPlayerCount(),
                     Client = client,
                 });
+            }
+            else if (packet.Message is PingMessage pingMessage)
+            {
+                ClientInfo? client = lobby.GetClient(pingMessage.ClientId);
+
+                if (client == null)
+                {
+                    return; // suce ma bite
+                }
+
+                client.OnPacketReceived();
             }
         }
 

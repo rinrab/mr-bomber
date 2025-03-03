@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Messages\IMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\LobbyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\LobbyPlayerInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\PingMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\PlayerJoin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NetworkException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\Packet.cs" />
