@@ -17,18 +17,16 @@ using Windows.UI.Xaml.Documents;
 
 namespace MrBoom
 {
-    public class MultiplayerStartScreen : IScreen
+    public abstract class AbstractStartScreen : IScreen
     {
         private int tick = 0;
 
-        private readonly Assets assets;
-        private readonly List<Team> teams;
-        private readonly List<IController> controllers;
-        private readonly Settings settings;
+        protected readonly Assets assets;
+        protected readonly List<Team> teams;
+        protected readonly List<IController> controllers;
+        protected readonly Settings settings;
         private readonly List<IController> unjoinedControllers;
         private readonly List<IController> joinedControllers;
-        private readonly NameGenerator nameGenerator;
-        private readonly MultiplayerClient multiplayerClient;
 
         private readonly string helpText =
             "welcome to mr.bomber " +
@@ -40,14 +38,10 @@ namespace MrBoom
 
         private int startTick = -1;
         private TeamMode teamMode = 0;
-        private readonly List<IPlayerState> players;
+        protected readonly List<IPlayerState> players;
         private Menu menu;
 
-        private readonly IDictionary<Guid, IPlayerState> playerIndex;
-
-        private int multiplayerStartIn = -1;
-
-        public MultiplayerStartScreen(Assets assets, List<Team> teams, List<IController> controllers, Settings settings)
+        public AbstractStartScreen(Assets assets, List<Team> teams, List<IController> controllers, Settings settings)
         {
             this.assets = assets;
             this.teams = teams;
@@ -56,68 +50,13 @@ namespace MrBoom
 
             unjoinedControllers = new List<IController>(controllers);
             joinedControllers = new List<IController>();
-            nameGenerator = new NameGenerator(Terrain.Random);
             players = new List<IPlayerState>();
-            playerIndex = new Dictionary<Guid, IPlayerState>();
             teamMode = settings.TeamMode;
-
-            multiplayerClient = new MultiplayerClient();
-            multiplayerClient.OnPacketReceived += OnPacketReceived;
-            Task.Run(InitializeMultiplayerClientAsync);
 
             teams.Clear();
         }
 
-        private void OnPacketReceived(Packet packet)
-        {
-            if (packet.Message is LobbyInfo lobby)
-            {
-                multiplayerStartIn = lobby.StartIn;
-
-                players.Clear();
-
-                for (int i = 0; i < lobby.Players.Count; i++)
-                {
-                    var player = lobby.Players[i];
-
-                    if (playerIndex.TryGetValue(player.Id, out IPlayerState val))
-                    {
-                        if (val is OnlinePlayerState onlinePlayer)
-                        {
-                            onlinePlayer.OnLoaded(player);
-                        }
-
-                        players.Add(val);
-                    }
-                    else
-                    {
-                        players.Add(new OnlineRemotePlayerState(player));
-                    }
-                }
-            }
-            else if (packet.Message is GameInfo gi)
-            {
-                if (multiplayerStartIn < 30 && multiplayerStartIn != -1)
-                {
-                    ScreenManager.SetScreen(new OnlineGameScreen(assets, multiplayerClient, players));
-                }
-            }
-        }
-
-        private async Task InitializeMultiplayerClientAsync()
-        {
-            try
-            {
-                ClientJoinResponse lobby = await multiplayerClient.JoinLobby(new ClientJoinRequest { });
-                await multiplayerClient.ConnectLobby(lobby);
-                await multiplayerClient.ListenAsync(default);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        public void Draw(SpriteBatch ctx)
+        public virtual void Draw(SpriteBatch ctx)
         {
             assets.Start.Draw(ctx, 0, 0);
 
@@ -193,28 +132,11 @@ namespace MrBoom
 
                 Game.DrawString(ctx, (320 - text.Length * 8) / 2, 200 - 10, text, assets.Alpha[1]);
             }
-            if (multiplayerStartIn >= 0)
-            {
-                Game.DrawString(ctx, 8, 200 - 20, multiplayerStartIn.ToString(), assets.Alpha[1]);
-            }
 
             menu?.Draw(ctx);
         }
 
-        protected IPlayerState CreatePlayer(int index, IController controller)
-        {
-            if (settings.IsOnline)
-            {
-                var player = new OnlinePlayerState(controller);
-                playerIndex.Add(player.Id, player);
-                _ = player.RequestServer(multiplayerClient);
-                return player;
-            }
-            else
-            {
-                return new HumanPlayerState(controller, index, nameGenerator.GenerateName());
-            }
-        }
+        protected abstract IPlayerState CreatePlayer(int index, IController controller);
 
         protected bool AddPlayer(IController controller)
         {
@@ -252,7 +174,7 @@ namespace MrBoom
             }
         }
 
-        public void Update()
+        public virtual void Update()
         {
             tick++;
 
@@ -321,11 +243,6 @@ namespace MrBoom
                 {
                     startTick++;
                 }
-
-                if (multiplayerStartIn > 0)
-                {
-                    multiplayerStartIn--;
-                }
             }
             else
             {
@@ -347,8 +264,6 @@ namespace MrBoom
                     Application.Current.Exit();
                 }
             }
-
-            multiplayerClient.CheckPackets();
         }
 
         private void Start()
@@ -429,7 +344,7 @@ namespace MrBoom
             }
         }
 
-        public void DrawHighDPI(SpriteBatch ctx, Rectangle rect, float scale, int graphicScale)
+        public virtual void DrawHighDPI(SpriteBatch ctx, Rectangle rect, float scale, int graphicScale)
         {
             menu?.DrawHighDPI(ctx, rect, scale, graphicScale);
         }

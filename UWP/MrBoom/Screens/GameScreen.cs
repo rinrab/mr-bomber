@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Windows.UI.Xaml;
 using MrBoom.Common;
+using MrBoom.Screens;
 
 namespace MrBoom
 {
@@ -82,7 +83,7 @@ namespace MrBoom
                 else if (pauseMenu.Action == 1)
                 {
                     ScreenManager.NextSong(assets.Sounds, 3);
-                    ScreenManager.SetScreen(new MultiplayerStartScreen(assets, teams, controllers, settings));
+                    ScreenManager.SetScreen(new SinglePlayerStartScreen(assets, teams, controllers, settings));
                 }
                 else if (pauseMenu.Action == 2)
                 {

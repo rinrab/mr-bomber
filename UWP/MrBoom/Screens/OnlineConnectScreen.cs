@@ -41,8 +41,9 @@ namespace MrBoom.Screens
         private void OnPacketReceived(Packet packet)
         {
             state = "connected!";
+            multiplayerClient.OnPacketReceived -= OnPacketReceived;
 
-            ScreenManager.SetScreen(new MultiplayerStartScreen(assets, teams, controllers, settings));
+            ScreenManager.SetScreen(new OnlineStartScreen(assets, teams, multiplayerClient, controllers, settings));
         }
 
         private async Task InitializeAsync()

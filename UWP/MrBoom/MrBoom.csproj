@@ -119,6 +119,8 @@
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\OnlineConnectScreen.cs" />
     <Compile Include="Screens\OnlineGameScreen.cs" />
+    <Compile Include="Screens\OnlineStartScreen.cs" />
+    <Compile Include="Screens\SinglePlayerStartScreen.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Human.cs" />
     <Compile Include="Image.cs" />
@@ -130,7 +132,7 @@
     <Compile Include="ScreenManager.cs" />
     <Compile Include="Sound.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\MultiplayerStartScreen.cs" />
+    <Compile Include="Screens\AbstractStartScreen.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Screens\VictoryScreen.cs" />
     <Compile Include="Version.cs" />

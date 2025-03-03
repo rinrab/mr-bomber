@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MrBoom.Screens;
 
 namespace MrBoom
 {
@@ -41,7 +42,7 @@ namespace MrBoom
             tick++;
             if (tick > 120 && Controller.IsKeyDown(controllers, PlayerKeys.Continue))
             {
-                ScreenManager.SetScreen(new MultiplayerStartScreen(assets, teams, controllers, settings));
+                ScreenManager.SetScreen(new SinglePlayerStartScreen(assets, teams, controllers, settings));
             }
         }
 
