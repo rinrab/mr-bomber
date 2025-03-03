@@ -131,7 +131,7 @@ namespace MrBoom
             Features = proxy.Features;
             Skull = proxy.Skull;
 
-            if (Math.Abs(X - proxy.X) + Math.Abs(Y - proxy.Y) > 8)
+            if (Math.Abs(X - proxy.X) + Math.Abs(Y - proxy.Y) > 16)
             {
                 MoveTo(proxy.X, proxy.Y);
             }
