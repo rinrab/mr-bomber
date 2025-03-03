@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Bot;
 using MrBoom.Common;
+using MrBoom.Screens;
 using Windows.UI.Xaml;
 
 namespace MrBoom
@@ -73,7 +74,7 @@ namespace MrBoom
             else if (demoMenu.Action == 1)
             {
                 settings.IsOnline = true;
-                ScreenManager.SetScreen(new MultiplayerStartScreen(assets, teams, controllers, settings));
+                ScreenManager.SetScreen(new OnlineConnectScreen(assets, teams, controllers, settings));
             }
             else if (demoMenu.Action == 3)
             {

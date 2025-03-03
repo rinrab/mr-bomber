@@ -96,6 +96,7 @@ namespace MrBoom
         public Texture2D BlackPixel { get; private set; }
         public Texture2D StartButton { get; private set; }
         public SpriteFont MenuFontBig { get; private set; }
+        public Image MrFond { get; private set; }
 
         public Image DrawGameIn;
         public AnimatedImage DrawGameInNumbers;
@@ -726,6 +727,7 @@ namespace MrBoom
                 DebugFont = content.Load<SpriteFont>(@"font\Debug"),
                 BlackPixel = blackPixel,
                 StartButton = content.Load<Texture2D>("START"),
+                MrFond = loadImage(content.Load<Texture2D>("MRFOND"), 0, 0, 320, 200),
             };
         }
     }
