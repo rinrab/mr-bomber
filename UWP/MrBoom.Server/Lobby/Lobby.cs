@@ -13,6 +13,7 @@ namespace MrBoom.Server.Lobby
         void AddPlayer(LobbyPlayer player);
 
         ClientInfo? GetClient(Guid id);
+        void FilterDeadClients();
     }
 
     public class Lobby : ILobby
@@ -20,8 +21,11 @@ namespace MrBoom.Server.Lobby
         private readonly List<ClientInfo> clients;
         private readonly List<LobbyPlayer> players;
 
-        public Lobby()
+        private readonly ILogger logger;
+
+        public Lobby(ILogger logger)
         {
+            this.logger = logger;
             clients = new List<ClientInfo>();
             players = new List<LobbyPlayer>();
         }
@@ -43,7 +47,13 @@ namespace MrBoom.Server.Lobby
 
         public IEnumerable<ClientInfo> GetClients()
         {
-            return clients;
+            foreach (ClientInfo client in clients)
+            {
+                if (!client.IsFrozen)
+                {
+                    yield return client;
+                }
+            }
         }
 
         public int GetPlayerCount()
@@ -54,6 +64,22 @@ namespace MrBoom.Server.Lobby
         public IEnumerable<LobbyPlayer> GetPlayers()
         {
             return players;
+        }
+
+        public void FilterDeadClients()
+        {
+            clients.RemoveAll(item =>
+            {
+                if (item.IsDead)
+                {
+                    logger.LogWarning("Client {id} on {ip} died; connection timed out", item.CorishInfo, item.IpAddress);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
         }
     }
 }

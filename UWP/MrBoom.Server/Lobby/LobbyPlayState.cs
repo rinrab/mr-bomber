@@ -33,6 +33,7 @@ namespace MrBoom.Server.Lobby
 
         public void ServerUpdate()
         {
+            lobby.FilterDeadClients();
             Terrain.Update();
         }
 

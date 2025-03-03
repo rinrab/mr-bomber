@@ -19,7 +19,7 @@ namespace MrBoom.Server.Lobby
             this.state = state;
             this.logger = logger;
 
-            lobby = new Lobby();
+            lobby = new Lobby(logger);
         }
 
         private IMessage FormatLobbyInfoMessage()
@@ -82,6 +82,8 @@ namespace MrBoom.Server.Lobby
 
         public void ServerUpdate()
         {
+            lobby.FilterDeadClients();
+
             if (lobby.GetPlayerCount() >= 2 && startIn == -1)
             {
                 startIn = 60 * 3;

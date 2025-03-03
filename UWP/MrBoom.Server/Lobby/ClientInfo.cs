@@ -13,5 +13,16 @@ namespace MrBoom.Server.Lobby
         public IClientInfo CorishInfo => new ClientInfoGuid(ClientSecret);
 
         public IPEndPoint IpAddress { get; set; }
+
+        public DateTime LastPacketReceivedTime { get; private set; }
+
+        public bool IsFrozen => DateTime.UtcNow - LastPacketReceivedTime > TimeSpan.FromMilliseconds(500);
+
+        public bool IsDead => DateTime.UtcNow - LastPacketReceivedTime > TimeSpan.FromSeconds(5);
+
+        public void OnPacketReceived()
+        {
+            LastPacketReceivedTime = DateTime.UtcNow;
+        }
     }
 }
