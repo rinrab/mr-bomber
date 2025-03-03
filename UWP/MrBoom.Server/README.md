@@ -24,6 +24,7 @@ sudo systemctl start mr-bomber
 systemctl status mr-bomber
 
 sudo systemctl stop mr-bomber
+git pull
 sudo dotnet publish -o /srv/mr-bomber
 sudo systemctl start mr-bomber
 systemctl status mr-bomber
