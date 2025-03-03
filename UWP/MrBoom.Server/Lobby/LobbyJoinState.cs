@@ -47,11 +47,11 @@ namespace MrBoom.Server.Lobby
         {
             if (packet.Message is ClientJoin clientJoin)
             {
-                lobby.AddClient(new ClientInfo(endPoint, clientJoin.ClientSecret));
+                lobby.AddClient(new ClientInfo(endPoint, packet.ClientSecret));
             }
             else if (packet.Message is PlayerJoin playerJoin)
             {
-                ClientInfo? client = lobby.GetClient(playerJoin.ClientSecret);
+                ClientInfo? client = lobby.GetClient(packet.ClientSecret);
 
                 if (client == null)
                 {
@@ -69,7 +69,7 @@ namespace MrBoom.Server.Lobby
             }
             else if (packet.Message is PingMessage pingMessage)
             {
-                ClientInfo? client = lobby.GetClient(pingMessage.ClientId);
+                ClientInfo? client = lobby.GetClient(packet.ClientSecret);
 
                 if (client == null)
                 {

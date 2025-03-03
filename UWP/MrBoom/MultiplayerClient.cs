@@ -72,9 +72,9 @@ namespace MrBoom
             var msg = new Packet()
             {
                 Lobby = LobbyId,
+                ClientSecret = ClientSecret,
                 Message = new ClientJoin
                 {
-                    ClientSecret = ClientSecret,
                 },
             };
 

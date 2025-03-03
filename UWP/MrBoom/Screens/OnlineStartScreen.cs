@@ -86,9 +86,9 @@ namespace MrBoom.Screens
             _ = multiplayerClient.SendPacket(new Packet()
             {
                 Lobby = multiplayerClient.LobbyId,
+                ClientSecret = multiplayerClient.ClientSecret,
                 Message = new PingMessage()
                 {
-                    ClientId = multiplayerClient.ClientSecret,
                     PingId = 0,
                 }
             });

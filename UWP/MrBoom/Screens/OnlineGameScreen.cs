@@ -83,6 +83,7 @@ namespace MrBoom.Screens
                 _ = multiplayerClient.SendPacket(new Packet(terrainProxy.GetOutcomingMessage())
                 {
                     Lobby = multiplayerClient.LobbyId,
+                    ClientSecret = multiplayerClient.ClientSecret,
                 });
 
                 base.Update();
