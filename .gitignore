@@ -4,3 +4,5 @@
 *.csproj.user
 *.vcxproj.user
 *.user
+.config
+publish
