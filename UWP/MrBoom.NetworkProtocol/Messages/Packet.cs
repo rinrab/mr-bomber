@@ -49,6 +49,11 @@ namespace MrBoom.NetworkProtocol.Messages
                 Message = new ClientUpdateMessage();
                 Message.ReadFrom(reader);
             }
+            else if (type == PacketType.Ping)
+            {
+                Message = new PingMessage();
+                Message.ReadFrom(reader);
+            }
             else
             {
                 throw new NetworkException();
@@ -78,6 +83,10 @@ namespace MrBoom.NetworkProtocol.Messages
             else if (Message is ClientUpdateMessage)
             {
                 writer.Write((byte)PacketType.ClientUpdate);
+            }
+            else if (Message is PingMessage)
+            {
+                writer.Write((byte)PacketType.Ping);
             }
             else
             {

@@ -11,5 +11,6 @@ namespace MrBoom.NetworkProtocol.Messages
         LobbyInfo = 3,
         GameInfo = 4,
         ClientUpdate = 5,
+        Ping = 6,
     }
 }
