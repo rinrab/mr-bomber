@@ -1,0 +1,6 @@
+﻿[Unit]
+Description=Mr. Bomber server
+
+[Service]
+ExecStart=/srv/mr-bomber/MrBoom.Server --urls http://[::]:80
+Restart=always
