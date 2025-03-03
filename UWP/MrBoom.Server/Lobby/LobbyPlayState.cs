@@ -41,6 +41,17 @@ namespace MrBoom.Server.Lobby
         {
             if (packet.Message is ClientUpdateMessage clientUpdate)
             {
+                ClientInfo? client = lobby.GetClient(packet.ClientSecret);
+
+                if (client == null)
+                {
+                    logger.LogWarning("Rejected client update from {ip}; No client {id} was found.",
+                                      endPoint, packet.ClientSecret);
+                    return;
+                }
+
+                client.OnPacketReceived();
+
                 foreach (var spriteUpdate in clientUpdate.SpriteUpdates)
                 {
                     var sprite = (IServerPlayer)Terrain.Sprites[spriteUpdate.Index];
