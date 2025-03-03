@@ -76,12 +76,6 @@ namespace MrBoom.Screens
         {
             multiplayerClient.CheckPackets();
 
-            _ = multiplayerClient.SendPacket(new Packet(new PingMessage()
-            {
-                ClientId = multiplayerClient.ClientSecret,
-                PingId = 0,
-            }));
-
             if (clientTerrain != null)
             {
                 terrainProxy.ClientUpdate();
