@@ -12,27 +12,27 @@ namespace MrBoom.Server.Lobby
         private readonly List<LobbyPlayer> players;
 
         private readonly ILogger logger;
+        private readonly IServiceProvider serviceProvider;
 
-        private LobbyStateHolder state { get; }
+        private ILobbyState state;
 
         public IUdpServer UdpServer { get; }
 
         public Guid Key { get; }
 
-        public bool IsFull => state.GetState() is not LobbyJoinState;
+        public bool IsFull => state is not LobbyJoinState;
 
         public Lobby(ILogger<Lobby> logger, IUdpServer udpServer, IServiceProvider serviceProvider)
         {
             this.logger = logger;
             UdpServer = udpServer;
-
+            this.serviceProvider = serviceProvider;
             clients = new List<ClientInfo>();
             players = new List<LobbyPlayer>();
 
             Key = Guid.NewGuid();
 
-            state = new LobbyStateHolder();
-            state.SetState(ActivatorUtilities.CreateInstance<LobbyJoinState>(serviceProvider, this));
+            state = ActivatorUtilities.CreateInstance<LobbyJoinState>(serviceProvider, this);
         }
 
         public void AddClient(ClientInfo client)
@@ -104,12 +104,17 @@ namespace MrBoom.Server.Lobby
 
         public void SetState(ILobbyState state)
         {
-            this.state.SetState(state);
+            this.state = state;
+        }
+
+        public void SetState<T>() where T : ILobbyState
+        {
+            SetState(ActivatorUtilities.CreateInstance<T>(serviceProvider, this));
         }
 
         public ILobbyState GetState()
         {
-            return state.GetState();
+            return state;
         }
 
         public async Task SendPacket(Packet packet, IPEndPoint ipAddress, CancellationToken cancellationToken)
