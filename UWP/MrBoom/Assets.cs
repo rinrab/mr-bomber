@@ -97,6 +97,7 @@ namespace MrBoom
         public Texture2D StartButton { get; private set; }
         public SpriteFont MenuFontBig { get; private set; }
         public Image MrFond { get; private set; }
+        public AnimatedImage UWU { get; private set; }
 
         public Image DrawGameIn;
         public AnimatedImage DrawGameInNumbers;
@@ -366,6 +367,7 @@ namespace MrBoom
             var imgBonus = content.Load<Texture2D>("BONUS");
             var imgFootanim = content.Load<Texture2D>("FOOTANIM");
             var imgControls = content.Load<Texture2D>("CONTROLS");
+            var imgUwu = content.Load<Texture2D>("UWU");
 
             var monster2walk = loadImageStripe(imgFeuille, 79, 128, 16, 19, 3, 0);
             var monster3walk = loadImageStripe(imgFeuille, 42, 148, 16, 18, 5, 1);
@@ -728,6 +730,9 @@ namespace MrBoom
                 BlackPixel = blackPixel,
                 StartButton = content.Load<Texture2D>("START"),
                 MrFond = loadImage(content.Load<Texture2D>("MRFOND"), 0, 0, 320, 200),
+                UWU = new AnimatedImage(
+                    loadImage(imgUwu, 1, 0, 40, 57),
+                    loadImage(imgUwu, 1, 58, 40, 57)),
             };
         }
     }

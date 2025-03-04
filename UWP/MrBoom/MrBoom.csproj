@@ -148,6 +148,7 @@
     <Content Include="Content\CONTROLS.png" />
     <Content Include="Content\START.png" />
     <Content Include="Content\UI_A.png" />
+    <Content Include="Content\UWU.png" />
     <Content Include="Properties\Default.rd.xml" />
     <None Include="Content\font\Debug.spritefont" />
     <None Include="Content\font\Menu-big.spritefont" />
