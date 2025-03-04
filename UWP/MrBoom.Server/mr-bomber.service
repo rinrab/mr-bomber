@@ -2,5 +2,12 @@
 Description=Mr. Bomber server
 
 [Service]
-ExecStart=/srv/mr-bomber/MrBoom.Server --urls http://[::]:80
+Type=notify
+User=mr-bomber
+WorkingDirectory=/srv/mr-bomber
+ExecStart=/srv/mr-bomber/MrBoom.Server
+AmbientCapabilities = CAP_NET_BIND_SERVICE
 Restart=always
+
+[Install]
+WantedBy=multi-user.target

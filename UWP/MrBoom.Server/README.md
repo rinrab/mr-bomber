@@ -9,10 +9,9 @@ cd ./mr-bomber/UWP/MrBoom.Server
 
 dotnet build
 
+sudo adduser mr-bomber
 sudo mkdir /srv/mr-bomber
 sudo dotnet publish -o /srv/mr-bomber
-
-sudo setcap CAP_NET_BIND_SERVICE=+eip /srv/mr-bomber/MrBoom.Server
 
 /srv/mr-bomber/MrBoom.Server
 
