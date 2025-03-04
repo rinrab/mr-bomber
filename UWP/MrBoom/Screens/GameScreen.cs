@@ -22,18 +22,9 @@ namespace MrBoom
                 for (int j = 0; j < teams[i].Players.Count; j++)
                 {
                     IPlayerState playerState = teams[i].Players[j];
-                    ServerPlayer player = playerState.GetPlayer(terrain, i);
 
-                    terrain.AddPlayer(player);
-
-                    if (playerState is SinglePlayerHumanPlayerState humanState)
-                    {
-                        clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(terrain, player, assets, humanState.Controller));
-                    }
-                    else
-                    {
-                        clientTerrain.Sprites.Add(new ClientSprite(player, assets));
-                    }
+                    terrain.AddPlayer(playerState.InitializeServerPlayer(terrain, i));
+                    clientTerrain.Sprites.Add(playerState.InitializeClientSprite(terrain, assets));
                 }
             }
 

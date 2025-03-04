@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Terrain;
+
 namespace MrBoom.State
 {
     public interface IPlayerState
@@ -9,6 +11,8 @@ namespace MrBoom.State
         int VictoryCount { get; set; }
         bool IsReplaceble { get; }
 
-        ServerPlayer GetPlayer(Terrain terrain, int team);
+        ServerPlayer InitializeServerPlayer(Terrain terrain, int team);
+        ISpriteProxy InitializeProxy();
+        IClientSprite InitializeClientSprite(ITerrainAccessor terrain, Assets assets);
     }
 }

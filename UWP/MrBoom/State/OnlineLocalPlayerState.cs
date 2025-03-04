@@ -2,7 +2,9 @@
 
 using System;
 using System.Threading.Tasks;
+using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Messages;
+using MrBoom.NetworkProtocol.Proxy;
 
 namespace MrBoom.State
 {
@@ -26,6 +28,8 @@ namespace MrBoom.State
         public string Name { get; private set; }
 
         public Guid Id { get; }
+
+        private IPlayerProxy proxy;
 
         public OnlineLocalPlayerState(IController controller)
         {
@@ -57,9 +61,20 @@ namespace MrBoom.State
             });
         }
 
-        public ServerPlayer GetPlayer(Terrain terrain, int team)
+        public ServerPlayer InitializeServerPlayer(Terrain terrain, int team)
         {
             throw new NotImplementedException();
+        }
+
+        public ISpriteProxy InitializeProxy()
+        {
+            proxy = new PlayerProxy(Index);
+            return proxy;
+        }
+
+        public IClientSprite InitializeClientSprite(ITerrainAccessor terrain, Assets assets)
+        {
+            return new ClientSpriteLocalHuman(terrain, proxy, assets, Controller);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using MrBoom.Bot;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom.State
 {
@@ -11,15 +12,28 @@ namespace MrBoom.State
         public int VictoryCount { get; set; }
         public bool IsReplaceble => true;
 
+        private ServerPlayer proxy;
+
         public SinglePlayerBotPlayerState(int index, string name)
         {
             Index = index;
             Name = name;
         }
 
-        public ServerPlayer GetPlayer(Terrain terrain, int team)
+        public ServerPlayer InitializeServerPlayer(Terrain terrain, int team)
         {
-            return new ComputerPlayer(terrain, team, Index, Index);
+            proxy = new ComputerPlayer(terrain, team, Index, Index);
+            return proxy;
+        }
+
+        public ISpriteProxy InitializeProxy()
+        {
+            return proxy;
+        }
+
+        public IClientSprite InitializeClientSprite(ITerrainAccessor terrain, Assets assets)
+        {
+            return new ClientSprite(proxy, assets);
         }
     }
 }

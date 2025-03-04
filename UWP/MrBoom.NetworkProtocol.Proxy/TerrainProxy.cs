@@ -18,19 +18,11 @@ namespace MrBoom.NetworkProtocol.Proxy
         public int Height => message.Terrain.Width;
         public int LevelIndex => message.LevelIndex;
 
-        private IList<SpriteProxy> _sprites;
-        public IList<ISpriteProxy> Sprites
-        {
-            get
-            {
-
-
-                return _sprites.Cast<ISpriteProxy>().ToList();
-            }
-        }
+        public IList<ISpriteProxy> Sprites { get; }
 
         public TerrainProxy()
         {
+            Sprites = new List<ISpriteProxy>();
         }
 
         public void ClientUpdate()
@@ -95,36 +87,45 @@ namespace MrBoom.NetworkProtocol.Proxy
         {
             this.message = (GameInfo)message;
 
-            if (_sprites == null)
+            //if (_sprites == null)
+            //{
+            //    _sprites = new List<SpriteProxy>(this.message.Sprites.Count);
+            //    int i = 0;
+
+            //    foreach (var submessage in this.message.Sprites)
+            //    {
+            //        SpriteProxy sprite;
+
+            //        if (submessage.Type == GameSpriteType.PlayerMe)
+            //        {
+            //            sprite = new PlayerProxy(i);
+            //        }
+            //        else
+            //        {
+            //            sprite = new SpriteProxy();
+            //        }
+
+            //        sprite.SetIncomingMessage(submessage);
+
+            //        _sprites.Add(sprite);
+            //        i++;
+            //    }
+            //}
+            //else
+            //{
+            //    for (int i = 0; i < this.message.Sprites.Count && i < _sprites.Count; i++)
+            //    {
+            //        _sprites[i].SetIncomingMessage(this.message.Sprites[i]);
+            //    }
+            //}
+
+            for (int i = 0; i < Sprites.Count && i < this.message.Sprites.Count; i++)
             {
-                _sprites = new List<SpriteProxy>(this.message.Sprites.Count);
-                int i = 0;
+                ISpriteProxy sprite = Sprites[i];
+                IRemoteProxy spriteProxy = (IRemoteProxy)sprite; // TODO:
+                GameSpriteInfo spriteMsg = this.message.Sprites[i];
 
-                foreach (var submessage in this.message.Sprites)
-                {
-                    SpriteProxy sprite;
-
-                    if (submessage.Type == GameSpriteType.PlayerMe)
-                    {
-                        sprite = new PlayerProxy(i);
-                    }
-                    else
-                    {
-                        sprite = new SpriteProxy();
-                    }
-
-                    sprite.SetIncomingMessage(submessage);
-
-                    _sprites.Add(sprite);
-                    i++;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < this.message.Sprites.Count && i < _sprites.Count; i++)
-                {
-                    _sprites[i].SetIncomingMessage(this.message.Sprites[i]);
-                }
+                spriteProxy.SetIncomingMessage(spriteMsg);
             }
         }
 
@@ -132,9 +133,12 @@ namespace MrBoom.NetworkProtocol.Proxy
         {
             var sprites = new List<ClientPlayerUpdateMessage>();
 
-            foreach (var sprite in _sprites)
+            for (int i = 0; i < Sprites.Count; i++)
             {
-                var msg = sprite.GetOutcomingMessage();
+                ISpriteProxy sprite = Sprites[i];
+                IRemoteProxy spriteProxy = (IRemoteProxy)sprite; // TODO:
+
+                IMessage msg = spriteProxy.GetOutcomingMessage();
 
                 if (msg != null)
                 {

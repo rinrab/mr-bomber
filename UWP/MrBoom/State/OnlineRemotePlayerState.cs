@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System;
+using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Messages;
+using MrBoom.NetworkProtocol.Proxy;
 
 namespace MrBoom.State
 {
@@ -14,14 +16,27 @@ namespace MrBoom.State
         public int VictoryCount { get; set; }
         public bool IsReplaceble => false;
 
+        private ISpriteProxy proxy;
+
         public OnlineRemotePlayerState(LobbyPlayerInfo info)
         {
             this.info = info;
         }
 
-        public ServerPlayer GetPlayer(Terrain terrain, int team)
+        public ServerPlayer InitializeServerPlayer(Terrain terrain, int team)
         {
             throw new NotImplementedException();
+        }
+
+        public ISpriteProxy InitializeProxy()
+        {
+            proxy = new SpriteProxy();
+            return proxy;
+        }
+
+        public IClientSprite InitializeClientSprite(ITerrainAccessor terrain, Assets assets)
+        {
+            return new ClientSprite(proxy, assets);
         }
     }
 }
