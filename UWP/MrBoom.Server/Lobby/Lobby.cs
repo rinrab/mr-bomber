@@ -2,10 +2,11 @@
 
 using System.Net;
 using MrBoom.NetworkProtocol.Messages;
+using MrBoom.Server.MatchMaking;
 
 namespace MrBoom.Server.Lobby
 {
-    public class Lobby : ILobby
+    public class Lobby : ILobby, IMatchMakingLobbyInfo
     {
         private readonly List<ClientInfo> clients;
         private readonly List<LobbyPlayer> players;
@@ -16,6 +17,10 @@ namespace MrBoom.Server.Lobby
 
         public IUdpServer UdpServer { get; }
 
+        public Guid Key { get; }
+
+        public bool IsFull => state.GetState() is not LobbyJoinState;
+
         public Lobby(ILogger logger, IUdpServer udpServer)
         {
             this.logger = logger;
@@ -23,6 +28,8 @@ namespace MrBoom.Server.Lobby
 
             clients = new List<ClientInfo>();
             players = new List<LobbyPlayer>();
+
+            Key = Guid.NewGuid();
 
             state = new LobbyStateHolder();
             state.SetState(new LobbyJoinState(this, logger));

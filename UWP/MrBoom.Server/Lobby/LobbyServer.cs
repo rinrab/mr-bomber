@@ -3,6 +3,7 @@
 using System.Net;
 using MrBoom.NetworkProtocol.Messages;
 using Haukcode.HighResolutionTimer;
+using MrBoom.Server.MatchMaking;
 
 namespace MrBoom.Server.Lobby
 {
@@ -11,7 +12,7 @@ namespace MrBoom.Server.Lobby
         private readonly IUdpServer udpServer;
         private readonly ILogger logger;
 
-        private readonly Dictionary<Guid, ILobby> lobbies;
+        private readonly Dictionary<Guid, Lobby> lobbies;
 
         public LobbyServer(IUdpServer udpServer,
                            ILogger<LobbyServer> logger) : base(1000 / 20)
@@ -19,39 +20,23 @@ namespace MrBoom.Server.Lobby
             this.udpServer = udpServer;
             this.logger = logger;
 
-            lobbies = new Dictionary<Guid, ILobby>();
+            lobbies = new Dictionary<Guid, Lobby>();
 
             udpServer.OnPacketReceived += OnMessageReceived;
         }
 
         public Guid CreateLobby()
         {
-            Guid id = Guid.NewGuid();
+            var lobby = new Lobby(logger, udpServer);
 
             lock (lobbies)
             {
-                lobbies.Add(id, new Lobby(logger, udpServer));
+                lobbies.Add(lobby.Key, lobby);
             }
 
-            logger.LogInformation("Created lobby {lobby}", id);
+            logger.LogInformation("Created lobby {lobby}", lobby.Key);
 
-            return id;
-        }
-
-        public Guid AssignLobby()
-        {
-            lock (lobbies)
-            {
-                foreach (var lobby in lobbies)
-                {
-                    if (lobby.Value.GetState() is LobbyJoinState)
-                    {
-                        return lobby.Key;
-                    }
-                }
-
-                return CreateLobby();
-            }
+            return lobby.Key;
         }
 
         private void OnMessageReceived(Packet packet, IPEndPoint endPoint)
@@ -82,6 +67,14 @@ namespace MrBoom.Server.Lobby
                     lobby.ServerUpdate();
                     _ = lobby.SendPackets(udpServer, stoppingToken);
                 }
+            }
+        }
+
+        public IEnumerable<IMatchMakingLobbyInfo> EnumerateLobbies()
+        {
+            foreach (IMatchMakingLobbyInfo lobby in lobbies.Values)
+            {
+                yield return lobby;
             }
         }
     }

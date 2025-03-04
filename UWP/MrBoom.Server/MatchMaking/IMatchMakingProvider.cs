@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-namespace MrBoom.Server.Lobby
+namespace MrBoom.Server.MatchMaking
 {
-    public interface ILobbyProvider
+    public interface IMatchMakingProvider
     {
-        Guid CreateLobby();
         Guid AssignLobby();
     }
 }

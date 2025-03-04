@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MrBoom.Server.Lobby;
+using MrBoom.Server.MatchMaking;
 
 namespace MrBoom.Server
 {
@@ -16,6 +17,8 @@ namespace MrBoom.Server
 
             builder.Services.AddSingleton<ILobbyProvider, LobbyServer>();
             builder.Services.AddHostedService(serviceProvider => (LobbyServer)serviceProvider.GetRequiredService<ILobbyProvider>());
+
+            builder.Services.AddSingleton<IMatchMakingProvider, MatchMaker>();
 
             builder.Services.AddControllers();
 

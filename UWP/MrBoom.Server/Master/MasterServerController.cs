@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MrBoom.NetworkProtocol;
 using MrBoom.Server.Lobby;
+using MrBoom.Server.MatchMaking;
 
 namespace MrBoom.Server.Master
 {
@@ -13,12 +14,13 @@ namespace MrBoom.Server.Master
     public class MasterServerController : ControllerBase
     {
         private ILogger<MasterServerController> logger;
-        private readonly ILobbyProvider lobbyProvider;
+        private readonly IMatchMakingProvider matchMakingProvider;
 
-        public MasterServerController(ILogger<MasterServerController> logger, ILobbyProvider lobbyProvider)
+        public MasterServerController(ILogger<MasterServerController> logger,
+                                      IMatchMakingProvider matchMakingProvider)
         {
             this.logger = logger;
-            this.lobbyProvider = lobbyProvider;
+            this.matchMakingProvider = matchMakingProvider;
         }
 
         [HttpPost]
@@ -35,7 +37,7 @@ namespace MrBoom.Server.Master
                 ClientSecret = Guid.NewGuid(),
                 LobbyIp = "localhost",
                 LobbyPort = 5297,
-                LobbyId = lobbyProvider.AssignLobby(),
+                LobbyId = matchMakingProvider.AssignLobby(),
             };
         }
     }
