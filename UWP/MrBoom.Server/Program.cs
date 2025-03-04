@@ -19,6 +19,7 @@ namespace MrBoom.Server
             builder.Services.AddHostedService(serviceProvider => (LobbyServer)serviceProvider.GetRequiredService<ILobbyProvider>());
 
             builder.Services.AddSingleton<IMatchMakingProvider, MatchMaker>();
+            builder.Services.AddHostedService(serviceProvider => (MatchMaker)serviceProvider.GetRequiredService<IMatchMakingProvider>());
 
             builder.Services.AddControllers();
 

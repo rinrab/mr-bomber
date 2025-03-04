@@ -24,12 +24,14 @@ namespace MrBoom.Server.Master
         }
 
         [HttpPost]
-        public ClientJoinResponse Post([FromBody] ClientJoinRequest req)
+        public async Task<ClientJoinResponse> PostAsync([FromBody] ClientJoinRequest req)
         {
             //var endpoint = new IPEndPoint(Request.HttpContext.Connection.RemoteIpAddress!,
             //                              Request.HttpContext.Connection.RemotePort);
 
             // var clientInfo = lobby.ClientJoin(req, endpoint);
+
+            Guid lobby = await matchMakingProvider.AssignLobbyAsync(default);
 
             return new ClientJoinResponse
             {
@@ -37,7 +39,7 @@ namespace MrBoom.Server.Master
                 ClientSecret = Guid.NewGuid(),
                 LobbyIp = "eu.mrbomber.online",
                 LobbyPort = 5297,
-                LobbyId = matchMakingProvider.AssignLobby(),
+                LobbyId = lobby,
             };
         }
     }
