@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Haukcode.HighResolutionTimer" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0" />
   </ItemGroup>
 
 </Project>
