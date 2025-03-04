@@ -124,7 +124,6 @@
     <Compile Include="Screens\OnlineStartScreen.cs" />
     <Compile Include="Screens\SinglePlayerStartScreen.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Human.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Screens\IScreen.cs" />
     <Compile Include="Menu.cs" />
