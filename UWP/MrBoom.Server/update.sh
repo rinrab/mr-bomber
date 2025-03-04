@@ -7,6 +7,6 @@ systemctl start mr-bomber
 
 systemctl status mr-bomber
 
-sleep 1s
+sleep 3s
 
 systemctl status mr-bomber
