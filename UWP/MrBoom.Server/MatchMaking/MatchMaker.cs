@@ -7,10 +7,12 @@ namespace MrBoom.Server.MatchMaking
     internal class MatchMakingRequest
     {
         private WriteOnceBlock<Guid> request;
+        public Guid ClientId { get; }
 
-        public MatchMakingRequest()
+        public MatchMakingRequest(Guid clientId)
         {
             request = new WriteOnceBlock<Guid>(null);
+            ClientId = clientId;
         }
 
         public async Task<Guid> WaitForCompletionAsync(CancellationToken cancellationToken)
@@ -37,12 +39,12 @@ namespace MrBoom.Server.MatchMaking
             matchMakingQueue = new BufferBlock<MatchMakingRequest>();
         }
 
-        public async Task<Guid> AssignLobbyAsync(CancellationToken cancellationToken)
+        public async Task<Guid> AssignLobbyAsync(Guid clientId, CancellationToken cancellationToken)
         {
-            var request = new MatchMakingRequest();
+            var request = new MatchMakingRequest(clientId);
 
             matchMakingQueue.Post(request);
-            logger.LogInformation("Scheduling matchmaking request for client TODO...");
+            logger.LogInformation("Scheduling matchmaking request for client {clientId}...", clientId);
 
             return await request.WaitForCompletionAsync(cancellationToken);
         }
@@ -67,7 +69,8 @@ namespace MrBoom.Server.MatchMaking
                 var request = await matchMakingQueue.ReceiveAsync(stoppingToken);
 
                 var lobby = await assignLobbyInternal(stoppingToken);
-                logger.LogInformation("Client TODO assigned to lobby {lobby}", lobby);
+                logger.LogInformation("Client {clientId} assigned to lobby {lobby}",
+                                      request.ClientId, lobby);
 
                 request.CompleteTask(lobby);
             }

@@ -4,6 +4,6 @@ namespace MrBoom.Server.MatchMaking
 {
     public interface IMatchMakingProvider
     {
-        Task<Guid> AssignLobbyAsync(CancellationToken cancellationToken);
+        Task<Guid> AssignLobbyAsync(Guid clientId, CancellationToken cancellationToken);
     }
 }

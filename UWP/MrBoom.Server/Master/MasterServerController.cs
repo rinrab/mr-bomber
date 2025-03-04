@@ -31,12 +31,13 @@ namespace MrBoom.Server.Master
 
             // var clientInfo = lobby.ClientJoin(req, endpoint);
 
-            Guid lobby = await matchMakingProvider.AssignLobbyAsync(default);
+            Guid clientId = Guid.NewGuid();
+            Guid lobby = await matchMakingProvider.AssignLobbyAsync(clientId, default);
 
             return new ClientJoinResponse
             {
                 //ClientSecret = clientInfo.ClientSecret,
-                ClientSecret = Guid.NewGuid(),
+                ClientSecret = clientId,
                 LobbyIp = "eu.mrbomber.online",
                 LobbyPort = 5297,
                 LobbyId = lobby,
