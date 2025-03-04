@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Sprite;
 using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Messages;
 
@@ -12,8 +13,8 @@ namespace MrBoom.NetworkProtocol.Proxy
         public virtual int X => message.X;
         public virtual int Y => message.Y;
 
-        public int AnimateIndex => 0;
-        public int FrameIndex => 0;
+        public int AnimateIndex => message.AnimateIndex;
+        public int FrameIndex => message.FrameIndex;
 
         public Feature Features => 0;
         public SkullType? Skull => null;
@@ -22,6 +23,9 @@ namespace MrBoom.NetworkProtocol.Proxy
 
         public bool HasUnplugin => false;
         public bool HasSkull => false;
+
+        public SpriteType Type => message.Type == GameSpriteType.Monster ? SpriteType.Monster : SpriteType.Player;
+        public int SubType => message.SubType;
 
         public virtual void SetIncomingMessage(IMessage message)
         {

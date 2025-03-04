@@ -2,6 +2,7 @@
 
 using MrBoom.Common;
 using MrBoom.Core;
+using MrBoom.Core.Sprite;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom
@@ -29,14 +30,18 @@ namespace MrBoom
 
         public IClientInfo ClientInfo { get; private set; }
 
+        public override SpriteType Type => SpriteType.Player;
+        public override int SubType { get; }
+
         protected readonly Terrain terrain;
 
-        public ServerPlayer(Terrain terrain, int team, IClientInfo clientInfo) : base(terrain, 0, 0, 3)
+        public ServerPlayer(Terrain terrain, int team, int index, IClientInfo clientInfo) : base(terrain, 0, 0, 3)
         {
             Features = terrain.StartFeatures;
             MaxBoom = terrain.StartMaxFire;
             MaxBombsCount = terrain.StartMaxBombsCount;
             Team = team;
+            SubType = index;
             RemoteDetonate = false;
             this.terrain = terrain;
             ClientInfo = clientInfo;

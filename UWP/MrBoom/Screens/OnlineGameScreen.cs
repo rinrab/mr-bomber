@@ -49,6 +49,8 @@ namespace MrBoom.Screens
             {
                 ISpriteProxy proxy = terrainProxy.Sprites[i];
 
+                // TODO: verify sprite type
+
                 if (proxy is IPlayerProxy playerProxy)
                 {
                     IPlayerState player = players[i];
@@ -57,17 +59,17 @@ namespace MrBoom.Screens
                     {
                         clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(terrainProxy, playerProxy.X, playerProxy.Y,
                                                                              playerProxy,
-                                                                             assets.Players[i],
+                                                                             assets,
                                                                              onlinePlayer.Controller));
                     }
                     else
                     {
-                        clientTerrain.Sprites.Add(new ClientSprite(proxy, assets.Players[i]));
+                        clientTerrain.Sprites.Add(new ClientSprite(proxy, assets));
                     }
                 }
                 else
                 {
-                    clientTerrain.Sprites.Add(new ClientSprite(proxy, assets.Players[i]));
+                    clientTerrain.Sprites.Add(new ClientSprite(proxy, assets));
                 }
             }
         }

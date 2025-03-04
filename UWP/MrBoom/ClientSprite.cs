@@ -3,6 +3,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MrBoom.Core.Sprite;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom
@@ -42,10 +43,18 @@ namespace MrBoom
 
         private int blinking = 0;
 
-        public ClientSprite(ISpriteProxy proxy, Assets.MovingSpriteAssets animations)
+        public ClientSprite(ISpriteProxy proxy, Assets assets)
         {
             this.proxy = proxy;
-            this.animations = animations;
+
+            if (proxy.Type == SpriteType.Monster)
+            {
+                animations = assets.Monsters[proxy.SubType];
+            }
+            else
+            {
+                animations = assets.Players[proxy.SubType];
+            }
         }
 
         public void ClientUpdate()
@@ -91,12 +100,15 @@ namespace MrBoom
         public override bool HasUnplugin => proxy.HasUnplugin;
         public override bool HasSkull => proxy.HasSkull;
 
+        public override SpriteType Type => proxy.Type;
+        public override int SubType => proxy.SubType;
+
         public ClientSpriteLocalHuman(ITerrainAccessor terrain, int x, int y,
-                                      IPlayerProxy proxy, Assets.MovingSpriteAssets animations,
+                                      IPlayerProxy proxy, Assets assets,
                                       IController controller) : base(terrain, x, y, 3)
         {
             this.proxy = proxy;
-            client = new ClientSprite(this, animations);
+            client = new ClientSprite(this, assets);
             Controller = controller;
         }
 

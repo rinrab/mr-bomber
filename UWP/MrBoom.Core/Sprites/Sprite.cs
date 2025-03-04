@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Sprite;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom
@@ -15,6 +16,9 @@ namespace MrBoom
         private readonly int DefaultSpeed;
 
         private readonly ITerrainAccessor terrain;
+
+        public virtual SpriteType Type => SpriteType.Unknown;
+        public virtual int SubType => -1;
 
         public Sprite(ITerrainAccessor terrain, int x, int y, int speed) : base(terrain, x, y)
         {

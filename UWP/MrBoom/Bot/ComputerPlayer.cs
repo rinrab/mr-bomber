@@ -21,7 +21,7 @@ namespace MrBoom.Bot
         private readonly Grid<bool> dangerGrid;
         private readonly Grid<int> flamesGrid;
 
-        public ComputerPlayer(Terrain map, int team, int botSeed) : base(map, team, new ClientInfoFake())
+        public ComputerPlayer(Terrain map, int team, int index, int botSeed) : base(map, team, index, new ClientInfoFake())
         {
             this.botSeed = botSeed;
 

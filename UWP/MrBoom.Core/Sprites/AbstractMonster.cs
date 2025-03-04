@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using MrBoom.BehaviorTree;
+using MrBoom.Core.Sprite;
 
 namespace MrBoom
 {
@@ -8,7 +9,8 @@ namespace MrBoom
     {
         protected BtNode tree;
 
-        public int Type { get; }
+        public override SpriteType Type => SpriteType.Monster;
+        public override int SubType { get; }
 
         protected Terrain terrain;
 
@@ -16,7 +18,7 @@ namespace MrBoom
                                int x, int y) : base(terrain, x, y, monsterData.Speed)
         {
             LifeCount = monsterData.LivesCount - 1;
-            Type = monsterData.Type;
+            SubType = monsterData.Type;
             this.terrain = terrain;
 
             if (monsterData.IsSlowStart)

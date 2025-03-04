@@ -29,11 +29,11 @@ namespace MrBoom
                     {
                         clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(
                             terrain, player.X, player.Y, player,
-                            assets.Players[i], humanState.Controller));
+                            assets, humanState.Controller));
                     }
                     else
                     {
-                        clientTerrain.Sprites.Add(new ClientSprite(player, assets.Players[i]));
+                        clientTerrain.Sprites.Add(new ClientSprite(player, assets));
                     }
                 }
             }
@@ -42,7 +42,7 @@ namespace MrBoom
 
             foreach (var monster in terrain.GetMonsters())
             {
-                clientTerrain.Sprites.Add(new ClientSprite(monster, assets.Monsters[monster.Type]));
+                clientTerrain.Sprites.Add(new ClientSprite(monster, assets));
             }
 
             Controller.Reset(controllers);

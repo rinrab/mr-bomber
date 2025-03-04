@@ -23,7 +23,7 @@ namespace MrBoom.Server.Lobby
 
             foreach (LobbyPlayer player in lobby.GetPlayers())
             {
-                Terrain.AddPlayer(new ServerPlayer(Terrain, player.Index, player.Client.CorishInfo));
+                Terrain.AddPlayer(new ServerPlayer(Terrain, player.Index, player.Index, player.Client.CorishInfo));
             }
 
             Terrain.InitializeMonsters();
@@ -108,6 +108,8 @@ namespace MrBoom.Server.Lobby
                 {
                     X = sprite.X,
                     Y = sprite.Y,
+                    AnimateIndex = sprite.AnimateIndex,
+                    FrameIndex = sprite.FrameIndex,
                 };
 
                 GameSpriteType type;
@@ -128,6 +130,7 @@ namespace MrBoom.Server.Lobby
                 }
 
                 spriteMsg.Type = type;
+                spriteMsg.SubType = sprite.SubType;
 
                 sprites.Add(spriteMsg);
             }

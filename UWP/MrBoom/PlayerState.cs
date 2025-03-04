@@ -40,7 +40,7 @@ namespace MrBoom
 
         public ServerPlayer GetPlayer(Terrain terrain, int team)
         {
-            return new ServerPlayer(terrain, team, new ClientInfoFake());
+            return new ServerPlayer(terrain, team, Index, new ClientInfoFake());
         }
     }
 
@@ -136,7 +136,7 @@ namespace MrBoom
 
         public ServerPlayer GetPlayer(Terrain terrain, int team)
         {
-            return new ComputerPlayer(terrain, team, Index);
+            return new ComputerPlayer(terrain, team, Index, Index);
         }
     }
 }

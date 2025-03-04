@@ -8,7 +8,7 @@ namespace MrBoom
     {
         public readonly IController Controller;
 
-        public Human(Terrain map, IController controller, int team) : base(map, team, new ClientInfoFake())
+        public Human(Terrain map, IController controller, int team, int index) : base(map, team, index, new ClientInfoFake())
         {
             Controller = controller;
         }
