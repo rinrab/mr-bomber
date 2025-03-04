@@ -22,7 +22,7 @@ namespace MrBoom.Server
         private readonly ILogger<UdpServer> logger;
 
         // TOOD: Add configuration.
-        private readonly int port = 5297;
+        private readonly int port;
         private UdpClient udpClient;
         private IMetrics metrics;
 
