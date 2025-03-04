@@ -21,7 +21,7 @@ namespace MrBoom.Server.Lobby
 
         public bool IsFull => state.GetState() is not LobbyJoinState;
 
-        public Lobby(ILogger logger, IUdpServer udpServer)
+        public Lobby(ILogger<Lobby> logger, IUdpServer udpServer)
         {
             this.logger = logger;
             UdpServer = udpServer;
