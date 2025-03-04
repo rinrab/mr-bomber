@@ -27,12 +27,13 @@ namespace MrBoom.Server.MatchMaking
     public class MatchMaker : BackgroundService, IMatchMakingProvider
     {
         private readonly ILobbyProvider lobbyProvider;
+        private readonly ILogger<MatchMaker> logger;
         private readonly BufferBlock<MatchMakingRequest> matchMakingQueue;
 
-        public MatchMaker(ILobbyProvider lobbyProvider)
+        public MatchMaker(ILobbyProvider lobbyProvider, ILogger<MatchMaker> logger)
         {
             this.lobbyProvider = lobbyProvider;
-
+            this.logger = logger;
             matchMakingQueue = new BufferBlock<MatchMakingRequest>();
         }
 
@@ -41,6 +42,7 @@ namespace MrBoom.Server.MatchMaking
             var request = new MatchMakingRequest();
 
             matchMakingQueue.Post(request);
+            logger.LogInformation("Scheduling matchmaking request for client TODO...");
 
             return await request.WaitForCompletionAsync(cancellationToken);
         }
@@ -64,7 +66,10 @@ namespace MrBoom.Server.MatchMaking
             {
                 var request = await matchMakingQueue.ReceiveAsync(stoppingToken);
 
-                request.CompleteTask(await assignLobbyInternal(stoppingToken));
+                var lobby = await assignLobbyInternal(stoppingToken);
+                logger.LogInformation("Client TODO assigned to lobby {lobby}", lobby);
+
+                request.CompleteTask(lobby);
             }
         }
     }
