@@ -61,7 +61,7 @@ namespace MrBoom.Server.Lobby
         private readonly IUdpServer udpServer;
         private readonly ILogger logger;
 
-        private readonly Dictionary<Guid, LobbyStateHolder> lobbies;
+        private readonly Dictionary<Guid, ILobby> lobbies;
 
         public LobbyServer(IUdpServer udpServer,
                            ILogger<LobbyServer> logger) : base(1000 / 20)
@@ -69,7 +69,7 @@ namespace MrBoom.Server.Lobby
             this.udpServer = udpServer;
             this.logger = logger;
 
-            lobbies = new Dictionary<Guid, LobbyStateHolder>();
+            lobbies = new Dictionary<Guid, ILobby>();
 
             udpServer.OnPacketReceived += OnMessageReceived;
         }
@@ -78,12 +78,9 @@ namespace MrBoom.Server.Lobby
         {
             Guid id = Guid.NewGuid();
 
-            var state = new LobbyStateHolder();
-            state.SetState(new LobbyJoinState(state, logger));
-
             lock (lobbies)
             {
-                lobbies.Add(id, state);
+                lobbies.Add(id, new Lobby(logger));
             }
 
             logger.LogInformation("Created lobby {lobby}", id);
@@ -97,7 +94,7 @@ namespace MrBoom.Server.Lobby
             {
                 foreach (var lobby in lobbies)
                 {
-                    if (lobby.Value.GetState() is LobbyJoinState)
+                    if (lobby.Value.State.GetState() is LobbyJoinState)
                     {
                         return lobby.Key;
                     }
@@ -113,7 +110,7 @@ namespace MrBoom.Server.Lobby
             {
                 if (lobbies.TryGetValue(packet.Lobby, out var lobby))
                 {
-                    lobby.OnMessageReceived(packet.Message, packet.ClientSecret, endPoint);
+                    lobby.State.OnMessageReceived(packet.Message, packet.ClientSecret, endPoint);
                 }
                 else
                 {
@@ -128,12 +125,12 @@ namespace MrBoom.Server.Lobby
         {
             lock (lobbies)
             {
-                foreach (LobbyStateHolder lobby in lobbies.Values)
+                foreach (ILobby lobby in lobbies.Values)
                 {
-                    lobby.ServerUpdate();
-                    lobby.ServerUpdate();
-                    lobby.ServerUpdate();
-                    _ = lobby.SendPackets(udpServer, stoppingToken);
+                    lobby.State.ServerUpdate();
+                    lobby.State.ServerUpdate();
+                    lobby.State.ServerUpdate();
+                    _ = lobby.State.SendPackets(udpServer, stoppingToken);
                 }
             }
         }

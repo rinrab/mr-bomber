@@ -7,19 +7,15 @@ namespace MrBoom.Server.Lobby
 {
     public class LobbyJoinState : ILobbyState
     {
-        private readonly ILobbyStateManager state;
-        private readonly ILogger logger;
-
         private readonly ILobby lobby;
+        private readonly ILogger logger;
 
         protected int startIn = -1;
 
-        public LobbyJoinState(ILobbyStateManager state, ILogger logger)
+        public LobbyJoinState(ILobby lobby, ILogger logger)
         {
-            this.state = state;
+            this.lobby = lobby;
             this.logger = logger;
-
-            lobby = new Lobby(logger);
         }
 
         private IMessage FormatLobbyInfoMessage()
@@ -100,7 +96,7 @@ namespace MrBoom.Server.Lobby
 
             if (startIn == 0)
             {
-                state.SetState(new LobbyPlayState(state, logger, lobby));
+                lobby.State.SetState(new LobbyPlayState(lobby, logger));
             }
             else if (startIn > 0)
             {

@@ -9,17 +9,15 @@ namespace MrBoom.Server.Lobby
 {
     public class LobbyPlayState : ILobbyState
     {
-        private readonly ILobbyStateManager state;
         private readonly ILogger logger;
         private readonly ILobby lobby;
 
         public Terrain Terrain { get; }
 
-        public LobbyPlayState(ILobbyStateManager state, ILogger logger, ILobby lobby)
+        public LobbyPlayState(ILobby lobby, ILogger logger)
         {
-            this.state = state;
-            this.logger = logger;
             this.lobby = lobby;
+            this.logger = logger;
 
             Terrain = new Terrain(1);
 

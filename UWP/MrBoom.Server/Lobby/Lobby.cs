@@ -4,6 +4,8 @@ namespace MrBoom.Server.Lobby
 {
     public interface ILobby
     {
+        LobbyStateHolder State { get; }
+
         IEnumerable<ClientInfo> GetClients();
         IEnumerable<LobbyPlayer> GetPlayers();
 
@@ -23,11 +25,17 @@ namespace MrBoom.Server.Lobby
 
         private readonly ILogger logger;
 
+        public LobbyStateHolder State { get; }
+
         public Lobby(ILogger logger)
         {
             this.logger = logger;
+
             clients = new List<ClientInfo>();
             players = new List<LobbyPlayer>();
+
+            State = new LobbyStateHolder();
+            State.SetState(new LobbyJoinState(this, logger));
         }
 
         public void AddClient(ClientInfo client)
