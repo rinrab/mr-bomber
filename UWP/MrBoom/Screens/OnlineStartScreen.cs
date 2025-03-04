@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.NetworkProtocol.Messages;
+using MrBoom.State;
 
 namespace MrBoom.Screens
 {
@@ -29,7 +30,7 @@ namespace MrBoom.Screens
 
         protected override IPlayerState CreatePlayer(int index, IController controller)
         {
-            var player = new OnlinePlayerState(controller);
+            var player = new OnlineLocalPlayerState(controller);
             playerIndex.Add(player.Id, player);
             _ = player.RequestServer(multiplayerClient);
             return player;
@@ -49,7 +50,7 @@ namespace MrBoom.Screens
 
                     if (playerIndex.TryGetValue(player.Id, out IPlayerState val))
                     {
-                        if (val is OnlinePlayerState onlinePlayer)
+                        if (val is OnlineLocalPlayerState onlinePlayer)
                         {
                             onlinePlayer.OnLoaded(player);
                         }

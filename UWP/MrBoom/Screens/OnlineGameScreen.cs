@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Messages;
 using MrBoom.NetworkProtocol.Proxy;
+using MrBoom.State;
 
 namespace MrBoom.Screens
 {
@@ -55,7 +56,7 @@ namespace MrBoom.Screens
                 {
                     IPlayerState player = players[i];
 
-                    if (player is OnlinePlayerState onlinePlayer)
+                    if (player is OnlineLocalPlayerState onlinePlayer)
                     {
                         clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(terrainProxy, playerProxy, assets, onlinePlayer.Controller));
                     }

@@ -128,12 +128,16 @@
     <Compile Include="Screens\IScreen.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MenuItem.cs" />
-    <Compile Include="PlayerState.cs" />
+    <Compile Include="State\IPlayerState.cs" />
+    <Compile Include="State\OnlineLocalPlayerState.cs" />
+    <Compile Include="State\OnlineRemotePlayerState.cs" />
     <Compile Include="Screens\ResultScreen.cs" />
     <Compile Include="ScreenManager.cs" />
     <Compile Include="Sound.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\AbstractStartScreen.cs" />
+    <Compile Include="State\SinglePlayerBotPlayerState.cs" />
+    <Compile Include="State\SinglePlayerHumanPlayerState.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Screens\VictoryScreen.cs" />
     <Compile Include="Version.cs" />

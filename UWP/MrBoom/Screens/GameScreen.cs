@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Windows.UI.Xaml;
 using MrBoom.Common;
 using MrBoom.Screens;
+using MrBoom.State;
 
 namespace MrBoom
 {
@@ -25,7 +26,7 @@ namespace MrBoom
 
                     terrain.AddPlayer(player);
 
-                    if (playerState is HumanPlayerState humanState)
+                    if (playerState is SinglePlayerHumanPlayerState humanState)
                     {
                         clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(terrain, player, assets, humanState.Controller));
                     }

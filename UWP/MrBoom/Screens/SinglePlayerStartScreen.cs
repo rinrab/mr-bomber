@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Common;
+using MrBoom.State;
 
 namespace MrBoom.Screens
 {
@@ -19,7 +20,7 @@ namespace MrBoom.Screens
 
         protected override IPlayerState CreatePlayer(int index, IController controller)
         {
-            return new HumanPlayerState(controller, index, nameGenerator.GenerateName());
+            return new SinglePlayerHumanPlayerState(controller, index, nameGenerator.GenerateName());
         }
 
         public override void Update()

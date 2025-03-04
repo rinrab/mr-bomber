@@ -12,6 +12,7 @@ using MrBoom.Common;
 using MrBoom.NetworkProtocol;
 using MrBoom.NetworkProtocol.Messages;
 using MrBoom.Screens;
+using MrBoom.State;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;
 
@@ -165,7 +166,7 @@ namespace MrBoom
         {
             if (players.Count < 8)
             {
-                players.Add(new BotPlayerState(players.Count, "bot"));
+                players.Add(new SinglePlayerBotPlayerState(players.Count, "bot"));
                 return true;
             }
             else
@@ -275,13 +276,13 @@ namespace MrBoom
 
             if (players.Count == 1)
             {
-                players.Add(new BotPlayerState(players.Count, "bot"));
+                players.Add(new SinglePlayerBotPlayerState(players.Count, "bot"));
             }
             else if (players.Count == 0)
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    players.Add(new BotPlayerState(players.Count, "bot"));
+                    players.Add(new SinglePlayerBotPlayerState(players.Count, "bot"));
                 }
             }
 
