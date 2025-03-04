@@ -81,7 +81,7 @@ namespace MrBoom.Server.Lobby
 
             lock (lobbies)
             {
-                lobbies.Add(id, new Lobby(logger));
+                lobbies.Add(id, new Lobby(logger, udpServer));
             }
 
             logger.LogInformation("Created lobby {lobby}", id);

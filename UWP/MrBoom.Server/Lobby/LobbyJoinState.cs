@@ -43,7 +43,7 @@ namespace MrBoom.Server.Lobby
         {
             if (message is ClientJoin clientJoin)
             {
-                lobby.AddClient(new ClientInfo(endPoint, clientSecret));
+                lobby.AddClient(new ClientInfo(lobby, endPoint, clientSecret));
             }
             else if (message is PlayerJoin playerJoin)
             {
@@ -80,8 +80,7 @@ namespace MrBoom.Server.Lobby
         {
             foreach (ClientInfo client in lobby.GetClients())
             {
-                await udpServer.SendPacket(new Packet(FormatLobbyInfoMessage()),
-                                           client.IpAddress, stoppingToken);
+                await client.SendMessage(FormatLobbyInfoMessage(), stoppingToken);
             }
         }
 

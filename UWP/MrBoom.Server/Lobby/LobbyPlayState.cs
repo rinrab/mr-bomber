@@ -149,8 +149,7 @@ namespace MrBoom.Server.Lobby
         {
             foreach (ClientInfo client in lobby.GetClients())
             {
-                await udpServer.SendPacket(new Packet(FormatGameInfoMessage(client)),
-                                           client.IpAddress, stoppingToken);
+                await client.SendMessage(FormatGameInfoMessage(client), stoppingToken);
             }
         }
     }

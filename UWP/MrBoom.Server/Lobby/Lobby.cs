@@ -7,6 +7,8 @@ namespace MrBoom.Server.Lobby
 {
     public interface ILobby : ILobbyState, ILobbyStateManager
     {
+        IUdpServer UdpServer { get; }
+
         IEnumerable<ClientInfo> GetClients();
         IEnumerable<LobbyPlayer> GetPlayers();
 
@@ -17,6 +19,8 @@ namespace MrBoom.Server.Lobby
 
         ClientInfo? GetClient(Guid id);
         void FilterDeadClients();
+
+        Task SendPacket(Packet packet, IPEndPoint ipAddress, CancellationToken cancellationToken);
     }
 
     public class Lobby : ILobby
@@ -28,9 +32,12 @@ namespace MrBoom.Server.Lobby
 
         private LobbyStateHolder state { get; }
 
-        public Lobby(ILogger logger)
+        public IUdpServer UdpServer { get; }
+
+        public Lobby(ILogger logger, IUdpServer udpServer)
         {
             this.logger = logger;
+            UdpServer = udpServer;
 
             clients = new List<ClientInfo>();
             players = new List<LobbyPlayer>();
@@ -114,6 +121,11 @@ namespace MrBoom.Server.Lobby
         public ILobbyState GetState()
         {
             return state.GetState();
+        }
+
+        public async Task SendPacket(Packet packet, IPEndPoint ipAddress, CancellationToken cancellationToken)
+        {
+            await UdpServer.SendPacket(packet, ipAddress, cancellationToken);
         }
     }
 }

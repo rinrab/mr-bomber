@@ -2,12 +2,15 @@
 
 using System.Net;
 using MrBoom.Core;
+using MrBoom.NetworkProtocol.Messages;
 using MrBoom.NetworkProtocol.Proxy;
 
 namespace MrBoom.Server.Lobby
 {
     public class ClientInfo
     {
+        public ILobby Lobby { get; }
+
         public Guid ClientSecret { get; set; }
 
         public IClientInfo CorishInfo => new ClientInfoGuid(ClientSecret);
@@ -20,8 +23,9 @@ namespace MrBoom.Server.Lobby
 
         public bool IsDead => DateTime.UtcNow - LastPacketReceivedTime > TimeSpan.FromSeconds(5);
 
-        public ClientInfo(IPEndPoint ipAddress, Guid clientSecret)
+        public ClientInfo(ILobby lobby, IPEndPoint ipAddress, Guid clientSecret)
         {
+            Lobby = lobby;
             IpAddress = ipAddress;
             ClientSecret = clientSecret;
             OnPacketReceived();
@@ -30,6 +34,11 @@ namespace MrBoom.Server.Lobby
         public void OnPacketReceived()
         {
             LastPacketReceivedTime = DateTime.UtcNow;
+        }
+
+        public async Task SendMessage(IMessage message, CancellationToken cancellationToken)
+        {
+            await Lobby.SendPacket(new Packet(message), IpAddress, cancellationToken);
         }
     }
 }
