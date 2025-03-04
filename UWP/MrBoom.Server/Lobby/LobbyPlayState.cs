@@ -73,6 +73,25 @@ namespace MrBoom.Server.Lobby
             }
         }
 
+        private GameSpriteType getSpriteType(Sprite sprite, ClientInfo client)
+        {
+            if (sprite is ServerPlayer serverPlayer)
+            {
+                if (serverPlayer.ClientInfo.Equals(client.CorishInfo))
+                {
+                    return GameSpriteType.PlayerMe;
+                }
+                else
+                {
+                    return GameSpriteType.Player;
+                }
+            }
+            else
+            {
+                return GameSpriteType.Monster;
+            }
+        }
+
         private IMessage FormatGameInfoMessage(ClientInfo client)
         {
             var grid = new Grid<GameCellInfo>(Terrain.Width, Terrain.Height);
@@ -104,35 +123,15 @@ namespace MrBoom.Server.Lobby
             var sprites = new List<GameSpriteInfo>();
             foreach (Sprite sprite in Terrain.GetSprites())
             {
-                var spriteMsg = new GameSpriteInfo
+                sprites.Add(new GameSpriteInfo
                 {
                     X = sprite.X,
                     Y = sprite.Y,
+                    Type = getSpriteType(sprite, client),
+                    SubType = sprite.SubType,
                     AnimateIndex = sprite.AnimateIndex,
                     FrameIndex = sprite.FrameIndex,
-                };
-
-                GameSpriteType type;
-                if (sprite is ServerPlayer serverPlayer)
-                {
-                    if (serverPlayer.ClientInfo.Equals(client.CorishInfo))
-                    {
-                        type = GameSpriteType.PlayerMe;
-                    }
-                    else
-                    {
-                        type = GameSpriteType.Player;
-                    }
-                }
-                else
-                {
-                    type = GameSpriteType.Monster;
-                }
-
-                spriteMsg.Type = type;
-                spriteMsg.SubType = sprite.SubType;
-
-                sprites.Add(spriteMsg);
+                });
             }
 
             return new GameInfo
