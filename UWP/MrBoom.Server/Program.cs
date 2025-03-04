@@ -32,6 +32,8 @@ namespace MrBoom.Server
 
             builder.Services.AddSingleton<IMetrics, Metrics>();
 
+            builder.Services.Configure<Settings>(builder.Configuration.GetSection(Settings.Name));
+
             var app = builder.Build();
 
             app.MapControllers();

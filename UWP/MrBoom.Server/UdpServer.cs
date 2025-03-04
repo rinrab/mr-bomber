@@ -3,6 +3,7 @@
 using System.Net.Sockets;
 using System.Net;
 using MrBoom.NetworkProtocol.Messages;
+using Microsoft.Extensions.Options;
 
 namespace MrBoom.Server
 {
@@ -25,10 +26,11 @@ namespace MrBoom.Server
         private UdpClient udpClient;
         private IMetrics metrics;
 
-        public UdpServer(ILogger<UdpServer> logger, IMetrics metrics)
+        public UdpServer(ILogger<UdpServer> logger, IMetrics metrics, IOptions<Settings> options)
         {
             this.logger = logger;
             this.metrics = metrics;
+            port = options.Value.LobbyPort;
 
             udpClient = new UdpClient(port);
         }
