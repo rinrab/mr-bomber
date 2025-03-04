@@ -6,57 +6,6 @@ using Haukcode.HighResolutionTimer;
 
 namespace MrBoom.Server.Lobby
 {
-    public interface ILobbyState : IServerGameEntity
-    {
-        void OnMessageReceived(IMessage message, Guid clientSecret, IPEndPoint endPoint);
-        Task SendPackets(IUdpServer udpServer, CancellationToken stoppingToken);
-    }
-
-    public interface ILobbyStateManager
-    {
-        void SetState(ILobbyState state);
-        ILobbyState GetState();
-    }
-
-    public class LobbyStateHolder : ILobbyState, ILobbyStateManager
-    {
-        private ILobbyState? current;
-
-        public void SetState(ILobbyState state)
-        {
-            current = state;
-        }
-
-        public ILobbyState GetState()
-        {
-            return current;
-        }
-
-        public void OnMessageReceived(IMessage message, Guid clientSecret, IPEndPoint endPoint)
-        {
-            current?.OnMessageReceived(message, clientSecret, endPoint);
-        }
-
-        public void ServerUpdate()
-        {
-            current?.ServerUpdate();
-        }
-
-        public async Task SendPackets(IUdpServer udpServer, CancellationToken stoppingToken)
-        {
-            if (current != null)
-            {
-                await current.SendPackets(udpServer, stoppingToken);
-            }
-        }
-    }
-
-    public interface ILobbyProvider
-    {
-        Guid CreateLobby();
-        Guid AssignLobby();
-    }
-
     public class LobbyServer : TimerService, ILobbyProvider
     {
         private readonly IUdpServer udpServer;
