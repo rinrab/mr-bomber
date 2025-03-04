@@ -37,16 +37,16 @@ namespace MrBoom.Server.Lobby
             Terrain.Update();
         }
 
-        public void OnPacketReceived(Packet packet, IPEndPoint endPoint)
+        public void OnMessageReceived(IMessage message, Guid clientSecret, IPEndPoint endPoint)
         {
-            if (packet.Message is ClientUpdateMessage clientUpdate)
+            if (message is ClientUpdateMessage clientUpdate)
             {
-                ClientInfo? client = lobby.GetClient(packet.ClientSecret);
+                ClientInfo? client = lobby.GetClient(clientSecret);
 
                 if (client == null)
                 {
                     logger.LogWarning("Rejected client update from {ip}; No client {id} was found.",
-                                      endPoint, packet.ClientSecret);
+                                      endPoint, clientSecret);
                     return;
                 }
 

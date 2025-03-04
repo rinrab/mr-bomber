@@ -43,15 +43,15 @@ namespace MrBoom.Server.Lobby
             };
         }
 
-        public void OnPacketReceived(Packet packet, IPEndPoint endPoint)
+        public void OnMessageReceived(IMessage message, Guid clientSecret, IPEndPoint endPoint)
         {
-            if (packet.Message is ClientJoin clientJoin)
+            if (message is ClientJoin clientJoin)
             {
-                lobby.AddClient(new ClientInfo(endPoint, packet.ClientSecret));
+                lobby.AddClient(new ClientInfo(endPoint, clientSecret));
             }
-            else if (packet.Message is PlayerJoin playerJoin)
+            else if (message is PlayerJoin playerJoin)
             {
-                ClientInfo? client = lobby.GetClient(packet.ClientSecret);
+                ClientInfo? client = lobby.GetClient(clientSecret);
 
                 if (client == null)
                 {
@@ -67,9 +67,9 @@ namespace MrBoom.Server.Lobby
                     Client = client,
                 });
             }
-            else if (packet.Message is PingMessage pingMessage)
+            else if (message is PingMessage pingMessage)
             {
-                ClientInfo? client = lobby.GetClient(packet.ClientSecret);
+                ClientInfo? client = lobby.GetClient(clientSecret);
 
                 if (client == null)
                 {

@@ -8,7 +8,7 @@ namespace MrBoom.Server.Lobby
 {
     public interface ILobbyState : IServerGameEntity
     {
-        void OnPacketReceived(Packet packet, IPEndPoint endPoint);
+        void OnMessageReceived(IMessage message, Guid clientSecret, IPEndPoint endPoint);
         Task SendPackets(IUdpServer udpServer, CancellationToken stoppingToken);
     }
 
@@ -31,9 +31,9 @@ namespace MrBoom.Server.Lobby
             return current;
         }
 
-        public void OnPacketReceived(Packet packet, IPEndPoint endPoint)
+        public void OnMessageReceived(IMessage message, Guid clientSecret, IPEndPoint endPoint)
         {
-            current?.OnPacketReceived(packet, endPoint);
+            current?.OnMessageReceived(message, clientSecret, endPoint);
         }
 
         public void ServerUpdate()
@@ -113,7 +113,7 @@ namespace MrBoom.Server.Lobby
             {
                 if (lobbies.TryGetValue(packet.Lobby, out var lobby))
                 {
-                    lobby.OnPacketReceived(packet, endPoint);
+                    lobby.OnMessageReceived(packet.Message, packet.ClientSecret, endPoint);
                 }
                 else
                 {
