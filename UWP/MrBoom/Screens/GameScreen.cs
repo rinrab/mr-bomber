@@ -27,9 +27,7 @@ namespace MrBoom
 
                     if (playerState is HumanPlayerState humanState)
                     {
-                        clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(
-                            terrain, player.X, player.Y, player,
-                            assets, humanState.Controller));
+                        clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(terrain, player, assets, humanState.Controller));
                     }
                     else
                     {

@@ -57,10 +57,7 @@ namespace MrBoom.Screens
 
                     if (player is OnlinePlayerState onlinePlayer)
                     {
-                        clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(terrainProxy, playerProxy.X, playerProxy.Y,
-                                                                             playerProxy,
-                                                                             assets,
-                                                                             onlinePlayer.Controller));
+                        clientTerrain.Sprites.Add(new ClientSpriteLocalHuman(terrainProxy, playerProxy, assets, onlinePlayer.Controller));
                     }
                     else
                     {
