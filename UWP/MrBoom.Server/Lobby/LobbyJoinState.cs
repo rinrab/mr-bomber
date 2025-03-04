@@ -9,13 +9,15 @@ namespace MrBoom.Server.Lobby
     {
         private readonly ILobby lobby;
         private readonly ILogger logger;
+        private readonly IServiceProvider serviceProvider;
 
         protected int startIn = -1;
 
-        public LobbyJoinState(ILobby lobby, ILogger logger)
+        public LobbyJoinState(ILobby lobby, ILogger<LobbyJoinState> logger, IServiceProvider serviceProvider)
         {
             this.lobby = lobby;
             this.logger = logger;
+            this.serviceProvider = serviceProvider;
         }
 
         private IMessage FormatLobbyInfoMessage()
@@ -95,7 +97,7 @@ namespace MrBoom.Server.Lobby
 
             if (startIn == 0)
             {
-                lobby.SetState(new LobbyPlayState(lobby, logger));
+                lobby.SetState(ActivatorUtilities.CreateInstance<LobbyPlayState>(serviceProvider, lobby));
             }
             else if (startIn > 0)
             {

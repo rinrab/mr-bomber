@@ -21,7 +21,7 @@ namespace MrBoom.Server.Lobby
 
         public bool IsFull => state.GetState() is not LobbyJoinState;
 
-        public Lobby(ILogger<Lobby> logger, IUdpServer udpServer)
+        public Lobby(ILogger<Lobby> logger, IUdpServer udpServer, IServiceProvider serviceProvider)
         {
             this.logger = logger;
             UdpServer = udpServer;
@@ -32,7 +32,7 @@ namespace MrBoom.Server.Lobby
             Key = Guid.NewGuid();
 
             state = new LobbyStateHolder();
-            state.SetState(new LobbyJoinState(this, logger));
+            state.SetState(ActivatorUtilities.CreateInstance<LobbyJoinState>(serviceProvider, this));
         }
 
         public void AddClient(ClientInfo client)

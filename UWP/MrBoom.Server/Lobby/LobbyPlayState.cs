@@ -14,7 +14,7 @@ namespace MrBoom.Server.Lobby
 
         public Terrain Terrain { get; }
 
-        public LobbyPlayState(ILobby lobby, ILogger logger)
+        public LobbyPlayState(ILobby lobby, ILogger<LobbyPlayState> logger)
         {
             this.lobby = lobby;
             this.logger = logger;
