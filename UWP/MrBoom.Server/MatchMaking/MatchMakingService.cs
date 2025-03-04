@@ -26,13 +26,13 @@ namespace MrBoom.Server.MatchMaking
         }
     }
 
-    public class MatchMaker : BackgroundService, IMatchMakingProvider
+    public class MatchMakingService : BackgroundService, IMatchMakingProvider
     {
         private readonly ILobbyProvider lobbyProvider;
-        private readonly ILogger<MatchMaker> logger;
+        private readonly ILogger<MatchMakingService> logger;
         private readonly BufferBlock<MatchMakingRequest> matchMakingQueue;
 
-        public MatchMaker(ILobbyProvider lobbyProvider, ILogger<MatchMaker> logger)
+        public MatchMakingService(ILobbyProvider lobbyProvider, ILogger<MatchMakingService> logger)
         {
             this.lobbyProvider = lobbyProvider;
             this.logger = logger;
