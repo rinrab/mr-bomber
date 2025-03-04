@@ -97,7 +97,7 @@ namespace MrBoom.Server.Lobby
 
             if (startIn == 0)
             {
-                lobby.SetState(ActivatorUtilities.CreateInstance<LobbyPlayState>(serviceProvider, lobby));
+                lobby.SetState<LobbyPlayState>();
             }
             else if (startIn > 0)
             {

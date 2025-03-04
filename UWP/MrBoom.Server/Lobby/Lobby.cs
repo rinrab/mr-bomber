@@ -14,7 +14,7 @@ namespace MrBoom.Server.Lobby
         private readonly ILogger logger;
         private readonly IServiceProvider serviceProvider;
 
-        private ILobbyState state;
+        private ILobbyState state = null!;
 
         public IUdpServer UdpServer { get; }
 
@@ -32,7 +32,7 @@ namespace MrBoom.Server.Lobby
 
             Key = Guid.NewGuid();
 
-            state = ActivatorUtilities.CreateInstance<LobbyJoinState>(serviceProvider, this);
+            SetState<LobbyJoinState>();
         }
 
         public void AddClient(ClientInfo client)
