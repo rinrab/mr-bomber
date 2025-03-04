@@ -35,7 +35,7 @@ namespace MrBoom.Server.Master
             {
                 //ClientSecret = clientInfo.ClientSecret,
                 ClientSecret = Guid.NewGuid(),
-                LobbyIp = "localhost",
+                LobbyIp = "eu.mrbomber.online",
                 LobbyPort = 5297,
                 LobbyId = matchMakingProvider.AssignLobby(),
             };
