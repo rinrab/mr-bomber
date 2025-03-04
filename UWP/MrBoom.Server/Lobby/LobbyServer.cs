@@ -15,6 +15,7 @@ namespace MrBoom.Server.Lobby
     public interface ILobbyStateManager
     {
         void SetState(ILobbyState state);
+        ILobbyState GetState();
     }
 
     public class LobbyStateHolder : ILobbyState, ILobbyStateManager
@@ -94,7 +95,7 @@ namespace MrBoom.Server.Lobby
             {
                 foreach (var lobby in lobbies)
                 {
-                    if (lobby.Value.State.GetState() is LobbyJoinState)
+                    if (lobby.Value.GetState() is LobbyJoinState)
                     {
                         return lobby.Key;
                     }
@@ -110,7 +111,7 @@ namespace MrBoom.Server.Lobby
             {
                 if (lobbies.TryGetValue(packet.Lobby, out var lobby))
                 {
-                    lobby.State.OnMessageReceived(packet.Message, packet.ClientSecret, endPoint);
+                    lobby.OnMessageReceived(packet.Message, packet.ClientSecret, endPoint);
                 }
                 else
                 {
@@ -127,10 +128,10 @@ namespace MrBoom.Server.Lobby
             {
                 foreach (ILobby lobby in lobbies.Values)
                 {
-                    lobby.State.ServerUpdate();
-                    lobby.State.ServerUpdate();
-                    lobby.State.ServerUpdate();
-                    _ = lobby.State.SendPackets(udpServer, stoppingToken);
+                    lobby.ServerUpdate();
+                    lobby.ServerUpdate();
+                    lobby.ServerUpdate();
+                    _ = lobby.SendPackets(udpServer, stoppingToken);
                 }
             }
         }

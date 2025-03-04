@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using System.Net;
+using MrBoom.NetworkProtocol.Messages;
+
 namespace MrBoom.Server.Lobby
 {
-    public interface ILobby
+    public interface ILobby : ILobbyState, ILobbyStateManager
     {
-        LobbyStateHolder State { get; }
-
         IEnumerable<ClientInfo> GetClients();
         IEnumerable<LobbyPlayer> GetPlayers();
 
@@ -25,7 +26,7 @@ namespace MrBoom.Server.Lobby
 
         private readonly ILogger logger;
 
-        public LobbyStateHolder State { get; }
+        private LobbyStateHolder state { get; }
 
         public Lobby(ILogger logger)
         {
@@ -34,8 +35,8 @@ namespace MrBoom.Server.Lobby
             clients = new List<ClientInfo>();
             players = new List<LobbyPlayer>();
 
-            State = new LobbyStateHolder();
-            State.SetState(new LobbyJoinState(this, logger));
+            state = new LobbyStateHolder();
+            state.SetState(new LobbyJoinState(this, logger));
         }
 
         public void AddClient(ClientInfo client)
@@ -88,6 +89,31 @@ namespace MrBoom.Server.Lobby
                     return false;
                 }
             });
+        }
+
+        public void OnMessageReceived(IMessage message, Guid clientSecret, IPEndPoint endPoint)
+        {
+            state.OnMessageReceived(message, clientSecret, endPoint);
+        }
+
+        public async Task SendPackets(IUdpServer udpServer, CancellationToken stoppingToken)
+        {
+            await state.SendPackets(udpServer, stoppingToken);
+        }
+
+        public void ServerUpdate()
+        {
+            state.ServerUpdate();
+        }
+
+        public void SetState(ILobbyState state)
+        {
+            this.state.SetState(state);
+        }
+
+        public ILobbyState GetState()
+        {
+            return state.GetState();
         }
     }
 }
