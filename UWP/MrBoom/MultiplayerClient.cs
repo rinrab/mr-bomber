@@ -25,9 +25,11 @@ namespace MrBoom
 
         private Queue<byte[]> packetQueue = new Queue<byte[]>();
 
+        private DateTime lastPacketReceived;
+
         // public Uri MasterServerUri = new Uri("http://master._mrboomserver.test.mrbomber.online:5296");
-        // public Uri MasterServerUri = new Uri("http://localhost:5296");
-        public Uri MasterServerUri = new Uri("http://eu.mrbomber.online");
+        public Uri MasterServerUri = new Uri("http://localhost:5050");
+        //public Uri MasterServerUri = new Uri("http://eu.mrbomber.online");
 
         public Guid ClientSecret { get; private set; }
 
@@ -39,6 +41,7 @@ namespace MrBoom
         {
             client = new HttpClient();
             udpClient = new UdpClient();
+            lastPacketReceived = DateTime.UtcNow;
         }
 
         public void CheckPackets()
@@ -52,8 +55,15 @@ namespace MrBoom
                     packet.ReadFrom(reader);
 
                     OnPacketReceived?.Invoke(packet);
+
+                    lastPacketReceived = DateTime.UtcNow;
                 }
             }
+        }
+
+        public bool IsDead()
+        {
+            return DateTime.UtcNow - lastPacketReceived > TimeSpan.FromMilliseconds(1000);
         }
 
         public async Task ListenAsync(CancellationToken stoppingToken)

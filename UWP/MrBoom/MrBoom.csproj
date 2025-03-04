@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="Screens\AbstractGameScreen.cs" />
     <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Screens\OnlineConnectionDiedScreen.cs" />
     <Compile Include="Screens\OnlineConnectScreen.cs" />
     <Compile Include="Screens\OnlineGameScreen.cs" />
     <Compile Include="Screens\OnlineStartScreen.cs" />

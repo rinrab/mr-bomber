@@ -92,6 +92,11 @@ namespace MrBoom.Screens
                     PingId = 0,
                 }
             });
+
+            if (multiplayerClient.IsDead())
+            {
+                ScreenManager.SetScreen(new OnlineConnectionDiedScreen(assets));
+            }
         }
 
         public override void Draw(SpriteBatch ctx)

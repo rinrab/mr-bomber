@@ -62,6 +62,11 @@ namespace MrBoom.Screens
         public void Update()
         {
             multiplayerClient.CheckPackets();
+
+            if (multiplayerClient.IsDead())
+            {
+                ScreenManager.SetScreen(new OnlineConnectionDiedScreen(assets));
+            }
         }
 
         public void Draw(SpriteBatch ctx)
