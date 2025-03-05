@@ -53,7 +53,10 @@ namespace MrBoom.Server.Lobby
 
                 if (client == null)
                 {
-                    return; // fuck off mister client. ur fake
+                    logger.LogWarning("Rejected client update from {ip}; No client {id} was found.",
+                                      endPoint, clientSecret);
+                    return;
+                    // fuck off mister client. ur fake
                 }
 
                 client.OnPacketReceived();
@@ -71,7 +74,10 @@ namespace MrBoom.Server.Lobby
 
                 if (client == null)
                 {
-                    return; // suce ma bite
+                    logger.LogWarning("Rejected client update from {ip}; No client {id} was found.",
+                                      endPoint, clientSecret);
+                    return;
+                    // suce ma bite
                 }
 
                 client.OnPacketReceived();
