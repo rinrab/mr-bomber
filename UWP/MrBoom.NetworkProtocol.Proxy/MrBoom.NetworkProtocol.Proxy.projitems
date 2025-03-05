@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)IRemoteProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlayerProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Router.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SpriteProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TerrainProxy.cs" />
   </ItemGroup>
