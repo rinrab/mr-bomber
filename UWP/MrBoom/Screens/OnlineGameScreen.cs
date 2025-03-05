@@ -13,18 +13,81 @@ using MrBoom.State;
 
 namespace MrBoom.Screens
 {
+    public class PlayerProvider
+    {
+        public int MaxPlayers { get; } = 8;
+
+        private readonly List<IPlayerState> players;
+        private readonly List<IPlayerState> monsters;
+
+        public PlayerProvider()
+        {
+            players = new List<IPlayerState>();
+            monsters = new List<IPlayerState>();
+
+            InitializeMonsters();
+        }
+
+        public PlayerProvider(List<IPlayerState> players)
+        {
+            this.players = players;
+            monsters = new List<IPlayerState>();
+
+            InitializeMonsters();
+        }
+
+        private void InitializeMonsters()
+        {
+            for (int i = 0; i < MaxPlayers - players.Count; i++)
+            {
+                monsters.Add(new OnlineMonsterPlayerState(i));
+            }
+        }
+
+        public void AddPlayer(IPlayerState player)
+        {
+            players.Add(player);
+        }
+
+        public IEnumerable<IPlayerState> EnumeratePlayers()
+        {
+            int count = 0;
+
+            for (int i = 0; i < players.Count && i < MaxPlayers; i++, count++)
+            {
+                yield return players[i];
+            }
+        }
+
+        public IEnumerable<IPlayerState> EnumerateSprites()
+        {
+            int count = 0;
+
+            for (int i = 0; i < players.Count && i < MaxPlayers; i++, count++)
+            {
+                yield return players[i];
+            }
+
+            for (int i = 0; i < monsters.Count && i < MaxPlayers; i++, count++)
+            {
+                yield return monsters[i];
+            }
+        }
+    }
+
     public class OnlineGameScreen : ClientGameScreen
     {
         private readonly MultiplayerClient multiplayerClient;
-        private readonly List<IPlayerState> players;
         private readonly TerrainProxy terrainProxy;
+
+        private readonly PlayerProvider players;
 
         public OnlineGameScreen(Assets assets, MultiplayerClient multiplayerClient, List<IPlayerState> players) : base(assets)
         {
             terrainProxy = new TerrainProxy();
 
             this.multiplayerClient = multiplayerClient;
-            this.players = players;
+            this.players = new PlayerProvider(players);
 
             multiplayerClient.OnPacketReceived += OnPacketReceived;
         }
@@ -41,14 +104,9 @@ namespace MrBoom.Screens
 
                     clientTerrain = new ClientTerrain(terrainProxy, assets);
 
-                    foreach (IPlayerState state in players)
+                    foreach (IPlayerState state in players.EnumerateSprites())
                     {
                         terrainProxy.Sprites.Add(state.InitializeProxy());
-                    }
-
-                    for (int i = terrainProxy.Sprites.Count - 1; i < gameInfo.Sprites.Count; i++)
-                    {
-                        terrainProxy.Sprites.Add(new SpriteProxy());
                     }
                 }
 
@@ -56,14 +114,9 @@ namespace MrBoom.Screens
 
                 if (init)
                 {
-                    foreach (IPlayerState state in players)
+                    foreach (IPlayerState state in players.EnumerateSprites())
                     {
                         clientTerrain.Sprites.Add(state.InitializeClientSprite(terrainProxy, assets));
-                    }
-
-                    for (int i = clientTerrain.Sprites.Count - 1; i < gameInfo.Sprites.Count; i++)
-                    {
-                        clientTerrain.Sprites.Add(new ClientSprite(terrainProxy.Sprites[i], assets));
                     }
                 }
             }

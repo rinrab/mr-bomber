@@ -129,6 +129,7 @@
     <Compile Include="Menu.cs" />
     <Compile Include="MenuItem.cs" />
     <Compile Include="State\IPlayerState.cs" />
+    <Compile Include="State\OnlineMonsterPlayerState.cs" />
     <Compile Include="State\OnlineLocalPlayerState.cs" />
     <Compile Include="State\OnlineRemotePlayerState.cs" />
     <Compile Include="Screens\ResultScreen.cs" />
