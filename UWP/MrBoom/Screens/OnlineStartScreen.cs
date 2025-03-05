@@ -160,6 +160,23 @@ namespace MrBoom.Screens
                 _ = player.RequestServer(multiplayerClient);
             }
 
+            List<OnlineLocalPlayerState> playersToRemove = new List<OnlineLocalPlayerState>();
+
+            foreach (OnlineLocalPlayerState player in players.PendingPlayers.Values)
+            {
+                if (player.IsDead)
+                {
+                    playersToRemove.Add(player);
+                }
+            }
+
+            foreach (var player in playersToRemove)
+            {
+                players.PendingPlayers.Remove(player.Id);
+                unjoinedControllers.Add(player.Controller);
+                joinedControllers.Remove(player.Controller);
+            }
+
             if (multiplayerClient.IsDead())
             {
                 ScreenManager.SetScreen(new OnlineConnectionDiedScreen(assets));

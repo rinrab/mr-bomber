@@ -16,8 +16,8 @@ namespace MrBoom
         protected List<Team> teams;
         protected readonly List<IController> controllers;
         protected readonly Settings settings;
-        private readonly List<IController> unjoinedControllers;
-        private readonly List<IController> joinedControllers;
+        protected readonly List<IController> unjoinedControllers;
+        protected readonly List<IController> joinedControllers;
 
         private readonly string helpText =
             "welcome to mr.bomber " +

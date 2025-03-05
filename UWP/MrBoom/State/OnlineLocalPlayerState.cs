@@ -30,6 +30,9 @@ namespace MrBoom.State
         public Guid Id { get; }
 
         private IPlayerProxy proxy;
+        private readonly DateTime timeInitialized;
+
+        public bool IsDead => State != SyncState.ServerApproved && DateTime.UtcNow - timeInitialized > TimeSpan.FromMilliseconds(500);
 
         public OnlineLocalPlayerState(IController controller)
         {
@@ -37,6 +40,7 @@ namespace MrBoom.State
             Index = -1;
             Id = Guid.NewGuid();
             Name = "...";
+            timeInitialized = DateTime.UtcNow;
         }
 
         public void OnLoaded(LobbyPlayerInfo info)
