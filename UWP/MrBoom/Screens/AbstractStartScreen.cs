@@ -27,7 +27,8 @@ namespace MrBoom
             "left keyboard: wsad - move  ctrl - drop  bomb  shift - radio control   ";
 
         protected int startTick = -1;
-        protected readonly PlayerProvider players;
+
+        protected abstract IPlayerProvider Players { get; }
 
         public AbstractStartScreen(Assets assets, List<Team> teams, List<IController> controllers, Settings settings)
         {
@@ -38,7 +39,6 @@ namespace MrBoom
 
             unjoinedControllers = new List<IController>(controllers);
             joinedControllers = new List<IController>();
-            players = new PlayerProvider();
 
             teams.Clear();
         }
@@ -53,9 +53,9 @@ namespace MrBoom
                 {
                     int index = y * 4 + x;
                     AnimatedImage images = assets.Alpha[index / 2 + 2];
-                    if (index < players.Count)
+                    if (index < Players.Count)
                     {
-                        IPlayerState player = players[index];
+                        IPlayerState player = Players[index];
 
                         Game.DrawString(ctx, 13 + x * 80, 78 + y * 70, "name ?", images);
                         Game.DrawString(ctx, 21 + x * 80, 88 + y * 70, player.Name, images);
@@ -84,7 +84,7 @@ namespace MrBoom
             }
         }
 
-        protected abstract IPlayerState CreatePlayer(int index, IController controller);
+        protected abstract bool AddPlayer(IController controller);
 
         protected abstract void Start();
 
@@ -97,7 +97,7 @@ namespace MrBoom
             {
                 if (controller.IsKeyDown(PlayerKeys.Bomb))
                 {
-                    if (players.AddPlayer(index => CreatePlayer(index, controller)))
+                    if (AddPlayer(controller))
                     {
                         assets.Sounds.Addplayer.Play();
 
@@ -122,7 +122,7 @@ namespace MrBoom
 
             if (startTick == -1)
             {
-                if (players.Count >= 1)
+                if (Players.Count >= 1)
                 {
                     startTick = 0;
                 }

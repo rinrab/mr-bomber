@@ -16,17 +16,21 @@ namespace MrBoom.Screens
         private TeamMode teamMode = 0;
         private Menu menu;
 
+        protected PlayerProvider players;
+        protected override IPlayerProvider Players => players;
+
         public SinglePlayerStartScreen(Assets assets, List<Team> teams,
                                        List<IController> controllers, Settings settings)
             : base(assets, teams, controllers, settings)
         {
+            players = new PlayerProvider();
             nameGenerator = new NameGenerator(Terrain.Random);
             teamMode = settings.TeamMode;
         }
 
-        protected override IPlayerState CreatePlayer(int index, IController controller)
+        protected override bool AddPlayer(IController controller)
         {
-            return new SinglePlayerHumanPlayerState(controller, index, nameGenerator.GenerateName());
+            return players.AddPlayer(index => new SinglePlayerHumanPlayerState(controller, index, nameGenerator.GenerateName()));
         }
 
         protected override void Start()
@@ -35,7 +39,7 @@ namespace MrBoom.Screens
             {
                 players.AddPlayer(index => new SinglePlayerBotPlayerState(index, "bot"));
             }
-            else if (players.Count == 0)
+            else if (Players.Count == 0)
             {
                 for (int i = 0; i < 8; i++)
                 {

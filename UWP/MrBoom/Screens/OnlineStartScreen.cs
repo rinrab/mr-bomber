@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,40 +9,52 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.NetworkProtocol.Messages;
+using MrBoom.NetworkProtocol.Proxy;
 using MrBoom.State;
 
 namespace MrBoom.Screens
 {
-    public class IndexedPlayerProvider<KeyT>
+    public class IndexedPlayerProvider : IRemoteProxy, IPlayerProvider
     {
-        private readonly IDictionary<KeyT, IPlayerState> playerIndex;
-        private readonly IDictionary<KeyT, IPlayerState> pendingPlayers;
-        private IList<KeyT> playersToShow;
+        private readonly IDictionary<Guid, IPlayerState> playerIndex;
+
+        private LobbyPlayerCollection message;
+
+        public int Count => EnumeratePlayers().Count();
+        public IPlayerState this[int index] => EnumeratePlayers().ElementAt(index);
 
         public IndexedPlayerProvider()
         {
-            playerIndex = new Dictionary<KeyT, IPlayerState>();
-            pendingPlayers = new Dictionary<KeyT, IPlayerState>();
-            playersToShow = new List<KeyT>();
+            playerIndex = new Dictionary<Guid, IPlayerState>();
         }
 
-        public void IndexedAdd(KeyT key, IPlayerState player)
+        public void AddPlayer(Guid id, IPlayerState player)
         {
-            playerIndex.Add(key, player);
-            pendingPlayers.Add(key, player);
+            playerIndex.Add(id, player);
         }
 
         public IEnumerable<IPlayerState> EnumeratePlayers()
         {
-            foreach (KeyT player in playersToShow)
+            if (message != null)
             {
-                yield return playerIndex[player];
-                pendingPlayers.Remove(player);
-            }
+                foreach (LobbyPlayerInfo msg in message.Children)
+                {
+                    if (playerIndex.TryGetValue(msg.Key, out IPlayerState player))
+                    {
+                        if (player is OnlineLocalPlayerState localPlayer)
+                        {
+                            localPlayer.OnLoaded(msg);
+                        }
 
-            foreach (IPlayerState player in pendingPlayers.Values)
-            {
-                yield return player;
+                        yield return player;
+                    }
+                    else
+                    {
+                        OnlineRemotePlayerState newPlayer = new OnlineRemotePlayerState(msg);
+                        playerIndex.Add(msg.Key, newPlayer);
+                        yield return newPlayer;
+                    }
+                }
             }
         }
 
@@ -55,9 +68,29 @@ namespace MrBoom.Screens
             }
         }
 
-        public IEnumerable<IPlayerState> EnumeratePendingPlayers()
+        public void SetIncomingMessage(IMessage message)
         {
-            return pendingPlayers.Values;
+            this.message = (LobbyPlayerCollection)message;
+        }
+
+        public IMessage GetOutcomingMessage()
+        {
+            return null;
+        }
+
+        public IEnumerator<IPlayerState> GetEnumerator()
+        {
+            return EnumeratePlayers().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return EnumeratePlayers().GetEnumerator();
+        }
+
+        public IEnumerable<IPlayerState> EnumerateSprites()
+        {
+            return EnumeratePlayers();
         }
     }
 
@@ -66,25 +99,28 @@ namespace MrBoom.Screens
         private readonly MultiplayerClient multiplayerClient;
         private int multiplayerStartIn = -1;
 
-        private readonly IndexedPlayerProvider<Guid> playerIndex;
+        private readonly IndexedPlayerProvider players;
+        protected override IPlayerProvider Players => players;
 
         public OnlineStartScreen(Assets assets, List<Team> teams, MultiplayerClient multiplayerClient,
                                  List<IController> controllers, Settings settings)
             : base(assets, teams, controllers, settings)
         {
-            playerIndex = new IndexedPlayerProvider<Guid>();
+            players = new IndexedPlayerProvider();
 
             this.multiplayerClient = multiplayerClient;
             multiplayerClient.OnPacketReceived += OnPacketReceived;
         }
 
-        protected override IPlayerState CreatePlayer(int index, IController controller)
+        protected override bool AddPlayer(IController controller)
         {
             var player = new OnlineLocalPlayerState(controller);
 
-            playerIndex.IndexedAdd(player.Id, player);
+            players.AddPlayer(player.Id, player);
 
-            return player;
+            _ = player.RequestServer(multiplayerClient);
+
+            return true;
         }
 
         private void OnPacketReceived(Packet packet)
@@ -92,15 +128,14 @@ namespace MrBoom.Screens
             if (packet.Message is LobbyInfo lobby)
             {
                 multiplayerStartIn = lobby.StartIn;
-
-                playerIndex.Vacuum(players);
+                players.SetIncomingMessage(lobby.Players);
             }
             else if (packet.Message is GameInfo gi)
             {
                 if (multiplayerStartIn < 30 && multiplayerStartIn != -1)
                 {
                     multiplayerClient.OnPacketReceived -= OnPacketReceived;
-                    ScreenManager.SetScreen(new OnlineGameScreen(assets, multiplayerClient, players));
+                    ScreenManager.SetScreen(new OnlineGameScreen(assets, multiplayerClient, Players));
                 }
             }
         }
@@ -126,10 +161,10 @@ namespace MrBoom.Screens
                 }
             });
 
-            foreach (OnlineLocalPlayerState player in playerIndex.EnumeratePendingPlayers().Cast<OnlineLocalPlayerState>())
-            {
-                _ = player.RequestServer(multiplayerClient);
-            }
+            //foreach (OnlineLocalPlayerState player in playerIndex.EnumeratePendingPlayers().Cast<OnlineLocalPlayerState>())
+            //{
+            //    _ = player.RequestServer(multiplayerClient);
+            //}
 
             if (multiplayerClient.IsDead())
             {
