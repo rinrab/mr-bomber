@@ -61,12 +61,20 @@ namespace MrBoom.Server.Lobby
 
                 client.OnPacketReceived();
 
-                lobby.AddPlayer(new LobbyPlayer("qqq")
+                if (lobby.GetPlayer(playerJoin.Id) == null)
                 {
-                    Id = playerJoin.Id,
-                    Index = lobby.GetPlayerCount(),
-                    Client = client,
-                });
+                    lobby.AddPlayer(new LobbyPlayer("qqq")
+                    {
+                        Id = playerJoin.Id,
+                        Index = lobby.GetPlayerCount(),
+                        Client = client,
+                    });
+                }
+                else
+                {
+                    // avoid duplicates
+                    // throw this packet away! i dont care!
+                }
             }
             else if (message is PingMessage pingMessage)
             {

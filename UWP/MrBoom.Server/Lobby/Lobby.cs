@@ -50,6 +50,11 @@ namespace MrBoom.Server.Lobby
             return clients.FirstOrDefault(item => item.ClientSecret == id);
         }
 
+        public LobbyPlayer? GetPlayer(Guid id)
+        {
+            return players.FirstOrDefault(item => item.Id == id);
+        }
+
         public IEnumerable<ClientInfo> GetClients()
         {
             foreach (ClientInfo client in clients)

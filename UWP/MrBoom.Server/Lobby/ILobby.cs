@@ -18,6 +18,8 @@ namespace MrBoom.Server.Lobby
         void AddPlayer(LobbyPlayer player);
 
         ClientInfo? GetClient(Guid id);
+        LobbyPlayer? GetPlayer(Guid id);
+
         void FilterDeadClients();
 
         Task SendPacket(Packet packet, IPEndPoint ipAddress, CancellationToken cancellationToken);
