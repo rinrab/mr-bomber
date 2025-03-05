@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Common;
 using MrBoom.NetworkProtocol;
 using MrBoom.NetworkProtocol.Messages;
-using MrBoom.Screens;
 using MrBoom.State;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;

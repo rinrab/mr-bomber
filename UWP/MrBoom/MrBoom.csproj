@@ -122,6 +122,7 @@
     <Compile Include="Screens\OnlineConnectScreen.cs" />
     <Compile Include="Screens\OnlineGameScreen.cs" />
     <Compile Include="Screens\OnlineStartScreen.cs" />
+    <Compile Include="State\PlayerProvider.cs" />
     <Compile Include="Screens\SinglePlayerStartScreen.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Image.cs" />
