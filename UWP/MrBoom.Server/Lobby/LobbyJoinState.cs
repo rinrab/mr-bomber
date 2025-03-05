@@ -28,7 +28,7 @@ namespace MrBoom.Server.Lobby
             {
                 p.Add(new LobbyPlayerInfo
                 {
-                    Id = player.Id,
+                    Key = player.Id,
                     Index = (byte)player.Index,
                     Name = player.Name
                 });
@@ -36,7 +36,10 @@ namespace MrBoom.Server.Lobby
 
             return new LobbyInfo
             {
-                Players = p,
+                Players = new LobbyPlayerCollection
+                {
+                    Children = p
+                },
                 StartIn = startIn,
             };
         }

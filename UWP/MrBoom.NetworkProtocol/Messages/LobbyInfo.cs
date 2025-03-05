@@ -12,32 +12,21 @@ namespace MrBoom.NetworkProtocol.Messages
     public class LobbyInfo : IMessage
     {
         public int StartIn { get; set; }
-        public List<LobbyPlayerInfo> Players { get; set; }
+        public LobbyPlayerCollection Players { get; set; }
 
         public void ReadFrom(BinaryReader reader)
         {
             StartIn = reader.ReadInt32();
 
-            int count = reader.ReadByte();
-            Players = new List<LobbyPlayerInfo>(count);
-
-            for (int i = 0; i < count; i++)
-            {
-                LobbyPlayerInfo player = new LobbyPlayerInfo();
-                player.ReadFrom(reader);
-                Players.Add(player);
-            }
+            Players = new LobbyPlayerCollection();
+            Players.ReadFrom(reader);
         }
 
         public void WriteTo(BinaryWriter writer)
         {
             writer.Write(StartIn);
 
-            writer.Write((byte)Players.Count);
-            foreach (var player in Players)
-            {
-                player.WriteTo(writer);
-            }
+            Players.WriteTo(writer);
         }
     }
 }

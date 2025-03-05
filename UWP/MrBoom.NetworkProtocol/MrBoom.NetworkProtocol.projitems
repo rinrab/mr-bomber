@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Messages\GameTerrainInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\IMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\LobbyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\LobbyPlayerCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\LobbyPlayerInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\PingMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\PlayerJoin.cs" />

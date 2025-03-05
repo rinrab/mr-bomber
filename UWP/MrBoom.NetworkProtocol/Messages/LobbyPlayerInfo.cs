@@ -6,23 +6,23 @@ using MrBoom.Common;
 
 namespace MrBoom.NetworkProtocol.Messages
 {
-    public class LobbyPlayerInfo : IMessage
+    public class LobbyPlayerInfo : IKeyedMessage<Guid>
     {
         public string Name { get; set; }
-        public Guid Id { get; set; }
+        public Guid Key { get; set; }
         public byte Index { get; set; }
 
         public void ReadFrom(BinaryReader reader)
         {
             Index = reader.ReadByte();
-            Id = reader.ReadGuid();
+            Key = reader.ReadGuid();
             Name = reader.ReadString();
         }
 
         public void WriteTo(BinaryWriter writer)
         {
             writer.Write(Index);
-            writer.Write(Id);
+            writer.Write(Key);
             writer.Write(Name);
         }
     }
