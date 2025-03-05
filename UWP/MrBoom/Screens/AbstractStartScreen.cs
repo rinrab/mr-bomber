@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.State;
@@ -47,18 +48,18 @@ namespace MrBoom
         {
             assets.Start.Draw(ctx, 0, 0);
 
+            var players = Players.ToList();
+
             for (int x = 0; x < 4; x++)
             {
                 for (int y = 0; y < 2; y++)
                 {
                     int index = y * 4 + x;
                     AnimatedImage images = assets.Alpha[index / 2 + 2];
-                    if (index < Players.Count)
+                    if (index < players.Count)
                     {
-                        IPlayerState player = Players[index];
-
                         Game.DrawString(ctx, 13 + x * 80, 78 + y * 70, "name ?", images);
-                        Game.DrawString(ctx, 21 + x * 80, 88 + y * 70, player.Name, images);
+                        Game.DrawString(ctx, 21 + x * 80, 88 + y * 70, players[index].Name, images);
                     }
                     else
                     {

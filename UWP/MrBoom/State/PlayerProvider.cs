@@ -13,7 +13,6 @@ namespace MrBoom.State
         private readonly List<IPlayerState> players;
 
         public int Count => players.Count;
-        public IPlayerState this[int index] => players[index];
 
         public PlayerProvider()
         {

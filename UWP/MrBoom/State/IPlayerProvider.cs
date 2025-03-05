@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MrBoom.State
 {
-    public interface IPlayerProvider : IReadOnlyList<IPlayerState>
+    public interface IPlayerProvider : IReadOnlyCollection<IPlayerState>
     {
         int MaxPlayers { get; }
     }

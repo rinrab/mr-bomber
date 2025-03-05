@@ -24,8 +24,6 @@ namespace MrBoom.Screens
 
         public int MaxPlayers => 8;
 
-        public IPlayerState this[int index] => EnumeratePlayers().ElementAt(index);
-
         public IndexedPlayerProvider()
         {
             playerIndex = new Dictionary<Guid, IPlayerState>();
