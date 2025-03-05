@@ -12,20 +12,67 @@ using MrBoom.State;
 
 namespace MrBoom.Screens
 {
+    public class IndexedPlayerProvider<KeyT>
+    {
+        private readonly IDictionary<KeyT, IPlayerState> playerIndex;
+        private readonly IDictionary<KeyT, IPlayerState> pendingPlayers;
+        private IList<KeyT> playersToShow;
+
+        public IndexedPlayerProvider()
+        {
+            playerIndex = new Dictionary<KeyT, IPlayerState>();
+            pendingPlayers = new Dictionary<KeyT, IPlayerState>();
+            playersToShow = new List<KeyT>();
+        }
+
+        public void IndexedAdd(KeyT key, IPlayerState player)
+        {
+            playerIndex.Add(key, player);
+            pendingPlayers.Add(key, player);
+        }
+
+        public IEnumerable<IPlayerState> EnumeratePlayers()
+        {
+            foreach (KeyT player in playersToShow)
+            {
+                yield return playerIndex[player];
+                pendingPlayers.Remove(player);
+            }
+
+            foreach (IPlayerState player in pendingPlayers.Values)
+            {
+                yield return player;
+            }
+        }
+
+        public void Vacuum(PlayerProvider playerProvider)
+        {
+            playerProvider.Clear();
+
+            foreach (IPlayerState player in EnumeratePlayers())
+            {
+                playerProvider.AddPlayer(_ => player);
+            }
+        }
+
+        public IEnumerable<IPlayerState> EnumeratePendingPlayers()
+        {
+            return pendingPlayers.Values;
+        }
+    }
+
     public class OnlineStartScreen : AbstractStartScreen
     {
         private readonly MultiplayerClient multiplayerClient;
         private int multiplayerStartIn = -1;
 
-        private readonly IDictionary<Guid, IPlayerState> playerIndex;
-        private readonly IDictionary<Guid, OnlineLocalPlayerState> pendingPlayers;
+        private readonly IndexedPlayerProvider<Guid> playerIndex;
 
         public OnlineStartScreen(Assets assets, List<Team> teams, MultiplayerClient multiplayerClient,
                                  List<IController> controllers, Settings settings)
             : base(assets, teams, controllers, settings)
         {
-            playerIndex = new Dictionary<Guid, IPlayerState>();
-            pendingPlayers = new Dictionary<Guid, OnlineLocalPlayerState>();
+            playerIndex = new IndexedPlayerProvider<Guid>();
 
             this.multiplayerClient = multiplayerClient;
             multiplayerClient.OnPacketReceived += OnPacketReceived;
@@ -35,8 +82,7 @@ namespace MrBoom.Screens
         {
             var player = new OnlineLocalPlayerState(controller);
 
-            playerIndex.Add(player.Id, player);
-            pendingPlayers.Add(player.Id, player);
+            playerIndex.IndexedAdd(player.Id, player);
 
             return player;
         }
@@ -47,27 +93,7 @@ namespace MrBoom.Screens
             {
                 multiplayerStartIn = lobby.StartIn;
 
-                players.Clear();
-
-                for (int i = 0; i < lobby.Players.Count; i++)
-                {
-                    var player = lobby.Players[i];
-
-                    if (playerIndex.TryGetValue(player.Id, out IPlayerState val))
-                    {
-                        if (val is OnlineLocalPlayerState onlinePlayer)
-                        {
-                            onlinePlayer.OnLoaded(player);
-                            pendingPlayers.Remove(player.Id);
-                        }
-
-                        players.AddPlayer(_ => val);
-                    }
-                    else
-                    {
-                        players.AddPlayer(_ => new OnlineRemotePlayerState(player));
-                    }
-                }
+                playerIndex.Vacuum(players);
             }
             else if (packet.Message is GameInfo gi)
             {
@@ -100,9 +126,9 @@ namespace MrBoom.Screens
                 }
             });
 
-            foreach (var player in pendingPlayers)
+            foreach (OnlineLocalPlayerState player in playerIndex.EnumeratePendingPlayers().Cast<OnlineLocalPlayerState>())
             {
-                _ = player.Value.RequestServer(multiplayerClient);
+                _ = player.RequestServer(multiplayerClient);
             }
 
             if (multiplayerClient.IsDead())
