@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MrBoom.State
 {
-    public class PlayerProvider
+    public class PlayerProvider : IPlayerProvider, IPlayerContainer
     {
         public int MaxPlayers { get; } = 8;
 
