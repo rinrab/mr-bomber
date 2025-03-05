@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Common;
@@ -10,6 +11,126 @@ using Windows.UI.Xaml;
 
 namespace MrBoom.Screens
 {
+    public interface IExtensibilityProvider
+    {
+        IList<ITeamModeProvider> TeamModes { get; }
+    }
+
+    public class ExtensibilityProvider : IExtensibilityProvider
+    {
+        public IList<ITeamModeProvider> TeamModes { get; }
+
+        public ExtensibilityProvider()
+        {
+            TeamModes = new List<ITeamModeProvider>();
+        }
+
+        // Default
+        public static IExtensibilityProvider Default = InitializeDefaultProvider();
+
+        private static IExtensibilityProvider InitializeDefaultProvider()
+        {
+            return new ExtensibilityProvider
+            {
+                TeamModes =
+                {
+                    new SimpleTeamModeProvider(),
+                    new ColourTeamModeProvider(),
+                    new SexTeamModeProvider(),
+                },
+            };
+        }
+    }
+
+    public interface ITeamModeProvider
+    {
+        string Name { get; }
+
+        List<Team> CreateTeams(IPlayerProvider playerProvider);
+    }
+
+    public class SimpleTeamModeProvider : ITeamModeProvider
+    {
+        public string Name => "OFF";
+
+        public List<Team> CreateTeams(IPlayerProvider playerProvider)
+        {
+            var teams = new List<Team>();
+
+            foreach (IPlayerState player in playerProvider)
+            {
+                teams.Add(new Team
+                {
+                    Players = new List<IPlayerState> { player },
+                });
+            }
+
+            return teams;
+        }
+    }
+
+    public class ColourTeamModeProvider : ITeamModeProvider
+    {
+        public string Name => "COLOR";
+
+        public List<Team> CreateTeams(IPlayerProvider playerProvider)
+        {
+            List<Team> teams = new List<Team>();
+
+            if (playerProvider.Count == 2)
+            {
+                foreach (IPlayerState player in playerProvider)
+                {
+                    teams.Add(new Team { Players = new List<IPlayerState> { player } });
+                }
+            }
+            else
+            {
+                List<IPlayerState> players = playerProvider.ToList();
+
+                for (int i = 0; i < players.Count; i += 2)
+                {
+                    var newPlayers = new List<IPlayerState> { players[i] };
+                    if (i + 1 < players.Count)
+                    {
+                        newPlayers.Add(players[i + 1]);
+                    }
+
+                    teams.Add(new Team { Players = newPlayers });
+                }
+            }
+
+            return teams;
+        }
+    }
+
+    public class SexTeamModeProvider : ITeamModeProvider
+    {
+        public string Name => "SEX";
+
+        public List<Team> CreateTeams(IPlayerProvider playerProvider)
+        {
+            List<IPlayerState> players = playerProvider.ToList();
+
+            List<Team> teams = new List<Team>
+            {
+                new Team { Players = new List<IPlayerState>() },
+                new Team { Players = new List<IPlayerState>() }
+            };
+
+            for (int i = 0; i < players.Count; i += 2)
+            {
+                teams[0].Players.Add(players[i]);
+                if (i + 1 < players.Count)
+                {
+                    teams[1].Players.Add(players[i + 1]);
+                }
+            }
+
+            return teams;
+        }
+    }
+
     public class SinglePlayerStartScreen : AbstractStartScreen
     {
         private readonly NameGenerator nameGenerator;
@@ -56,51 +177,8 @@ namespace MrBoom.Screens
 
                 settings.TeamMode = teamMode;
 
-                teams.Clear();
-                if (teamMode == TeamMode.Off)
-                {
-                    foreach (IPlayerState player in players)
-                    {
-                        teams.Add(new Team { Players = new List<IPlayerState> { player } });
-                    }
-                }
-                if (teamMode == TeamMode.Color)
-                {
-                    if (players.Count == 2)
-                    {
-                        foreach (IPlayerState player in players)
-                        {
-                            teams.Add(new Team { Players = new List<IPlayerState> { player } });
-                        }
-                    }
-                    else
-                    {
-                        for (int i = 0; i < players.Count; i += 2)
-                        {
-                            var newPlayers = new List<IPlayerState> { players[i] };
-                            if (i + 1 < players.Count)
-                            {
-                                newPlayers.Add(players[i + 1]);
-                            }
-
-                            teams.Add(new Team { Players = newPlayers });
-                        }
-                    }
-                }
-                if (teamMode == TeamMode.Sex)
-                {
-                    teams.Add(new Team { Players = new List<IPlayerState>() });
-                    teams.Add(new Team { Players = new List<IPlayerState>() });
-
-                    for (int i = 0; i < players.Count; i += 2)
-                    {
-                        teams[0].Players.Add(players[i]);
-                        if (i + 1 < players.Count)
-                        {
-                            teams[1].Players.Add(players[i + 1]);
-                        }
-                    }
-                }
+                ITeamModeProvider teamModeProvider = ExtensibilityProvider.Default.TeamModes[(int)teamMode];
+                teams = teamModeProvider.CreateTeams(players);
 
                 ScreenManager.SetScreen(new GameScreen(teams, assets, settings, controllers));
             }
