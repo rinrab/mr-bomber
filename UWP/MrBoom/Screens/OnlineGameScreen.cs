@@ -20,6 +20,9 @@ namespace MrBoom.Screens
         private readonly List<IPlayerState> players;
         private readonly List<IPlayerState> monsters;
 
+        public int Count => players.Count;
+        public IPlayerState this[int index] => players[index];
+
         public PlayerProvider()
         {
             players = new List<IPlayerState>();
@@ -44,16 +47,39 @@ namespace MrBoom.Screens
             }
         }
 
-        public void AddPlayer(IPlayerState player)
+        public bool AddPlayer(Func<int, IPlayerState> providePlayer)
         {
-            players.Add(player);
+            if (players.Count < MaxPlayers)
+            {
+                players.Add(providePlayer(players.Count));
+                return true;
+            }
+            else
+            {
+                for (int i = 0; i < players.Count; i++)
+                {
+                    if (players[i].IsReplaceble)
+                    {
+                        players[i] = providePlayer(i);
+
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        public void Clear()
+        {
+            players.Clear();
         }
 
         public IEnumerable<IPlayerState> EnumeratePlayers()
         {
             int count = 0;
 
-            for (int i = 0; i < players.Count && i < MaxPlayers; i++, count++)
+            for (int i = 0; i < players.Count && count < MaxPlayers; i++, count++)
             {
                 yield return players[i];
             }
@@ -63,12 +89,12 @@ namespace MrBoom.Screens
         {
             int count = 0;
 
-            for (int i = 0; i < players.Count && i < MaxPlayers; i++, count++)
+            for (int i = 0; i < players.Count && count < MaxPlayers; i++, count++)
             {
                 yield return players[i];
             }
 
-            for (int i = 0; i < monsters.Count && i < MaxPlayers; i++, count++)
+            for (int i = 0; i < monsters.Count && count < MaxPlayers; i++, count++)
             {
                 yield return monsters[i];
             }
@@ -82,12 +108,12 @@ namespace MrBoom.Screens
 
         private readonly PlayerProvider players;
 
-        public OnlineGameScreen(Assets assets, MultiplayerClient multiplayerClient, List<IPlayerState> players) : base(assets)
+        public OnlineGameScreen(Assets assets, MultiplayerClient multiplayerClient, PlayerProvider players) : base(assets)
         {
             terrainProxy = new TerrainProxy();
 
             this.multiplayerClient = multiplayerClient;
-            this.players = new PlayerProvider(players);
+            this.players = players;
 
             multiplayerClient.OnPacketReceived += OnPacketReceived;
         }

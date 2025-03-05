@@ -39,7 +39,7 @@ namespace MrBoom
 
         private int startTick = -1;
         private TeamMode teamMode = 0;
-        protected readonly List<IPlayerState> players;
+        protected readonly PlayerProvider players;
         private Menu menu;
 
         public AbstractStartScreen(Assets assets, List<Team> teams, List<IController> controllers, Settings settings)
@@ -51,7 +51,7 @@ namespace MrBoom
 
             unjoinedControllers = new List<IController>(controllers);
             joinedControllers = new List<IController>();
-            players = new List<IPlayerState>();
+            players = new PlayerProvider();
             teamMode = settings.TeamMode;
 
             teams.Clear();
@@ -139,40 +139,9 @@ namespace MrBoom
 
         protected abstract IPlayerState CreatePlayer(int index, IController controller);
 
-        protected bool AddPlayer(IController controller)
-        {
-            if (players.Count < 8)
-            {
-                players.Add(CreatePlayer(players.Count, controller));
-                return true;
-            }
-            else
-            {
-                for (int i = 0; i < players.Count; i++)
-                {
-                    if (players[i].IsReplaceble)
-                    {
-                        players[i] = CreatePlayer(i, controller);
-
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
-
         protected bool AddBot()
         {
-            if (players.Count < 8)
-            {
-                players.Add(new SinglePlayerBotPlayerState(players.Count, "bot"));
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return players.AddPlayer(index => new SinglePlayerBotPlayerState(index, "bot"));
         }
 
         public virtual void Update()
@@ -186,7 +155,7 @@ namespace MrBoom
                 {
                     if (controller.IsKeyDown(PlayerKeys.Bomb))
                     {
-                        if (AddPlayer(controller))
+                        if (players.AddPlayer(index => CreatePlayer(index, controller)))
                         {
                             assets.Sounds.Addplayer.Play();
 
@@ -276,13 +245,13 @@ namespace MrBoom
 
             if (players.Count == 1)
             {
-                players.Add(new SinglePlayerBotPlayerState(players.Count, "bot"));
+                players.AddPlayer(index => new SinglePlayerBotPlayerState(index, "bot"));
             }
             else if (players.Count == 0)
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    players.Add(new SinglePlayerBotPlayerState(players.Count, "bot"));
+                    players.AddPlayer(index => new SinglePlayerBotPlayerState(index, "bot"));
                 }
             }
 
@@ -298,7 +267,7 @@ namespace MrBoom
                 teams.Clear();
                 if (teamMode == TeamMode.Off)
                 {
-                    foreach (IPlayerState player in players)
+                    foreach (IPlayerState player in players.EnumeratePlayers())
                     {
                         teams.Add(new Team { Players = new List<IPlayerState> { player } });
                     }
@@ -307,7 +276,7 @@ namespace MrBoom
                 {
                     if (players.Count == 2)
                     {
-                        foreach (IPlayerState player in players)
+                        foreach (IPlayerState player in players.EnumeratePlayers())
                         {
                             teams.Add(new Team { Players = new List<IPlayerState> { player } });
                         }

@@ -55,11 +55,11 @@ namespace MrBoom.Screens
                             onlinePlayer.OnLoaded(player);
                         }
 
-                        players.Add(val);
+                        players.AddPlayer(_ => val);
                     }
                     else
                     {
-                        players.Add(new OnlineRemotePlayerState(player));
+                        players.AddPlayer(_ => new OnlineRemotePlayerState(player));
                     }
                 }
             }
