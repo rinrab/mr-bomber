@@ -146,5 +146,9 @@ namespace MrBoom.Screens
                 Game.DrawString(ctx, 8, 200 - 20, multiplayerStartIn.ToString(), assets.Alpha[1]);
             }
         }
+
+        protected override void Start()
+        {
+        }
     }
 }
