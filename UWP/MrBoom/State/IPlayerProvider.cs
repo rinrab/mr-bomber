@@ -6,6 +6,6 @@ namespace MrBoom.State
 {
     public interface IPlayerProvider : IReadOnlyList<IPlayerState>
     {
-        IEnumerable<IPlayerState> EnumerateSprites();
+        int MaxPlayers { get; }
     }
 }

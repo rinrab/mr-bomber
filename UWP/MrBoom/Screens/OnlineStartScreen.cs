@@ -21,6 +21,9 @@ namespace MrBoom.Screens
         private LobbyPlayerCollection message;
 
         public int Count => EnumeratePlayers().Count();
+
+        public int MaxPlayers => 8;
+
         public IPlayerState this[int index] => EnumeratePlayers().ElementAt(index);
 
         public IndexedPlayerProvider()
@@ -86,11 +89,6 @@ namespace MrBoom.Screens
         IEnumerator IEnumerable.GetEnumerator()
         {
             return EnumeratePlayers().GetEnumerator();
-        }
-
-        public IEnumerable<IPlayerState> EnumerateSprites()
-        {
-            return EnumeratePlayers();
         }
     }
 

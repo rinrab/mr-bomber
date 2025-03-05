@@ -17,6 +17,7 @@ namespace MrBoom.Screens
         private readonly TerrainProxy terrainProxy;
 
         private readonly IPlayerProvider players;
+        private readonly ISpriteProvider sprites;
 
         public OnlineGameScreen(Assets assets, MultiplayerClient multiplayerClient, IPlayerProvider players) : base(assets)
         {
@@ -24,6 +25,8 @@ namespace MrBoom.Screens
 
             this.multiplayerClient = multiplayerClient;
             this.players = players;
+
+            sprites = new SpriteProvider(players);
 
             multiplayerClient.OnPacketReceived += OnPacketReceived;
         }
@@ -40,7 +43,7 @@ namespace MrBoom.Screens
 
                     clientTerrain = new ClientTerrain(terrainProxy, assets);
 
-                    foreach (IPlayerState state in players.EnumerateSprites())
+                    foreach (IPlayerState state in sprites.EnumerateSprites())
                     {
                         terrainProxy.Sprites.Add(state.InitializeProxy());
                     }
@@ -50,7 +53,7 @@ namespace MrBoom.Screens
 
                 if (init)
                 {
-                    foreach (IPlayerState state in players.EnumerateSprites())
+                    foreach (IPlayerState state in sprites.EnumerateSprites())
                     {
                         clientTerrain.Sprites.Add(state.InitializeClientSprite(terrainProxy, assets));
                     }

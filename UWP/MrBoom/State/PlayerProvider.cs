@@ -11,7 +11,6 @@ namespace MrBoom.State
         public int MaxPlayers { get; } = 8;
 
         private readonly List<IPlayerState> players;
-        private readonly List<IPlayerState> monsters;
 
         public int Count => players.Count;
         public IPlayerState this[int index] => players[index];
@@ -19,25 +18,6 @@ namespace MrBoom.State
         public PlayerProvider()
         {
             players = new List<IPlayerState>();
-            monsters = new List<IPlayerState>();
-
-            InitializeMonsters();
-        }
-
-        public PlayerProvider(List<IPlayerState> players)
-        {
-            this.players = players;
-            monsters = new List<IPlayerState>();
-
-            InitializeMonsters();
-        }
-
-        private void InitializeMonsters()
-        {
-            for (int i = 0; i < MaxPlayers - players.Count; i++)
-            {
-                monsters.Add(new OnlineMonsterPlayerState(i));
-            }
         }
 
         public bool AddPlayer(Func<int, IPlayerState> providePlayer)
@@ -68,7 +48,6 @@ namespace MrBoom.State
             players.Clear();
         }
 
-
         public IEnumerator<IPlayerState> GetEnumerator()
         {
             int count = 0;
@@ -82,21 +61,6 @@ namespace MrBoom.State
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        public IEnumerable<IPlayerState> EnumerateSprites()
-        {
-            int count = 0;
-
-            for (int i = 0; i < players.Count && count < MaxPlayers; i++, count++)
-            {
-                yield return players[i];
-            }
-
-            for (int i = 0; i < monsters.Count && count < MaxPlayers; i++, count++)
-            {
-                yield return monsters[i];
-            }
         }
     }
 }

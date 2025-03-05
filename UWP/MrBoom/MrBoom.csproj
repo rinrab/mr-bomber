@@ -142,6 +142,7 @@
     <Compile Include="Screens\AbstractStartScreen.cs" />
     <Compile Include="State\SinglePlayerBotPlayerState.cs" />
     <Compile Include="State\SinglePlayerHumanPlayerState.cs" />
+    <Compile Include="State\SpriteProvider.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Screens\VictoryScreen.cs" />
     <Compile Include="Version.cs" />
