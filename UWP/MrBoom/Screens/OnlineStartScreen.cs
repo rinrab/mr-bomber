@@ -61,16 +61,6 @@ namespace MrBoom.Screens
             }
         }
 
-        public void Vacuum(PlayerProvider playerProvider)
-        {
-            playerProvider.Clear();
-
-            foreach (IPlayerState player in EnumeratePlayers())
-            {
-                playerProvider.AddPlayer(_ => player);
-            }
-        }
-
         public void SetIncomingMessage(IMessage message)
         {
             this.message = (LobbyPlayerCollection)message;
