@@ -13,7 +13,7 @@ namespace MrBoom
         private int tick = 0;
 
         protected readonly Assets assets;
-        protected readonly List<Team> teams;
+        protected List<Team> teams;
         protected readonly List<IController> controllers;
         protected readonly Settings settings;
         private readonly List<IController> unjoinedControllers;
