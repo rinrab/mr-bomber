@@ -30,9 +30,10 @@ namespace MrBoom.State
         {
             int count = 0;
 
-            for (int i = 0; i < players.Count && count < players.MaxPlayers; i++, count++)
+            foreach (IPlayerState player in players)
             {
-                yield return players[i];
+                yield return player;
+                count++;
             }
 
             for (int i = 0; i < monsters.Count && count < players.MaxPlayers; i++, count++)
