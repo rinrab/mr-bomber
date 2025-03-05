@@ -16,9 +16,9 @@ namespace MrBoom.Screens
         private readonly MultiplayerClient multiplayerClient;
         private readonly TerrainProxy terrainProxy;
 
-        private readonly PlayerProvider players;
+        private readonly IPlayerProvider players;
 
-        public OnlineGameScreen(Assets assets, MultiplayerClient multiplayerClient, PlayerProvider players) : base(assets)
+        public OnlineGameScreen(Assets assets, MultiplayerClient multiplayerClient, IPlayerProvider players) : base(assets)
         {
             terrainProxy = new TerrainProxy();
 
