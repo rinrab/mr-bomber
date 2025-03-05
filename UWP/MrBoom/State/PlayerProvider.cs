@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace MrBoom.State
@@ -67,7 +68,8 @@ namespace MrBoom.State
             players.Clear();
         }
 
-        public IEnumerable<IPlayerState> EnumeratePlayers()
+
+        public IEnumerator<IPlayerState> GetEnumerator()
         {
             int count = 0;
 
@@ -75,6 +77,11 @@ namespace MrBoom.State
             {
                 yield return players[i];
             }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public IEnumerable<IPlayerState> EnumerateSprites()

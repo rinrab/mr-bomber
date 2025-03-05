@@ -4,13 +4,8 @@ using System.Collections.Generic;
 
 namespace MrBoom.State
 {
-    public interface IPlayerProvider
+    public interface IPlayerProvider : IReadOnlyList<IPlayerState>
     {
-        IPlayerState this[int index] { get; }
-
-        int Count { get; }
-
-        IEnumerable<IPlayerState> EnumeratePlayers();
         IEnumerable<IPlayerState> EnumerateSprites();
     }
 }

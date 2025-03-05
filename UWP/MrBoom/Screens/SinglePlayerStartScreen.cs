@@ -55,7 +55,7 @@ namespace MrBoom.Screens
                 teams.Clear();
                 if (teamMode == TeamMode.Off)
                 {
-                    foreach (IPlayerState player in players.EnumeratePlayers())
+                    foreach (IPlayerState player in players)
                     {
                         teams.Add(new Team { Players = new List<IPlayerState> { player } });
                     }
@@ -64,7 +64,7 @@ namespace MrBoom.Screens
                 {
                     if (players.Count == 2)
                     {
-                        foreach (IPlayerState player in players.EnumeratePlayers())
+                        foreach (IPlayerState player in players)
                         {
                             teams.Add(new Team { Players = new List<IPlayerState> { player } });
                         }
