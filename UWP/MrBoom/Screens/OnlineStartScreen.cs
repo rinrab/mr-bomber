@@ -16,13 +16,16 @@ namespace MrBoom.Screens
     {
         private readonly MultiplayerClient multiplayerClient;
         private int multiplayerStartIn = -1;
+
         private readonly IDictionary<Guid, IPlayerState> playerIndex;
+        private readonly IDictionary<Guid, OnlineLocalPlayerState> pendingPlayers;
 
         public OnlineStartScreen(Assets assets, List<Team> teams, MultiplayerClient multiplayerClient,
                                  List<IController> controllers, Settings settings)
             : base(assets, teams, controllers, settings)
         {
             playerIndex = new Dictionary<Guid, IPlayerState>();
+            pendingPlayers = new Dictionary<Guid, OnlineLocalPlayerState>();
 
             this.multiplayerClient = multiplayerClient;
             multiplayerClient.OnPacketReceived += OnPacketReceived;
@@ -31,8 +34,10 @@ namespace MrBoom.Screens
         protected override IPlayerState CreatePlayer(int index, IController controller)
         {
             var player = new OnlineLocalPlayerState(controller);
+
             playerIndex.Add(player.Id, player);
-            _ = player.RequestServer(multiplayerClient);
+            pendingPlayers.Add(player.Id, player);
+
             return player;
         }
 
@@ -53,6 +58,7 @@ namespace MrBoom.Screens
                         if (val is OnlineLocalPlayerState onlinePlayer)
                         {
                             onlinePlayer.OnLoaded(player);
+                            pendingPlayers.Remove(player.Id);
                         }
 
                         players.AddPlayer(_ => val);
@@ -93,6 +99,11 @@ namespace MrBoom.Screens
                     PingId = 0,
                 }
             });
+
+            foreach (var player in pendingPlayers)
+            {
+                _ = player.Value.RequestServer(multiplayerClient);
+            }
 
             if (multiplayerClient.IsDead())
             {
