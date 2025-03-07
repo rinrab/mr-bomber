@@ -41,8 +41,6 @@ namespace MrBoom
 
     public class Terrain : ITerrain, ITerrainAccessor, ITerrainProxy
     {
-        public static Random Random = new Random();
-
         public int Width { get; }
         public int Height { get; }
         public int LevelIndex { get; }
@@ -83,14 +81,15 @@ namespace MrBoom
         private readonly Grid<bool> hasMonsterGrid;
         private readonly Grid<bool> isMonsterComingGrid;
         private readonly Grid<int> killablePlayerGrid;
+        public readonly IRandom Random;
 
-        public Terrain(int levelIndex)
+        public Terrain(int levelIndex, IRandom random)
         {
             monsters = new List<AbstractMonster>();
             players = new List<ServerPlayer>();
 
             LevelIndex = levelIndex;
-
+            Random = random;
             mapData = MapData.Data[levelIndex];
             StartFeatures = mapData.StartFeatures;
             powerUpList = new List<PowerUpType>();
@@ -109,7 +108,7 @@ namespace MrBoom
             hasMonsterGrid = new Grid<bool>(Width, Height, false);
             isMonsterComingGrid = new Grid<bool>(Width, Height, false);
             killablePlayerGrid = new Grid<int>(Width, Height, 0);
-            Random.Shuffle(spawns);
+            random.Shuffle(spawns);
 
             InitializeBonuses();
             InitializeMap();

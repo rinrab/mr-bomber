@@ -12,7 +12,7 @@ namespace MrBoom.Screens
 {
     public class SinglePlayerStartScreen : AbstractStartScreen
     {
-        private readonly NameGenerator nameGenerator;
+        private readonly INameGenerator nameGenerator;
         private TeamMode teamMode = 0;
         private Menu menu;
 
@@ -24,7 +24,7 @@ namespace MrBoom.Screens
             : base(assets, teams, controllers, settings)
         {
             players = new PlayerProvider();
-            nameGenerator = new NameGenerator(Terrain.Random);
+            nameGenerator = ExtensibilityProvider.Default.NameGenerator;
             teamMode = settings.TeamMode;
         }
 

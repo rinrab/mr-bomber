@@ -5,9 +5,14 @@ using System.Collections.Generic;
 
 namespace MrBoom.Common
 {
-    public class NameGenerator
+    public interface INameGenerator
     {
-        private readonly Random random;
+        string GenerateName();
+    }
+
+    public class NameGenerator : INameGenerator
+    {
+        private readonly IRandom random;
 
         private readonly List<string> names = new List<string>
         {
@@ -16,7 +21,7 @@ namespace MrBoom.Common
             "cpp", "sus", "god", "guy", "bob", "jim", "mrb", "max"
         };
 
-        public NameGenerator(Random random)
+        public NameGenerator(IRandom random)
         {
             this.random = random;
         }

@@ -2,6 +2,7 @@
 
 using System;
 using System.Net;
+using MrBoom.Common;
 using MrBoom.NetworkProtocol;
 using MrBoom.NetworkProtocol.Messages;
 
@@ -19,7 +20,7 @@ namespace MrBoom.Server.Lobby
             this.lobby = lobby;
             this.logger = logger;
 
-            Terrain = new Terrain(1);
+            Terrain = new Terrain(1, new SimpleRandom());
 
             foreach (LobbyPlayer player in lobby.GetPlayers())
             {

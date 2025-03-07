@@ -44,7 +44,7 @@ namespace MrBoom
 
             public override AbstractMonster GetMonster(Terrain map, int x, int y)
             {
-                return new BasicMonster(map, this, x, y);
+                return new BasicMonster(map, this, map.Random, x, y);
             }
         }
 

@@ -52,7 +52,7 @@ namespace MrBoom
             {
                 int levelIndex = ScreenManager.GetNextLevel();
 
-                terrain = new Terrain(levelIndex);
+                terrain = new Terrain(levelIndex, ExtensibilityProvider.Default.Random);
 
                 ScreenManager.NextSong(assets.Sounds, MapData.Data[levelIndex].Song);
 

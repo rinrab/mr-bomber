@@ -7,7 +7,12 @@ namespace MrBoom.Common
 {
     public static class RandomExtensions
     {
-        public static void Shuffle<T>(this Random random, IList<T> items)
+        public static int Next(this IRandom random, int maxValue)
+        {
+            return random.Next(0, maxValue);
+        }
+
+        public static void Shuffle<T>(this IRandom random, IList<T> items)
         {
             int count = items.Count;
 
@@ -22,14 +27,14 @@ namespace MrBoom.Common
             }
         }
 
-        public static T NextEnum<T>(this Random random) where T : Enum
+        public static T NextEnum<T>(this IRandom random) where T : Enum
         {
             var values = Enum.GetValues(typeof(T));
 
             return (T)values.GetValue(random.Next(values.Length));
         }
 
-        public static T NextElement<T>(this Random random, IList<T> items)
+        public static T NextElement<T>(this IRandom random, IList<T> items)
         {
             int index = random.Next(items.Count);
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MrBoom.Common;
+using MrBoom.Screens;
 
 namespace MrBoom
 {
@@ -28,7 +28,7 @@ namespace MrBoom
 
             int levelIndex = ScreenManager.GetNextLevel();
 
-            terrain = new Terrain(levelIndex);
+            terrain = new Terrain(levelIndex, ExtensibilityProvider.Default.Random);
             clientTerrain = new ClientTerrain(terrain, assets);
 
             ScreenManager.NextSong(assets.Sounds, MapData.Data[levelIndex].Song);

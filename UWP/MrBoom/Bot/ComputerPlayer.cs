@@ -236,9 +236,9 @@ namespace MrBoom.Bot
             return terrain.GetCellApocalypseRemainingTime(cellX, cellY) < 5 * 60;
         }
 
-        private Random GetDecisionRandom()
+        private IRandom GetDecisionRandom()
         {
-            return new Random(botSeed);
+            return new SimpleRandom(botSeed);
         }
 
         private int CalcTravelCost(int x, int y)

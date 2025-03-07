@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Collections.Generic;
+using MrBoom.Common;
 
 namespace MrBoom.Screens
 {
@@ -8,9 +9,19 @@ namespace MrBoom.Screens
     {
         public IList<ITeamModeProvider> TeamModes { get; }
 
+        public IRandom Random { get; set; }
+        public IRandom SoundRandom { get; set; }
+        public IRandom LevelRandom { get; set; }
+        public INameGenerator NameGenerator { get; set; }
+
         public ExtensibilityProvider()
         {
             TeamModes = new List<ITeamModeProvider>();
+
+            Random = new SimpleRandom();
+            SoundRandom = new UnrepeatableRandom();
+            LevelRandom = new UnrepeatableRandom();
+            NameGenerator = new NameGenerator(Random);
         }
 
         // Default

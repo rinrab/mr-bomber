@@ -7,8 +7,10 @@ namespace MrBoom
 {
     public class BasicMonster : AbstractMonster
     {
+        private readonly IRandom random;
+
         public BasicMonster(Terrain map, Map.BasicMonsterData monsterData,
-                            int x, int y) : base(map, monsterData, x, y)
+                            IRandom random, int x, int y) : base(map, monsterData, x, y)
         {
             tree = new BtSequence()
             {
@@ -20,6 +22,7 @@ namespace MrBoom
                         new DelayNode(monsterData.WaitAfterTurn, "Think")
                     })
             };
+            this.random = random;
         }
 
 
@@ -27,7 +30,7 @@ namespace MrBoom
         {
             for (int i = 0; ; i++)
             {
-                Directions dir = Terrain.Random.NextEnum<Directions>();
+                Directions dir = random.NextEnum<Directions>();
 
                 if (IsWalkable(dir.DeltaX(), dir.DeltaY()))
                 {
@@ -44,7 +47,7 @@ namespace MrBoom
 
         private BtStatus Walk()
         {
-            if (X % 16 == 0 && Y % 16 == 0 && Terrain.Random.Next(16) == 0)
+            if (X % 16 == 0 && Y % 16 == 0 && random.Next(16) == 0)
             {
                 Direction = null;
                 return BtStatus.Success;
