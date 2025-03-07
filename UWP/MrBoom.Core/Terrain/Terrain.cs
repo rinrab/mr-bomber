@@ -269,7 +269,7 @@ namespace MrBoom
             {
                 if (TimeLeft % 16 == 0)
                 {
-                    Directions dir = Random.NextElement(new Directions[] { Directions.Left, Directions.Right });
+                    Directions dir = Random.NextElement(DirectionsExtensions.Horizontal());
                     int x = (dir == Directions.Right) ? 1 : Width - 2;
                     int y = (Random.Next(0, Height / 2)) * 2 + 1;
 

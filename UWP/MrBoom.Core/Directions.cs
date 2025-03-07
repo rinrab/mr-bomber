@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using System.Collections.Generic;
+
 namespace MrBoom
 {
     public enum Directions
@@ -84,6 +86,21 @@ namespace MrBoom
             {
                 return null;
             }
+        }
+
+        public static Directions[] All()
+        {
+            return new Directions[] { Directions.Up, Directions.Down, Directions.Left, Directions.Right };
+        }
+
+        public static Directions[] Horizontal()
+        {
+            return new Directions[] { Directions.Left, Directions.Right };
+        }
+
+        public static Directions[] Vertical()
+        {
+            return new Directions[] { Directions.Up, Directions.Down };
         }
     }
 }

@@ -82,7 +82,7 @@ namespace MrBoom.Bot
             return grid[x, y] < CostCantGo;
         }
 
-        public Directions? GetBestDirection(int x, int y, Directions[] directions)
+        public Directions? GetBestDirection(int x, int y, IEnumerable<Directions> directions)
         {
             if (GetCost(x, y) == 0)
             {

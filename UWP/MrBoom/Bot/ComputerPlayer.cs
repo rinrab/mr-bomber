@@ -14,7 +14,6 @@ namespace MrBoom.Bot
         private readonly BtNode tree;
         private readonly TravelCostGrid travelCostGrid;
         private readonly TravelCostGrid travelSafeCostGrid;
-        private readonly Directions[] allDirections;
         private readonly int botSeed;
         private readonly TravelCostGrid findPathCost;
         private readonly Grid<int> bestExplosionGrid;
@@ -47,9 +46,8 @@ namespace MrBoom.Bot
             bestExplosionGrid = new Grid<int>(map.Width, map.Height);
             dangerGrid = new Grid<bool>(map.Width, map.Height, false);
             flamesGrid = new Grid<int>(map.Width, map.Height, TravelCostGrid.CostCantGo);
-            allDirections = new Directions[] { Directions.Up, Directions.Down, Directions.Left, Directions.Right };
 
-            GetDecisionRandom().Shuffle(allDirections);
+            GetDecisionRandom().Shuffle(DirectionsExtensions.All());
         }
 
         private BtStatus DitonoteRemoteBomb()
@@ -84,7 +82,7 @@ namespace MrBoom.Bot
 
                 bool isBombDanger = cell.owner != this && cell.rcAllowed;
 
-                foreach (Directions dir in new Directions[] { Directions.Left, Directions.Up, Directions.Right, Directions.Down })
+                foreach (Directions dir in DirectionsExtensions.All())
                 {
                     for (int k = 0; k <= cell.maxBoom; k++)
                     {
@@ -152,7 +150,7 @@ namespace MrBoom.Bot
 
                         // Simple naive flame simulation.
                         // TODO: Improve it.
-                        foreach (Directions dir in new Directions[] { Directions.Left, Directions.Up, Directions.Right, Directions.Down })
+                        foreach (Directions dir in DirectionsExtensions.All())
                         {
                             for (int k = 0; k <= MaxBoom; k++)
                             {
@@ -284,13 +282,13 @@ namespace MrBoom.Bot
             findPathCost.Update(target.X, target.Y,
                 (x, y) => (x == CellX && y == CellY) ? 1 : CalcSafeTravelCost(x, y));
 
-            var result = findPathCost.GetBestDirection(CellX, CellY, allDirections);
+            var result = findPathCost.GetBestDirection(CellX, CellY, DirectionsExtensions.All());
             if (result == null)
             {
                 findPathCost.Update(target.X, target.Y,
                     (x, y) => (x == CellX && y == CellY) ? 1 : CalcTravelCost(x, y));
 
-                result = findPathCost.GetBestDirection(CellX, CellY, allDirections);
+                result = findPathCost.GetBestDirection(CellX, CellY, DirectionsExtensions.All());
             }
 
             return result;
