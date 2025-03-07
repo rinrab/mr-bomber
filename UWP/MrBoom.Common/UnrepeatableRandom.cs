@@ -10,6 +10,11 @@ namespace MrBoom.Common
 
         private int? last = null;
 
+        public UnrepeatableRandom(IRandom random)
+        {
+            this.random = random;
+        }
+
         public UnrepeatableRandom()
         {
             random = new SimpleRandom();
