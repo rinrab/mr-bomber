@@ -110,6 +110,7 @@
     <Compile Include="Controller.cs" />
     <Compile Include="MultiplayerClient.cs" />
     <Compile Include="Screens\ClientGameScreen.cs" />
+    <Compile Include="Extensibility\TeamMode\ColourTeamModeProvider.cs" />
     <Compile Include="Screens\DemoScreen.cs" />
     <Compile Include="Screens\DrawScreen.cs" />
     <Compile Include="Game.cs" />
@@ -117,11 +118,16 @@
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\AbstractGameScreen.cs" />
+    <Compile Include="Extensibility\ExtensibilityProvider.cs" />
     <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Extensibility\IExtensibilityProvider.cs" />
+    <Compile Include="Extensibility\ITeamModeProvider.cs" />
     <Compile Include="Screens\OnlineConnectionDiedScreen.cs" />
     <Compile Include="Screens\OnlineConnectScreen.cs" />
     <Compile Include="Screens\OnlineGameScreen.cs" />
     <Compile Include="Screens\OnlineStartScreen.cs" />
+    <Compile Include="Extensibility\TeamMode\SexTeamModeProvider.cs" />
+    <Compile Include="Extensibility\TeamMode\SimpleTeamModeProvider.cs" />
     <Compile Include="State\IPlayerContainer.cs" />
     <Compile Include="State\IPlayerProvider.cs" />
     <Compile Include="State\PlayerProvider.cs" />
