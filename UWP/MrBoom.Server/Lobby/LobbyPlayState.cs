@@ -15,12 +15,12 @@ namespace MrBoom.Server.Lobby
 
         public Terrain Terrain { get; }
 
-        public LobbyPlayState(ILobby lobby, ILogger<LobbyPlayState> logger)
+        public LobbyPlayState(ILobby lobby, ILogger<LobbyPlayState> logger, IRandom random)
         {
             this.lobby = lobby;
             this.logger = logger;
 
-            Terrain = new Terrain(1, new SimpleRandom());
+            Terrain = new Terrain(1, random);
 
             foreach (LobbyPlayer player in lobby.GetPlayers())
             {

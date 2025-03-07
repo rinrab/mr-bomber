@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using MrBoom.Common;
 using MrBoom.Server.Lobby;
 using MrBoom.Server.MatchMaking;
 
@@ -13,6 +13,9 @@ namespace MrBoom.Server
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddSystemd();
+
+            builder.Services.AddSingleton<IRandom, SimpleRandom>();
+            builder.Services.AddSingleton<INameGenerator, NameGenerator>();
 
             builder.Services.AddSingleton<IUdpServer, UdpServer>();
             builder.Services.AddHostedService(serviceProvider => (UdpServer)serviceProvider.GetRequiredService<IUdpServer>());

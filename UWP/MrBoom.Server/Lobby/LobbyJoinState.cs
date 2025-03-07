@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Net;
+using MrBoom.Common;
 using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.Server.Lobby
@@ -10,14 +11,16 @@ namespace MrBoom.Server.Lobby
         private readonly ILobby lobby;
         private readonly ILogger logger;
         private readonly IServiceProvider serviceProvider;
+        private readonly INameGenerator nameGenerator;
 
         protected int startIn = -1;
 
-        public LobbyJoinState(ILobby lobby, ILogger<LobbyJoinState> logger, IServiceProvider serviceProvider)
+        public LobbyJoinState(ILobby lobby, ILogger<LobbyJoinState> logger, IServiceProvider serviceProvider, INameGenerator nameGenerator)
         {
             this.lobby = lobby;
             this.logger = logger;
             this.serviceProvider = serviceProvider;
+            this.nameGenerator = nameGenerator;
         }
 
         private IMessage FormatLobbyInfoMessage()
@@ -66,7 +69,7 @@ namespace MrBoom.Server.Lobby
 
                 if (lobby.GetPlayer(playerJoin.Id) == null)
                 {
-                    lobby.AddPlayer(new LobbyPlayer("qqq")
+                    lobby.AddPlayer(new LobbyPlayer(nameGenerator.GenerateName())
                     {
                         Id = playerJoin.Id,
                         Index = lobby.GetPlayerCount(),
