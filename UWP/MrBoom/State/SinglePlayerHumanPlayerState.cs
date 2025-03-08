@@ -2,6 +2,7 @@
 
 using MrBoom.Core;
 using MrBoom.Core.Terrain;
+using MrBoom.Screens;
 
 namespace MrBoom.State
 {
@@ -28,7 +29,7 @@ namespace MrBoom.State
             return proxy;
         }
 
-        public ISpriteProxy InitializeProxy()
+        public ISpriteProxy InitializeProxy(IExtensibilityProvider extensibility)
         {
             return proxy;
         }

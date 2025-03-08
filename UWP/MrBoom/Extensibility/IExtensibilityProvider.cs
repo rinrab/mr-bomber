@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using MrBoom.Common;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom.Screens
 {
@@ -13,5 +14,8 @@ namespace MrBoom.Screens
         IRandom SoundRandom { get; set; }
         IRandom LevelRandom { get; set; }
         INameGenerator NameGenerator { get; set; }
+
+        ISpriteProxy WrapSpriteProxy(ISpriteProxy proxy);
+        IPlayerProxy WrapPlayerProxy(IPlayerProxy proxy);
     }
 }

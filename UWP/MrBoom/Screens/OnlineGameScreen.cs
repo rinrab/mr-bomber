@@ -45,7 +45,7 @@ namespace MrBoom.Screens
 
                     foreach (IPlayerState state in sprites.EnumerateSprites())
                     {
-                        terrainProxy.Sprites.Add(state.InitializeProxy());
+                        terrainProxy.Sprites.Add(state.InitializeProxy(ExtensibilityProvider.Default));
                     }
                 }
 

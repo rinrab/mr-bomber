@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using MrBoom.Common;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom.Screens
 {
@@ -38,6 +39,16 @@ namespace MrBoom.Screens
                     new SexTeamModeProvider(),
                 },
             };
+        }
+
+        public ISpriteProxy WrapSpriteProxy(ISpriteProxy proxy)
+        {
+            return proxy;
+        }
+
+        public IPlayerProxy WrapPlayerProxy(IPlayerProxy proxy)
+        {
+            return proxy;
         }
     }
 }

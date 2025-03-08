@@ -4,6 +4,7 @@ using System;
 using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Messages;
 using MrBoom.NetworkProtocol.Proxy;
+using MrBoom.Screens;
 
 namespace MrBoom.State
 {
@@ -28,9 +29,10 @@ namespace MrBoom.State
             throw new NotImplementedException();
         }
 
-        public ISpriteProxy InitializeProxy()
+        public ISpriteProxy InitializeProxy(IExtensibilityProvider extensibility)
         {
             proxy = new SpriteProxy();
+            proxy = extensibility.WrapSpriteProxy(proxy);
             return proxy;
         }
 

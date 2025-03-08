@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using MrBoom.Core.Terrain;
+using MrBoom.Screens;
 
 namespace MrBoom.State
 {
@@ -12,7 +13,7 @@ namespace MrBoom.State
         bool IsReplaceble { get; }
 
         ServerPlayer InitializeServerPlayer(Terrain terrain, int team);
-        ISpriteProxy InitializeProxy();
+        ISpriteProxy InitializeProxy(IExtensibilityProvider extensibility);
         IClientSprite InitializeClientSprite(ITerrainAccessor terrain, Assets assets);
     }
 }
