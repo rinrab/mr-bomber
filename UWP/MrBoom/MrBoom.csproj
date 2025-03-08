@@ -108,6 +108,7 @@
     <Compile Include="ClientSpriteLocalHuman.cs" />
     <Compile Include="ClientTerrain.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="Extensibility\Proxy\SmoothProxy.cs" />
     <Compile Include="MultiplayerClient.cs" />
     <Compile Include="Screens\ClientGameScreen.cs" />
     <Compile Include="Extensibility\TeamMode\ColourTeamModeProvider.cs" />

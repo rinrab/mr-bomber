@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using MrBoom.Common;
 using MrBoom.Core.Terrain;
+using MrBoom.Extensibility.Proxy;
 
 namespace MrBoom.Screens
 {
@@ -43,7 +44,7 @@ namespace MrBoom.Screens
 
         public ISpriteProxy WrapSpriteProxy(ISpriteProxy proxy)
         {
-            return proxy;
+            return new SmoothProxy(proxy);
         }
 
         public IPlayerProxy WrapPlayerProxy(IPlayerProxy proxy)
