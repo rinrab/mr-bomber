@@ -39,7 +39,7 @@ namespace MrBoom
         IEnumerable<AbstractMonster> GetMonsters();
     }
 
-    public class Terrain : ITerrain, ITerrainAccessor, ITerrainProxy
+    public class Terrain : ITerrain, ITerrainProxy
     {
         public int Width { get; }
         public int Height { get; }

@@ -25,7 +25,7 @@ namespace MrBoom
         bool IsWalkable(int x, int y);
     }
 
-    public class ClientTerrain : IClientTerrain, ITerrainAccessor
+    public class ClientTerrain : IClientTerrain
     {
         private readonly ITerrainProxy proxy;
         private readonly Assets assets;

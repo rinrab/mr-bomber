@@ -19,7 +19,7 @@ namespace MrBoom
         public override SpriteType Type => proxy.Type;
         public override int SubType => proxy.SubType;
 
-        public ClientSpriteLocalHuman(ITerrainAccessor terrain,
+        public ClientSpriteLocalHuman(ITerrainProxy terrain,
                                       IPlayerProxy proxy,
                                       Assets assets,
                                       IController controller) : base(terrain, proxy.X, proxy.Y, 3)

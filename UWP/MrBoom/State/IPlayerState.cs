@@ -14,6 +14,6 @@ namespace MrBoom.State
 
         ServerPlayer InitializeServerPlayer(Terrain terrain, int team);
         ISpriteProxy InitializeProxy(IExtensibilityProvider extensibility);
-        IClientSprite InitializeClientSprite(ITerrainAccessor terrain, Assets assets);
+        IClientSprite InitializeClientSprite(ITerrainProxy terrain, Assets assets);
     }
 }

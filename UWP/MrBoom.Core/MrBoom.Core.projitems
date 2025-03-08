@@ -30,7 +30,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\SpriteType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\IPlayerProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\ISpriteProxy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Terrain\ITerrainAccessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cell\TerrainType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\ITerrainProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\Terrain.cs" />

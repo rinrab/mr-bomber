@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Terrain;
+
 namespace MrBoom
 {
     public abstract class MovableSprite : ISprite
@@ -31,9 +33,9 @@ namespace MrBoom
         public virtual bool HasSkull { get => skullTimer > 0; }
 
         // map source
-        protected readonly ITerrainAccessor TerrainAccessor;
+        protected readonly ITerrainProxy TerrainAccessor;
 
-        public MovableSprite(ITerrainAccessor terrain, int x, int y)
+        public MovableSprite(ITerrainProxy terrain, int x, int y)
         {
             X = x;
             Y = y;

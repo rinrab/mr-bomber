@@ -15,12 +15,12 @@ namespace MrBoom
 
         private readonly int DefaultSpeed;
 
-        private readonly ITerrainAccessor terrain;
+        private readonly ITerrainProxy terrain;
 
         public virtual SpriteType Type => SpriteType.Unknown;
         public virtual int SubType => -1;
 
-        public Sprite(ITerrainAccessor terrain, int x, int y, int speed) : base(terrain, x, y)
+        public Sprite(ITerrainProxy terrain, int x, int y, int speed) : base(terrain, x, y)
         {
             Direction = null;
             this.terrain = terrain;

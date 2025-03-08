@@ -6,13 +6,19 @@ using System.Text;
 
 namespace MrBoom.Core.Terrain
 {
-    public interface ITerrainProxy : ITerrainAccessor, IClientGameEntity
+    public interface ITerrainProxy : IClientGameEntity
     {
+        int Width { get; }
+        int Height { get; }
+
         int TimeLeft { get; }
         int ApocalypseSpeed { get; }
         int MaxApocalypse { get; }
         int LevelIndex { get; }
 
         IList<ISpriteProxy> Sprites { get; }
+
+        Cell GetCell(int x, int y);
+        bool IsWalkable(int x, int y);
     }
 }

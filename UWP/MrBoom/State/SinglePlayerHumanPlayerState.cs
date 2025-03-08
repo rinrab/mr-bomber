@@ -34,7 +34,7 @@ namespace MrBoom.State
             return proxy;
         }
 
-        public IClientSprite InitializeClientSprite(ITerrainAccessor terrain, Assets assets)
+        public IClientSprite InitializeClientSprite(ITerrainProxy terrain, Assets assets)
         {
             return new ClientSpriteLocalHuman(terrain, proxy, assets, Controller);
         }
