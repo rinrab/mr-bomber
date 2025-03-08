@@ -27,6 +27,13 @@ namespace MrBoom.NetworkProtocol.Proxy
 
         public void ClientUpdate()
         {
+            foreach (var sprite in Sprites)
+            {
+                if (sprite is IClientGameEntity clientSprite)
+                {
+                    clientSprite.ClientUpdate();
+                }
+            }
         }
 
         public Cell GetCell(int x, int y)

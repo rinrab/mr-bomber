@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MrBoom.Core.Terrain
 {
-    public interface ITerrainProxy : ITerrainAccessor
+    public interface ITerrainProxy : ITerrainAccessor, IClientGameEntity
     {
         int TimeLeft { get; }
         int ApocalypseSpeed { get; }

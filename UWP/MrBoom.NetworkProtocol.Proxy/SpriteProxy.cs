@@ -36,5 +36,9 @@ namespace MrBoom.NetworkProtocol.Proxy
         {
             return null;
         }
+
+        public void ClientUpdate()
+        {
+        }
     }
 }

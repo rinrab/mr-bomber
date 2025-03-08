@@ -4,7 +4,7 @@ using MrBoom.Core.Sprite;
 
 namespace MrBoom.Core.Terrain
 {
-    public interface ISpriteProxy : ISprite
+    public interface ISpriteProxy : ISprite, IClientGameEntity
     {
         SpriteType Type { get; }
         int SubType { get; }

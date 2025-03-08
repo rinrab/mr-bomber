@@ -65,6 +65,10 @@ namespace MrBoom
             Move(Direction, GetSpeed(DefaultSpeed));
         }
 
+        public virtual void ClientUpdate()
+        {
+        }
+
         public void SetSkull(SkullType skullType)
         {
             PlaySound(SoundEffectType.Skull);
