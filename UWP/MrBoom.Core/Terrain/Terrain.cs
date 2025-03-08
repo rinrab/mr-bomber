@@ -496,6 +496,10 @@ namespace MrBoom
             }
         }
 
+        public void ClientUpdate()
+        {
+        }
+
         public Cell GetCell(int x, int y)
         {
             return data[x, y];
