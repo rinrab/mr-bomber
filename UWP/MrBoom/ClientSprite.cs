@@ -7,11 +7,6 @@ using MrBoom.Core.Terrain;
 
 namespace MrBoom
 {
-    public interface IClientGameEntity
-    {
-        void ClientUpdate();
-    }
-
     public interface IClientDrawableGameEntity
     {
         void Draw(SpriteBatch ctx);

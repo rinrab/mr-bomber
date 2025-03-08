@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cell\CellCoord.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientInfoFake.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IClientGameEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IClientInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IServerGameEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Map\Map.cs" />
