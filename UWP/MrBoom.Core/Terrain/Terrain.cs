@@ -61,7 +61,7 @@ namespace MrBoom
             }
         }
 
-        public IList<ISpriteProxy> Sprites => GetSprites().Cast<ISpriteProxy>().ToList();
+        public IList<ISpriteProxy> Sprites => GetSprites().Select(sprite => sprite.GetService<ISpriteProxy>()).ToList();
 
         private readonly Grid<byte> final;
         private int lastApocalypseSound = -1;
