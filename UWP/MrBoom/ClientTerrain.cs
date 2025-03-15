@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Collections.Generic;
+using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom
@@ -19,7 +20,7 @@ namespace MrBoom
         int LevelIndex { get; }
         Assets.Level LevelAssets { get; }
 
-        IList<IClientSprite> Sprites { get; }
+        IList<SpriteBase> Sprites { get; }
 
         Cell GetCell(int x, int y);
         bool IsWalkable(int x, int y);
@@ -39,7 +40,7 @@ namespace MrBoom
         public int LevelIndex => proxy.LevelIndex;
         public Assets.Level LevelAssets => assets.Levels[LevelIndex];
 
-        public IList<IClientSprite> Sprites { get; }
+        public IList<SpriteBase> Sprites { get; }
 
         public ClientTerrain(ITerrainProxy proxy, Assets assets)
         {
@@ -47,7 +48,7 @@ namespace MrBoom
             this.assets = assets;
 
             Tick = 0;
-            Sprites = new List<IClientSprite>();
+            Sprites = new List<SpriteBase>();
         }
 
         public Cell GetCell(int x, int y)
@@ -64,9 +65,9 @@ namespace MrBoom
         {
             Tick++;
 
-            foreach (IClientSprite sprite in Sprites)
+            foreach (SpriteBase sprite in Sprites)
             {
-                sprite.ClientUpdate();
+                sprite.ServerUpdate();
             }
 
             // sync
