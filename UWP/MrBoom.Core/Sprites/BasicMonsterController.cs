@@ -2,7 +2,6 @@
 
 using MrBoom.BehaviorTree;
 using MrBoom.Common;
-using MrBoom.Core.Sprites.Modules;
 
 namespace MrBoom.Core.Sprites
 {

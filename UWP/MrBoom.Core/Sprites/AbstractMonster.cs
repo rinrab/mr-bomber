@@ -2,7 +2,6 @@
 
 using MrBoom.Core.Sprite;
 using MrBoom.Core.Sprites;
-using MrBoom.Core.Sprites.Modules;
 
 namespace MrBoom
 {

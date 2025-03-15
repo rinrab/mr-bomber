@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using MrBoom.Common;
 using MrBoom.Core.Sprites;
-using MrBoom.Core.Sprites.Modules;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom
