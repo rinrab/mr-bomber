@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Bot;
 using MrBoom.Common;
+using MrBoom.Core.Sprites;
+using MrBoom.Core.Terrain;
 using MrBoom.Screens;
 using Windows.UI.Xaml;
 
@@ -32,16 +34,14 @@ namespace MrBoom
 
             for (int i = 0; i < 4; i++)
             {
-                var player = new ComputerPlayer(terrain, i, i, i);
-                terrain.AddPlayer(player);
-                clientTerrain.Sprites.Add(new ClientSprite(player, assets));
+                terrain.AddPlayer(new ComputerPlayer(terrain, i, i, i));
             }
 
             terrain.InitializeMonsters();
 
-            foreach (var monster in terrain.GetMonsters())
+            foreach (SpriteBase sprite in terrain.GetSprites())
             {
-                clientTerrain.Sprites.Add(new ClientSprite(monster, assets));
+                clientTerrain.Sprites.Add(new ClientSprite(sprite.GetService<ISpriteProxy>(), assets));
             }
         }
 

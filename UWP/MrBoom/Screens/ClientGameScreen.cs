@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MrBoom.Core.Sprites;
 
 namespace MrBoom
 {
@@ -63,13 +64,13 @@ namespace MrBoom
                 }
             }
 
-            var spritesToDraw = new List<IClientSprite>(clientTerrain.Sprites);
+            var spritesToDraw = new List<SpriteBase>(clientTerrain.Sprites);
 
-            spritesToDraw.Sort((a, b) => a.Y - b.Y);
+            spritesToDraw.Sort((a, b) => a.GetService<ISpritePositionProvider>().Y - b.GetService<ISpritePositionProvider>().Y);
 
-            foreach (IClientSprite sprite in spritesToDraw)
+            foreach (SpriteBase sprite in spritesToDraw)
             {
-                sprite.Draw(ctx);
+                sprite.GetService<IClientDrawableGameEntity>().Draw(ctx);
             }
 
             foreach (var overlay in clientTerrain.LevelAssets.Overlays)

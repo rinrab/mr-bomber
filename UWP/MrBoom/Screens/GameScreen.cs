@@ -7,6 +7,8 @@ using Windows.UI.Xaml;
 using MrBoom.Common;
 using MrBoom.Screens;
 using MrBoom.State;
+using MrBoom.Core.Terrain;
+using MrBoom.Core.Sprites;
 
 namespace MrBoom
 {
@@ -30,9 +32,9 @@ namespace MrBoom
 
             terrain.InitializeMonsters();
 
-            foreach (var monster in terrain.GetMonsters())
+            foreach (SpriteBase sprite in terrain.GetMonsters())
             {
-                clientTerrain.Sprites.Add(new ClientSprite(monster, assets));
+                clientTerrain.Sprites.Add(new ClientSprite(sprite.GetService<ISpriteProxy>(), assets));
             }
 
             Controller.Reset(controllers);
