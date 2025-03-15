@@ -73,14 +73,25 @@ namespace MrBoom.Core
         {
             AddSingleton(services =>
             {
-                ConstructorInfo constructor = typeof(T).GetConstructors().First();
+                Type type = typeof(T);
+
+                ConstructorInfo constructor = type.GetConstructors().First();
                 ParameterInfo[] parameters = constructor.GetParameters();
 
                 List<object> args = new List<object>(parameters.Length);
 
                 foreach (ParameterInfo param in parameters)
                 {
-                    args.Add(GetService(param.ParameterType));
+                    object service = GetService(param.ParameterType);
+
+                    if (service != null)
+                    {
+                        args.Add(service);
+                    }
+                    else
+                    {
+                        throw new Exception($"Can't create instance of ${typeof(T)} because no service ${param.ParameterType} can be provided.");
+                    }
                 }
 
                 object obj = constructor.Invoke(args.ToArray());

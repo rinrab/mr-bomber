@@ -65,15 +65,13 @@ namespace MrBoom.Core.Tests
         }
 
         [Test]
-        public void InterfaceTest()
+        public void WrongConstructorTest()
         {
             ServiceProvider services = new ServiceProvider();
 
-            services.AddSingleton<TestSingleton1>();
+            services.AddSingleton<TestSingleton2>();
 
-            var service1 = services.GetService<ITestSingleton1>();
-
-            Assert.AreEqual("TestSingleton1", service1.PublicSigma);
+            Assert.Throws<Exception>(() => services.GetService<TestSingleton2>());
         }
     }
 }
