@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrBoom.NetworkProtocol.Test
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MrBoom.NetworkProtocol.Proxy", "MrBoom.NetworkProtocol.Proxy\MrBoom.NetworkProtocol.Proxy.shproj", "{16CF1932-40FF-478A-BCE8-F0661C29D1FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrBoom.Core.Tests", "MrBoom.Core.Tests\MrBoom.Core.Tests.csproj", "{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -76,6 +78,18 @@ Global
 		{AB81FA18-4E63-4229-A0C4-E0FA24839883}.Release|x64.Build.0 = Release|Any CPU
 		{AB81FA18-4E63-4229-A0C4-E0FA24839883}.Release|x86.ActiveCfg = Release|Any CPU
 		{AB81FA18-4E63-4229-A0C4-E0FA24839883}.Release|x86.Build.0 = Release|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Debug|ARM.Build.0 = Debug|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Debug|x64.Build.0 = Debug|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Debug|x86.Build.0 = Debug|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Release|ARM.Build.0 = Release|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Release|x64.ActiveCfg = Release|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Release|x64.Build.0 = Release|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Release|x86.ActiveCfg = Release|Any CPU
+		{4B2C11A2-599C-481D-AA08-90BC41E5B9C6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +104,9 @@ Global
 		MrBoom.Core\MrBoom.Core.projitems*{3df78d4f-1afc-42e1-98b8-70baf3006bf2}*SharedItemsImports = 5
 		MrBoom.NetworkProtocol\MrBoom.NetworkProtocol.projitems*{3df78d4f-1afc-42e1-98b8-70baf3006bf2}*SharedItemsImports = 5
 		MrBoom.Core\MrBoom.Core.projitems*{4549c6dd-a258-474f-9b90-01c0b4e91c62}*SharedItemsImports = 13
+		MrBoom.BehaviorTree\MrBoom.BehaviorTree.projitems*{4b2c11a2-599c-481d-aa08-90bc41e5b9c6}*SharedItemsImports = 5
+		MrBoom.Common\MrBoom.Common.projitems*{4b2c11a2-599c-481d-aa08-90bc41e5b9c6}*SharedItemsImports = 5
+		MrBoom.Core\MrBoom.Core.projitems*{4b2c11a2-599c-481d-aa08-90bc41e5b9c6}*SharedItemsImports = 5
 		MrBoom.BehaviorTree\MrBoom.BehaviorTree.projitems*{5bd7ecae-1e4e-44b2-ae53-06438c74ecd3}*SharedItemsImports = 4
 		MrBoom.Common\MrBoom.Common.projitems*{5bd7ecae-1e4e-44b2-ae53-06438c74ecd3}*SharedItemsImports = 4
 		MrBoom.Core\MrBoom.Core.projitems*{5bd7ecae-1e4e-44b2-ae53-06438c74ecd3}*SharedItemsImports = 4
