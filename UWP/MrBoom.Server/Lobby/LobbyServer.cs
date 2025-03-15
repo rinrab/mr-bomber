@@ -17,7 +17,7 @@ namespace MrBoom.Server.Lobby
 
         public LobbyServer(IUdpServer udpServer,
                            ILogger<LobbyServer> logger,
-                           IServiceProvider serviceProvider) : base(1000 / 20)
+                           IServiceProvider serviceProvider) : base(1000 / 20, logger)
         {
             this.udpServer = udpServer;
             this.logger = logger;

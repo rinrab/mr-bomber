@@ -7,17 +7,20 @@ namespace MrBoom.Server
     public abstract class TimerService : BackgroundService
     {
         private readonly Haukcode.HighResolutionTimer.ITimer timer;
+        private readonly ILogger logger;
 
-        public TimerService(int periodMS)
+        public TimerService(int periodMS, ILogger logger)
         {
             timer = new HighResolutionTimer();
             timer.SetPeriod(periodMS);
+
+            this.logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             timer.Start();
-            await Task.Run(() => ExecuteSync(stoppingToken));
+            await Task.Run(() => ExecuteSync(stoppingToken), stoppingToken);
         }
 
         private void ExecuteSync(CancellationToken stoppingToken)
@@ -25,7 +28,18 @@ namespace MrBoom.Server
             while (!stoppingToken.IsCancellationRequested)
             {
                 timer.WaitForTrigger();
-                _ = TickAsync(stoppingToken);
+
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        await TickAsync(stoppingToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "Unhandled exception occurred in the handler");
+                    }
+                }, stoppingToken);
             }
         }
 
