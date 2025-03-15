@@ -4,6 +4,7 @@ using System.Net;
 using MrBoom.Common;
 using MrBoom.Core.Sprites;
 using MrBoom.NetworkProtocol.Messages;
+using MrBoom.Server.Game;
 
 namespace MrBoom.Server.Lobby
 {
@@ -24,11 +25,25 @@ namespace MrBoom.Server.Lobby
             foreach (LobbyPlayer player in lobby.GetPlayers())
             {
                 var sprite = new ServerPlayer(Terrain, player.Index, player.Index, player.Client.CorishInfo);
+
+                sprite.AddSingleton(player.Client.CorishInfo);
                 sprite.AddSingleton<PlayerController>();
+                sprite.AddSingleton<SpriteTypeProviderPlayer>();
+
                 Terrain.AddPlayer(sprite);
             }
 
             Terrain.InitializeMonsters();
+
+            foreach (AbstractMonster monster in Terrain.GetMonsters())
+            {
+                monster.AddSingleton<SpriteTypeProviderMonster>();
+            }
+
+            foreach (SpriteBase sprite in Terrain.GetSprites())
+            {
+                sprite.AddSingleton<SpriteUpdateBroadcaster>();
+            }
         }
 
         public void ServerUpdate()
@@ -52,45 +67,12 @@ namespace MrBoom.Server.Lobby
 
                 client.OnPacketReceived();
 
-                foreach (var spriteUpdate in clientUpdate.SpriteUpdates)
+                foreach (ClientPlayerUpdateMessage spriteUpdate in clientUpdate.SpriteUpdates)
                 {
-                    var sprite = Terrain.GetSprites().ElementAt(spriteUpdate.Index);
-
-                    if (Math.Abs(sprite.GetService<SpritePosition>().X - spriteUpdate.MoveToX) +
-                        Math.Abs(sprite.GetService<SpritePosition>().Y - spriteUpdate.MoveToY) < 8)
-                    {
-                        sprite.GetService<SpritePosition>().MoveTo(spriteUpdate.MoveToX, spriteUpdate.MoveToY);
-                    }
-
-                    if (spriteUpdate.DropBomb)
-                    {
-                        sprite.GetService<PlayerController>().DropBomb();
-                    }
-
-                    if (spriteUpdate.RemoteControl)
-                    {
-                        sprite.GetService<PlayerController>().RemoteDetonate();
-                    }
+                    SpriteBase sprite = Terrain.GetSprites().ElementAt(spriteUpdate.Index);
+                    // TODO: authenticate
+                    sprite.GetService<SpriteUpdateReceiver>().OnUpdateReceived(spriteUpdate);
                 }
-            }
-        }
-
-        private GameSpriteType getSpriteType(object sprite, ClientInfo client)
-        {
-            if (sprite is ServerPlayer serverPlayer)
-            {
-                if (serverPlayer.ClientInfo.Equals(client.CorishInfo))
-                {
-                    return GameSpriteType.PlayerMe;
-                }
-                else
-                {
-                    return GameSpriteType.Player;
-                }
-            }
-            else
-            {
-                return GameSpriteType.Monster;
             }
         }
 
@@ -125,15 +107,7 @@ namespace MrBoom.Server.Lobby
             var sprites = new List<GameSpriteInfo>();
             foreach (SpriteBase sprite in Terrain.GetSprites())
             {
-                sprites.Add(new GameSpriteInfo
-                {
-                    X = sprite.GetService<SpritePosition>().X,
-                    Y = sprite.GetService<SpritePosition>().Y,
-                    Type = getSpriteType(sprite, client),
-                    SubType = sprite.GetService<SpriteStartInfo>().SubType,
-                    AnimateIndex = sprite.GetService<SpriteAnimationController>().AnimateIndex,
-                    FrameIndex = sprite.GetService<SpriteAnimationController>().FrameIndex,
-                });
+                sprites.Add(sprite.GetService<SpriteUpdateBroadcaster>().GetUpdateMessage(client));
             }
 
             return new GameInfo
