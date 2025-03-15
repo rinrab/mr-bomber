@@ -1,0 +1,39 @@
+﻿// Copyright (c) Timofei Zhakov. All rights reserved.
+
+namespace MrBoom.Core.Sprites
+{
+    public class SpriteBombDeathModule : IServerGameEntity
+    {
+        private readonly SpritePosition position;
+        private readonly SpriteHealthController healthController;
+        private readonly ServiceProvider serviceProvider;
+
+        public SpriteBombDeathModule(SpritePosition position,
+                                     SpriteHealthController healthController,
+                                     ServiceProvider serviceProvider)
+        {
+            this.position = position;
+            this.healthController = healthController;
+            this.serviceProvider = serviceProvider;
+        }
+
+        public void ServerUpdate()
+        {
+            if (healthController.IsAlive)
+            {
+                if (position.Cell.Type == TerrainType.Fire && !healthController.HasUnplugin)
+                {
+                    healthController.Damage();
+
+                    if (healthController.IsDie)
+                    {
+                        foreach (IBombDeathHandler handler in serviceProvider.EnumerateServices<IBombDeathHandler>())
+                        {
+                            handler.OnBombDied();
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

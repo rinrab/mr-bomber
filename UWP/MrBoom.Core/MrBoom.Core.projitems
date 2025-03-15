@@ -23,11 +23,39 @@
     <Compile Include="$(MSBuildThisFileDirectory)SkullType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SoundEffectType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AbstractMonster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\ISpeedProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\BasicMonsterController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IBombDeathHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IBombOwner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IBombKicker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IEffectProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\ISpriteAnimationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\ISpritePositionProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\MonsterPowerUpDropper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\NullBombKicker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\MonsterController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxyAnimationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxyEffectProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxyPositionProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\PlayerProxyProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ServerPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\BasicMonster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sprites\MovableSprite.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Controllers\SpriteAnimationController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\SpriteApocallypseDeathModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\SpriteBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Controllers\SpriteBombController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\SpriteBombDeathModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Controllers\SpriteEffectController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\SpriteMonsterDeathModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\SpritePowerUpHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Controllers\SpriteHealthController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Controllers\SpriteMovementController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Controllers\SpritePosition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\SpriteProxyProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Providers\SpriteSpeedProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Providers\SpriteStartInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\SpriteType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\IPlayerProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\ISpriteProxy.cs" />
@@ -37,5 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Cell\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Sprites\Controllers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Sprites\Modules\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Sprites\Providers\" />
   </ItemGroup>
 </Project>

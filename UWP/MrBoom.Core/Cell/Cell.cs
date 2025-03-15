@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System;
+using MrBoom.Core.Sprites;
 
 namespace MrBoom
 {
@@ -12,7 +13,7 @@ namespace MrBoom
         public int bombCountdown;
         public int maxBoom;
         public bool rcAllowed;
-        public ServerPlayer owner;
+        public IBombOwner owner;
         public Cell Next;
         public PowerUpType PowerUpType;
         public FlameDirection FlameDirection;

@@ -1,74 +1,35 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using MrBoom.BehaviorTree;
 using MrBoom.Core.Sprite;
+using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Modules;
 
 namespace MrBoom
 {
-    public abstract class AbstractMonster : Sprite, IServerGameEntity
+    public abstract class AbstractMonster : SpriteBase, IServerGameEntity
     {
-        protected BtNode tree;
-
-        public override SpriteType Type => SpriteType.Monster;
-        public override int SubType { get; }
-
-        protected Terrain terrain;
-
         public AbstractMonster(Terrain terrain, Map.MonsterData monsterData,
-                               int x, int y) : base(terrain, x, y, monsterData.Speed)
+                               int x, int y)
         {
-            LifeCount = monsterData.LivesCount - 1;
-            SubType = monsterData.Type;
-            this.terrain = terrain;
+            AddSingleton(terrain);
+            AddSingleton(new SpriteStartInfo(x, y, monsterData.Speed, monsterData.LivesCount,
+                                             SpriteType.Monster, monsterData.Type));
 
-            if (monsterData.IsSlowStart)
-            {
-                Unplugin = 120;
-            }
-        }
+            AddSingleton<NullBombKicker>();
+            AddSingleton<SpritePosition>();
+            AddSingleton<SpriteAnimationController>();
+            AddSingleton<SpriteHealthController>();
+            AddSingleton<SpriteEffectController>();
+            AddSingleton<SpriteSpeedProvider>();
+            AddSingleton<SpriteMovementController>();
 
-        public override void ServerUpdate()
-        {
-            tree.Update();
+            AddSingleton<SpriteApocalypseDeathModule>();
+            AddSingleton<SpriteBombDeathModule>();
+            AddSingleton<MonsterPowerUpDropper>();
 
-            base.ServerUpdate();
+            AddSingleton<SpriteProxyProvider>();
 
-            if (IsAlive)
-            {
-                Cell cell = terrain.GetCell((X + 8) / 16, (Y + 8) / 16);
-                if (cell.Type == TerrainType.Fire && Unplugin == 0)
-                {
-                    Damage();
-
-                    if (IsDie)
-                    {
-                        terrain.SetCell((X + 8) / 16, (Y + 8) / 16, terrain.GeneratePowerUp(PowerUpType.Life));
-                    }
-                }
-                if (cell.Type == TerrainType.Apocalypse)
-                {
-                    Kill();
-                    PlaySound(SoundEffectType.Ai);
-                }
-            }
-        }
-
-        public override void KickBomb(int x, int y, int dx, int dy)
-        {
-            Cell cell = terrain.GetCell(x, y);
-            cell.DeltaX = dx * 2;
-            cell.DeltaY = dy * 2;
-        }
-
-        public override string GetDebugInfo()
-        {
-            return tree.ToString();
-        }
-
-        public override void Damage()
-        {
-            PlaySound(SoundEffectType.Ai);
-            base.Damage();
+            AddSingleton<MonsterController>();
         }
     }
 }

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MrBoom.Common;
+using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Modules;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom
@@ -25,7 +27,7 @@ namespace MrBoom
         int GetCellApocalypseRemainingTime(int cellX, int cellY);
 
         bool IsWalkable(int x, int y);
-        void PutBomb(int cellX, int cellY, int maxBoom, bool rcAllowed, ServerPlayer owner);
+        void PutBomb(int cellX, int cellY, int maxBoom, bool rcAllowed, IBombOwner owner);
         void BurnCell(int cellX, int cellY);
         void DitonateBomb(int bombX, int bombY);
         Cell GeneratePowerUp(PowerUpType powerUpType);
@@ -34,7 +36,7 @@ namespace MrBoom
         bool IsMonsterComing(int cellX, int cellY);
         int GetKillablePlayers(int cellX, int cellY);
 
-        IEnumerable<Sprite> GetSprites();
+        IEnumerable<SpriteBase> GetSprites();
         IEnumerable<ServerPlayer> GetPlayers();
         IEnumerable<AbstractMonster> GetMonsters();
     }
@@ -187,7 +189,7 @@ namespace MrBoom
         {
             CellCoord spawn = GenerateSpawn().Value;
 
-            player.MoveTo(spawn.X * 16, spawn.Y * 16);
+            player.GetService<SpritePosition>().MoveTo(spawn.X * 16, spawn.Y * 16);
 
             players.Add(player);
         }
@@ -247,7 +249,7 @@ namespace MrBoom
                     // Replace cell with apocalypse cell
                     if (cell.Type == TerrainType.Bomb)
                     {
-                        cell.owner.BombsPlaced--;
+                        cell.owner.OnBombReplaced(i % Width, i / Width);
                     }
                     if (cell.Type != TerrainType.PermanentWall)
                     {
@@ -308,8 +310,7 @@ namespace MrBoom
 
                     if (cell.Type == TerrainType.Bomb)
                     {
-                        if (!cell.rcAllowed || !cell.owner.Features.HasFlag(
-                            Feature.RemoteControl) || cell.owner.IsDie)
+                        if (!cell.rcAllowed || !cell.owner.IsAllowed)
                         {
                             cell.bombCountdown--;
                         }
@@ -371,7 +372,7 @@ namespace MrBoom
             int playersCount = 0;
             foreach (ServerPlayer player in players)
             {
-                if (player.IsAlive)
+                if (player.GetService<SpriteHealthController>().IsAlive)
                 {
                     playersCount++;
                 }
@@ -388,7 +389,7 @@ namespace MrBoom
                     List<int> live = new List<int>();
                     for (int i = 0; i < players.Count; i++)
                     {
-                        if (players[i].IsAlive)
+                        if (players[i].GetService<SpriteHealthController>().IsAlive)
                         {
                             live.Add(players[i].Team);
                         }
@@ -407,7 +408,7 @@ namespace MrBoom
                 {
                     for (int i = 0; i < players.Count; i++)
                     {
-                        if (players[i].IsAlive)
+                        if (players[i].GetService<SpriteHealthController>().IsAlive)
                         {
                             Winner = players[i].Team;
                         }
@@ -445,51 +446,59 @@ namespace MrBoom
             isMonsterComingGrid.Reset(false);
             foreach (AbstractMonster m in monsters)
             {
-                if (m.IsAlive)
+                var health = m.GetService<SpriteHealthController>();
+                var monsterController = m.GetService<MonsterController>();
+                var position = m.GetService<SpritePosition>();
+
+                if (health.IsAlive)
                 {
-                    hasMonsterGrid[m.CellX, m.CellY] = true;
-                    isMonsterComingGrid[m.CellX + m.Direction.DeltaX(), m.CellY + m.Direction.DeltaY()] = true;
+                    hasMonsterGrid[position.CellX, position.CellY] = true;
+                    isMonsterComingGrid[position.CellX + monsterController.Direction.DeltaX(),
+                                        position.CellY + monsterController.Direction.DeltaY()] = true;
                 }
             }
 
             killablePlayerGrid.Reset(0);
             foreach (ServerPlayer player in players)
             {
-                // TODO: Check for unplugin.
-                killablePlayerGrid[player.CellX, player.CellY] |= (1 << player.Team);
+                var health = player.GetService<SpriteHealthController>(); 
+                var position = player.GetService<SpritePosition>();
 
-                if (IsTouchingMonster(player.CellX, player.CellY))
+                // TODO: Check for unplugin.
+                killablePlayerGrid[position.CellX, position.CellY] |= (1 << player.Team);
+
+                if (IsTouchingMonster(position.CellX, position.CellY))
                 {
-                    player.Damage();
+                    health.Damage();
                 }
             }
 
-            foreach (Sprite sprite in GetSprites())
+            foreach (SpriteBase sprite in GetSprites())
             {
                 sprite.ServerUpdate();
 
-                Cell cell = GetCell(sprite.CellX, sprite.CellY);
-
-                if (cell.Type == TerrainType.Fire)
-                {
-                    sprite.Damage();
-                }
-
-                PlaySound(sprite.SoundsToPlay);
+                // PlaySound(sprite.SoundsToPlay);
             }
 
-            foreach (Sprite sprite1 in GetSprites())
+            foreach (SpriteBase sprite1 in GetSprites())
             {
-                foreach (Sprite sprite2 in GetSprites())
+                foreach (SpriteBase sprite2 in GetSprites())
                 {
-                    if (sprite1.CellX == sprite2.CellX &&
-                        sprite1.CellY == sprite2.CellY &&
-                        sprite1.Skull.HasValue &&
-                        !sprite2.Skull.HasValue)
+                    var position1 = sprite1.GetService<SpritePosition>();
+                    var position2 = sprite2.GetService<SpritePosition>();
+                    var effect1 = sprite1.GetService<SpriteEffectController>();
+                    var effect2 = sprite2.GetService<SpriteEffectController>();
+                    var health1 = sprite1.GetService<SpriteHealthController>();
+                    var health2 = sprite2.GetService<SpriteHealthController>();
+
+                    if (position1.CellX == position2.CellX &&
+                        position1.CellY == position2.CellY &&
+                        effect1.Skull.HasValue &&
+                        !effect2.Skull.HasValue)
                     {
-                        if (sprite1.IsAlive && sprite2.IsAlive)
+                        if (health1.IsAlive && health2.IsAlive)
                         {
-                            sprite2.SetSkull(sprite1.Skull.Value);
+                            effect2.SetSkull(effect1.Skull.Value);
                         }
                     }
                 }
@@ -541,7 +550,7 @@ namespace MrBoom
 
             if (bombCell.owner != null)
             {
-                bombCell.owner.BombsPlaced--;
+                bombCell.owner.OnBombReplaced(bombX, bombY);
             }
 
             void burn(int dx, int dy, FlameDirection middle, FlameDirection final)
@@ -629,7 +638,7 @@ namespace MrBoom
             };
         }
 
-        public void PutBomb(int cellX, int cellY, int maxBoom, bool rcAllowed, ServerPlayer owner)
+        public void PutBomb(int cellX, int cellY, int maxBoom, bool rcAllowed, IBombOwner owner)
         {
             data[cellX, cellY] = new Cell(TerrainType.Bomb)
             {
@@ -691,14 +700,14 @@ namespace MrBoom
             return killablePlayerGrid[cellX, cellY];
         }
 
-        public IEnumerable<Sprite> GetSprites()
+        public IEnumerable<SpriteBase> GetSprites()
         {
-            foreach (Sprite sprite in players)
+            foreach (SpriteBase sprite in players)
             {
                 yield return sprite;
             }
 
-            foreach (Sprite sprite in monsters)
+            foreach (SpriteBase sprite in monsters)
             {
                 yield return sprite;
             }
@@ -718,9 +727,9 @@ namespace MrBoom
         {
             List<string> list = new List<string>();
 
-            foreach (Sprite sprite in players)
+            foreach (ServerPlayer sprite in players)
             {
-                if (sprite.IsAlive)
+                if (sprite.GetService<SpriteHealthController>().IsAlive)
                 {
                     string debugInfo = sprite.GetCellDebugInfo(cellX, cellY);
 
@@ -741,10 +750,10 @@ namespace MrBoom
             sb.AppendLine($"DEBUG INFO");
             sb.AppendLine($"Version: {Version.VersionString}");
 
-            foreach (Sprite sprite in GetSprites())
-            {
-                sb.AppendLine(sprite.GetDebugInfo());
-            }
+            //foreach (Sprite sprite in GetSprites())
+            //{
+            //    sb.AppendLine(sprite.GetDebugInfo());
+            //}
 
             sb.AppendLine($"F1 - detonate all");
             sb.AppendLine($"F2 - clear all");
