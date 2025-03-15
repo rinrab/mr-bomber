@@ -6,10 +6,22 @@ using System.Text;
 using MrBoom.BehaviorTree;
 using MrBoom.Common;
 using MrBoom.Core;
+using MrBoom.Core.Sprites;
 
 namespace MrBoom.Bot
 {
     public class ComputerPlayer : ServerPlayer
+    {
+        public ComputerPlayer(Terrain map, int team, int index, int botSeed) : base(map, team, index, new ClientInfoFake())
+        {
+            AddSingleton(new SimpleRandom(botSeed));
+            AddSingleton<PlayerController>();
+            AddSingleton<ComputerPlayerController>();
+            AddSingleton<SpriteProxyProvider>();
+        }
+    }
+
+    public class ComputerPlayerController : IServerGameEntity
     {
         private readonly BtNode tree;
         private readonly TravelCostGrid travelCostGrid;
@@ -20,10 +32,23 @@ namespace MrBoom.Bot
         private readonly Grid<bool> dangerGrid;
         private readonly Grid<int> flamesGrid;
 
-        public ComputerPlayer(Terrain map, int team, int index, int botSeed) : base(map, team, index, new ClientInfoFake())
-        {
-            this.botSeed = botSeed;
+        private readonly ITerrain terrain;
+        private readonly IRandom random;
+        private readonly IEffectProvider effectProvider;
+        private readonly SpritePosition position;
+        private readonly SpriteMovementController movementController;
+        private readonly SpriteSpeedProvider speedProvider;
+        private readonly SpriteBombController bombController;
+        private readonly PlayerController playerController;
 
+        public ComputerPlayerController(ITerrain terrain, IRandom random,
+                                        IEffectProvider effectProvider,
+                                        SpritePosition position,
+                                        SpriteMovementController movementController,
+                                        SpriteSpeedProvider speedProvider,
+                                        SpriteBombController bombController,
+                                        PlayerController playerController)
+        {
             tree = new BtRepeater(new BtSelector()
                 {
                     new ActionNode(GotoBonusCell, nameof(GotoBonusCell)),
@@ -40,21 +65,30 @@ namespace MrBoom.Bot
                     }
                 }, "BotMainLoop");
 
-            travelCostGrid = new TravelCostGrid(map.Width, map.Height);
-            travelSafeCostGrid = new TravelCostGrid(map.Width, map.Height);
-            findPathCost = new TravelCostGrid(map.Width, map.Height);
-            bestExplosionGrid = new Grid<int>(map.Width, map.Height);
-            dangerGrid = new Grid<bool>(map.Width, map.Height, false);
-            flamesGrid = new Grid<int>(map.Width, map.Height, TravelCostGrid.CostCantGo);
+            travelCostGrid = new TravelCostGrid(terrain.Width, terrain.Height);
+            travelSafeCostGrid = new TravelCostGrid(terrain.Width, terrain.Height);
+            findPathCost = new TravelCostGrid(terrain.Width, terrain.Height);
+            bestExplosionGrid = new Grid<int>(terrain.Width, terrain.Height);
+            dangerGrid = new Grid<bool>(terrain.Width, terrain.Height, false);
+            flamesGrid = new Grid<int>(terrain.Width, terrain.Height, TravelCostGrid.CostCantGo);
 
             GetDecisionRandom().Shuffle(DirectionsExtensions.All());
+
+            this.terrain = terrain;
+            this.random = random;
+            this.effectProvider = effectProvider;
+            this.position = position;
+            this.movementController = movementController;
+            this.speedProvider = speedProvider;
+            this.bombController = bombController;
+            this.playerController = playerController;
         }
 
         private BtStatus DitonoteRemoteBomb()
         {
-            if (Features.HasFlag(Feature.RemoteControl))
+            if (effectProvider.Features.HasFlag(Feature.RemoteControl))
             {
-                rcDitonateButton = true;
+                bombController.RemoteDetonate = true;
                 return BtStatus.Success;
             }
             else
@@ -68,11 +102,8 @@ namespace MrBoom.Bot
             return Goto(GetBestBombCell());
         }
 
-        public override void ServerUpdate()
+        public virtual void ServerUpdate()
         {
-            int cellX = (X + 8) / 16;
-            int cellY = (Y + 8) / 16;
-
             dangerGrid.Reset();
             flamesGrid.Reset();
 
@@ -134,8 +165,8 @@ namespace MrBoom.Bot
                 }
             }
 
-            travelCostGrid.Update(cellX, cellY, CalcTravelCost);
-            travelSafeCostGrid.Update(cellX, cellY, CalcSafeTravelCost);
+            travelCostGrid.Update(position.CellX, position.CellY, CalcTravelCost);
+            travelSafeCostGrid.Update(position.CellX, position.CellY, CalcSafeTravelCost);
 
             bestExplosionGrid.Reset();
             for (int i = 0; i < bestExplosionGrid.Width; i++)
@@ -152,7 +183,7 @@ namespace MrBoom.Bot
                         // TODO: Improve it.
                         foreach (Directions dir in DirectionsExtensions.All())
                         {
-                            for (int k = 0; k <= MaxBoom; k++)
+                            for (int k = 0; k <= bombController.MaxBoom; k++)
                             {
                                 int x = i + dir.DeltaX() * k;
                                 int y = j + dir.DeltaY() * k;
@@ -172,10 +203,10 @@ namespace MrBoom.Bot
                                     }
 
                                     int killablePlayers = terrain.GetKillablePlayers(x, y);
-                                    if ((killablePlayers & (~TeamMask)) != 0)
-                                    {
-                                        score += 8;
-                                    }
+                                    //if ((killablePlayers & (~TeamMask)) != 0)
+                                    //{
+                                    //    score += 8;
+                                    //}
 
                                     if (terrain.IsTouchingMonster(x, y))
                                     {
@@ -216,17 +247,14 @@ namespace MrBoom.Bot
                 }
             }
 
-            Direction = null;
-            dropBombButton = false;
-            rcDitonateButton = false;
+            playerController.SetDirection(null);
+
             tree.Update();
 
-            if (Skull == SkullType.Reverse)
-            {
-                Direction = Direction.Reverse();
-            }
-
-            base.ServerUpdate();
+            //if (effectProvider.Skull == SkullType.Reverse)
+            //{
+            //    Direction = Direction.Reverse();
+            //}
         }
 
         private bool IsCellDangerForApocalypse(int cellX, int cellY)
@@ -280,15 +308,15 @@ namespace MrBoom.Bot
         private Directions? CalcPathDirection(CellCoord target)
         {
             findPathCost.Update(target.X, target.Y,
-                (x, y) => (x == CellX && y == CellY) ? 1 : CalcSafeTravelCost(x, y));
+                (x, y) => (x == position.CellX && y == position.CellY) ? 1 : CalcSafeTravelCost(x, y));
 
-            var result = findPathCost.GetBestDirection(CellX, CellY, DirectionsExtensions.All());
+            var result = findPathCost.GetBestDirection(position.CellX, position.CellY, DirectionsExtensions.All());
             if (result == null)
             {
                 findPathCost.Update(target.X, target.Y,
-                    (x, y) => (x == CellX && y == CellY) ? 1 : CalcTravelCost(x, y));
+                    (x, y) => (x == position.CellX && y == position.CellY) ? 1 : CalcTravelCost(x, y));
 
-                result = findPathCost.GetBestDirection(CellX, CellY, DirectionsExtensions.All());
+                result = findPathCost.GetBestDirection(position.CellX, position.CellY, DirectionsExtensions.All());
             }
 
             return result;
@@ -298,8 +326,8 @@ namespace MrBoom.Bot
         {
             if (target.HasValue)
             {
-                int cellX = (X + 8) / 16;
-                int cellY = (Y + 8) / 16;
+                int cellX = (position.X + 8) / 16;
+                int cellY = (position.Y + 8) / 16;
 
                 if (target.Value.X == cellX &&
                     target.Value.Y == cellY)
@@ -309,42 +337,42 @@ namespace MrBoom.Bot
                     int targetX = target.Value.X * 16;
                     int targetY = target.Value.Y * 16;
 
-                    if (Math.Abs(targetX - X) < MAX_PIXELS_PER_FRAME / 2 && Math.Abs(targetY - Y) < MAX_PIXELS_PER_FRAME / 2)
+                    if (Math.Abs(targetX - position.X) < MAX_PIXELS_PER_FRAME / 2 && Math.Abs(targetY - position.Y) < MAX_PIXELS_PER_FRAME / 2)
                     {
-                        Direction = null;
+                        playerController.SetDirection(null);
                         return BtStatus.Success;
                     }
 
-                    if (X > targetX)
+                    if (position.X > targetX)
                     {
-                        Direction = Directions.Left;
+                        playerController.SetDirection(Directions.Left);
                         return BtStatus.Running;
                     }
-                    else if (X < targetX)
+                    else if (position.X < targetX)
                     {
-                        Direction = Directions.Right;
+                        playerController.SetDirection(Directions.Right);
                         return BtStatus.Running;
                     }
-                    else if (Y > targetY)
+                    else if (position.Y > targetY)
                     {
-                        Direction = Directions.Up;
+                        playerController.SetDirection(Directions.Up);
                         return BtStatus.Running;
                     }
-                    else if (Y < targetY)
+                    else if (position.Y < targetY)
                     {
-                        Direction = Directions.Down;
+                        playerController.SetDirection(Directions.Down);
                         return BtStatus.Running;
                     }
                     else
                     {
-                        Direction = null;
+                        playerController.SetDirection(null);
                         return BtStatus.Success;
                     }
                 }
                 else
                 {
-                    Direction = CalcPathDirection(target.Value);
-                    if (Direction == null)
+                    playerController.SetDirection(CalcPathDirection(target.Value));
+                    if (playerController.Direction == null)
                     {
                         return BtStatus.Failure;
                     }
@@ -357,7 +385,7 @@ namespace MrBoom.Bot
             else
             {
                 // TODO:
-                Direction = null;
+                playerController.SetDirection(null);
 
                 return BtStatus.Failure;
             }
@@ -370,14 +398,14 @@ namespace MrBoom.Bot
 
         private BtStatus DropBomb()
         {
-            Direction = null;
-            dropBombButton = true;
+            playerController.SetDirection(null);
+            playerController.DropBomb();
             return BtStatus.Success;
         }
 
         private BtStatus HasBombsLeft()
         {
-            if (BombsRemaining > 0)
+            if (bombController.BombsRemaining > 0)
             {
                 return BtStatus.Success;
             }
@@ -490,15 +518,15 @@ namespace MrBoom.Bot
                 case PowerUpType.Life:
                     return true;
                 case PowerUpType.RemoteControl:
-                    return !Features.HasFlag(Feature.RemoteControl);
+                    return !effectProvider.Features.HasFlag(Feature.RemoteControl);
                 case PowerUpType.Kick:
-                    return !Features.HasFlag(Feature.Kick);
+                    return !effectProvider.Features.HasFlag(Feature.Kick);
                 case PowerUpType.RollerSkate:
-                    return !Features.HasFlag(Feature.RollerSkates);
+                    return !effectProvider.Features.HasFlag(Feature.RollerSkates);
                 case PowerUpType.Clock:
                     return false;
                 case PowerUpType.MultiBomb:
-                    return !Features.HasFlag(Feature.MultiBomb);
+                    return !effectProvider.Features.HasFlag(Feature.MultiBomb);
                 default:
                     return false;
             }
@@ -572,7 +600,7 @@ namespace MrBoom.Bot
             return !dangerGrid[x, y] && !terrain.IsTouchingMonster(x, y) && !terrain.IsMonsterComing(x, y);
         }
 
-        public override string GetCellDebugInfo(int cellX, int cellY)
+        public string GetCellDebugInfo(int cellX, int cellY)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -592,16 +620,17 @@ namespace MrBoom.Bot
             return sb.ToString();
         }
 
-        public override string GetDebugInfo()
+        public string GetDebugInfo()
         {
-            if (IsAlive)
-            {
-                return tree.ToString();
-            }
-            else
-            {
-                return "DEAD";
-            }
+            //if (GetService<SpriteHealthController>().IsAlive)
+            //{
+            //    return tree.ToString();
+            //}
+            //else
+            //{
+            //    return "DEAD";
+            //}
+            return null;
         }
     }
 }
