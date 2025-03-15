@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
 using MrBoom.Screens;
 
@@ -14,6 +15,6 @@ namespace MrBoom.State
 
         ServerPlayer InitializeServerPlayer(Terrain terrain, int team);
         ISpriteProxy InitializeProxy(IExtensibilityProvider extensibility);
-        IClientSprite InitializeClientSprite(ITerrainProxy terrain, Assets assets);
+        SpriteBase InitializeClientSprite(ITerrainProxy terrain, Assets assets);
     }
 }

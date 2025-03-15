@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using MrBoom.Core;
+using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
 using MrBoom.Screens;
 
@@ -31,12 +32,12 @@ namespace MrBoom.State
 
         public ISpriteProxy InitializeProxy(IExtensibilityProvider extensibility)
         {
-            return proxy;
+            throw new System.NotImplementedException();
         }
 
-        public IClientSprite InitializeClientSprite(ITerrainProxy terrain, Assets assets)
+        public SpriteBase InitializeClientSprite(ITerrainProxy terrain, Assets assets)
         {
-            return new ClientSpriteLocalHuman(terrain, proxy, assets, Controller);
+            return new ClientSpriteLocalHuman(terrain, proxy.GetService<IPlayerProxy>(), assets, Controller);
         }
     }
 }

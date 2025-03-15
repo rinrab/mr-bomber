@@ -2,6 +2,7 @@
 
 using System;
 using System.Threading.Tasks;
+using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Messages;
 using MrBoom.NetworkProtocol.Proxy;
@@ -78,7 +79,7 @@ namespace MrBoom.State
             return proxy;
         }
 
-        public IClientSprite InitializeClientSprite(ITerrainProxy terrain, Assets assets)
+        public SpriteBase InitializeClientSprite(ITerrainProxy terrain, Assets assets)
         {
             return new ClientSpriteLocalHuman(terrain, proxy, assets, Controller);
         }

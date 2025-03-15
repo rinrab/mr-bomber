@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System;
+using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Messages;
 using MrBoom.NetworkProtocol.Proxy;
@@ -36,7 +37,7 @@ namespace MrBoom.State
             return proxy;
         }
 
-        public IClientSprite InitializeClientSprite(ITerrainProxy terrain, Assets assets)
+        public SpriteBase InitializeClientSprite(ITerrainProxy terrain, Assets assets)
         {
             return new ClientSprite(proxy, assets);
         }
