@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Map\Map.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Map\MapData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientInfoGuid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkullType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SoundEffectType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AbstractMonster.cs" />
