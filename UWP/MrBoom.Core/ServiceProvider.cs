@@ -90,7 +90,7 @@ namespace MrBoom.Core
                     }
                     else
                     {
-                        throw new Exception($"Can't create instance of ${typeof(T)} because no service ${param.ParameterType} can be provided.");
+                        throw new Exception($"Can't create instance of {typeof(T)} because no service {param.ParameterType} can be provided.");
                     }
                 }
 
