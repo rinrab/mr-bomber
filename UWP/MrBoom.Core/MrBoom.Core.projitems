@@ -61,7 +61,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\ISpriteProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cell\TerrainType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\ITerrainProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\PowerUpProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\SpawnProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\Terrain.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainAIInfoProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainFinal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainSpriteHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Cell\" />
