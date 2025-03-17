@@ -29,6 +29,8 @@ namespace MrBoom.Server.Lobby
                 sprite.AddSingleton(player.Client.CorishInfo);
                 sprite.AddSingleton<PlayerController>();
                 sprite.AddSingleton<SpriteTypeProviderPlayer>();
+                sprite.AddSingleton<SpriteUpdateReceiver>();
+                sprite.AddSingleton<SpriteUpdateBroadcaster>();
 
                 Terrain.AddPlayer(sprite);
             }
@@ -38,11 +40,7 @@ namespace MrBoom.Server.Lobby
             foreach (AbstractMonster monster in Terrain.GetMonsters())
             {
                 monster.AddSingleton<SpriteTypeProviderMonster>();
-            }
-
-            foreach (SpriteBase sprite in Terrain.GetSprites())
-            {
-                sprite.AddSingleton<SpriteUpdateBroadcaster>();
+                monster.AddSingleton<SpriteUpdateBroadcaster>();
             }
         }
 
