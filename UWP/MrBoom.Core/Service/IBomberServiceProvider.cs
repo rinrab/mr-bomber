@@ -9,5 +9,7 @@ namespace MrBoom.Core.Service
         void AddSingleton<T>(Func<ServiceProvider, T> implementationFactory) where T : class;
         void AddSingleton<T>(T instance) where T : class;
         void AddSingleton<T>() where T : class;
+
+        void AddServiceProvider(IBomberServiceProvider serviceProvider);
     }
 }

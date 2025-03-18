@@ -46,10 +46,13 @@ namespace MrBoom.Core
         }
 
         private List<Service> services;
+        private List<IBomberServiceProvider> serviceProviders;
 
         public ServiceProvider()
         {
             services = new List<Service>();
+            serviceProviders = new List<IBomberServiceProvider>();
+
             AddSingleton(this);
         }
 
@@ -120,12 +123,32 @@ namespace MrBoom.Core
 
         public object GetService(Type type)
         {
-            return EnumerateServices(type).FirstOrDefault();
+            foreach (object service in EnumerateServices(type))
+            {
+                return service;
+            }
+
+            foreach (IBomberServiceProvider serviceProvider in serviceProviders)
+            {
+                object service = serviceProvider.GetService(type);
+
+                if (service != null)
+                {
+                    return service;
+                }
+            }
+
+            return null;
         }
 
         public T GetService<T>()
         {
             return (T)GetService(typeof(T));
+        }
+
+        public void AddServiceProvider(IBomberServiceProvider serviceProvider)
+        {
+            serviceProviders.Add(serviceProvider);
         }
     }
 }

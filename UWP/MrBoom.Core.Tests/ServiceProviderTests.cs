@@ -73,5 +73,19 @@ namespace MrBoom.Core.Tests
 
             Assert.Throws<Exception>(() => services.GetService<TestSingleton2>());
         }
+
+        [Test]
+        public void AddServiceProviderTests()
+        {
+            ServiceProvider p1 = new ServiceProvider();
+            p1.AddSingleton<TestSingleton1>();
+
+            ServiceProvider p2 = new ServiceProvider();
+            p2.AddServiceProvider(p1);
+
+            var service = p2.GetService<TestSingleton1>();
+
+            Assert.AreEqual("TestSingleton1", service.PublicSigma);
+        }
     }
 }
