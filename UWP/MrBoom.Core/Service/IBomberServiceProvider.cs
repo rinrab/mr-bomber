@@ -6,7 +6,7 @@ namespace MrBoom.Core.Service
 {
     public interface IBomberServiceCollection
     {
-        void AddSingleton<T>(Func<BomberServiceProvider, T> implementationFactory) where T : class;
+        void AddSingleton<T>(Func<IBomberServiceProvider, T> implementationFactory) where T : class;
         void AddSingleton<T>(T instance) where T : class;
         void AddSingleton<T>() where T : class;
 

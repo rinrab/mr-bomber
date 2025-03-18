@@ -13,10 +13,10 @@ namespace MrBoom.Core
         private class Service
         {
             public readonly Type type;
-            public readonly Func<BomberServiceProvider, object> implementationFactory;
+            public readonly Func<IBomberServiceProvider, object> implementationFactory;
             public object instance;
 
-            public Service(Type type, Func<BomberServiceProvider, object> implementationFactory)
+            public Service(Type type, Func<IBomberServiceProvider, object> implementationFactory)
             {
                 this.type = type;
                 this.implementationFactory = implementationFactory;
@@ -56,7 +56,7 @@ namespace MrBoom.Core
             AddSingleton(this);
         }
 
-        public void AddSingleton<T>(Func<BomberServiceProvider, T> implementationFactory) where T : class
+        public void AddSingleton<T>(Func<IBomberServiceProvider, T> implementationFactory) where T : class
         {
             services.Add(new Service(typeof(T), services => implementationFactory(services)));
         }
