@@ -7,13 +7,13 @@ using System.Reflection;
 
 namespace MrBoom.Core
 {
-    public interface IServiceProvider
+    public interface IBomberServiceProvider
     {
         object GetService(Type type);
         T GetService<T>();
     }
 
-    public class ServiceProvider : IServiceProvider
+    public class ServiceProvider : IBomberServiceProvider
     {
         private class Service
         {
