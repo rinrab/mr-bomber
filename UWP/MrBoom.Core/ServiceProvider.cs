@@ -10,6 +10,7 @@ namespace MrBoom.Core
     public interface IServiceProvider
     {
         object GetService(Type type);
+        T GetService<T>();
     }
 
     public class ServiceProvider : IServiceProvider
