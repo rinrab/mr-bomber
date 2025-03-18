@@ -1,23 +1,27 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Terrain;
+
 namespace MrBoom.Core.Sprites
 {
     public class MonsterPowerUpDropper : IBombDeathHandler
     {
         private readonly SpritePosition position;
-        private readonly MrBoom.Terrain terrain;
+        private readonly TerrainMap map;
+        private readonly PowerUpProvider powerUpProvider;
 
         public MonsterPowerUpDropper(SpritePosition position,
-                                     MrBoom.Terrain terrain)
+                                     TerrainMap map, PowerUpProvider powerUpProvider)
         {
             this.position = position;
-            this.terrain = terrain;
+            this.map = map;
+            this.powerUpProvider = powerUpProvider;
         }
 
         public void OnBombDied()
         {
-            terrain.SetCell(position.CellX, position.CellY,
-                            terrain.GeneratePowerUp(PowerUpType.Life));
+            map.SetCell(position.CellX, position.CellY,
+                        powerUpProvider.GeneratePowerUp(PowerUpType.Life));
         }
     }
 }

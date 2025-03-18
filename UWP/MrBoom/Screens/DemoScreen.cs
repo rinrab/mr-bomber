@@ -34,12 +34,12 @@ namespace MrBoom
 
             for (int i = 0; i < 4; i++)
             {
-                terrain.AddPlayer(new ComputerPlayer(terrain, i, i, i));
+                terrain.sprites.AddPlayer(new ComputerPlayer(terrain, i, i, i));
             }
 
-            terrain.InitializeMonsters();
+            terrain.sprites.InitializeMonsters();
 
-            foreach (SpriteBase sprite in terrain.GetSprites())
+            foreach (SpriteBase sprite in terrain.sprites.GetSprites())
             {
                 clientTerrain.Sprites.Add(new ClientSprite(sprite.GetService<ISpriteProxy>(), assets));
             }
@@ -58,10 +58,10 @@ namespace MrBoom
 
                 for (int i = 0; i < 4; i++)
                 {
-                    terrain.AddPlayer(new ComputerPlayer(terrain, i, i, i));
+                    terrain.sprites.AddPlayer(new ComputerPlayer(terrain, i, i, i));
                 }
 
-                terrain.InitializeMonsters();
+                terrain.sprites.InitializeMonsters();
             }
 
             demoMenu.Update();

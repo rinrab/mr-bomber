@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using MrBoom.Common;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom.Core.Sprites
 {
@@ -11,38 +12,45 @@ namespace MrBoom.Core.Sprites
         protected readonly SpriteBombController bombController;
         protected readonly SpriteHealthController healthController;
         protected readonly IRandom random;
-        protected readonly ITerrain terrain;
+        protected readonly TerrainMap map;
+        protected readonly TerrainTimer timer;
+        protected readonly TerrainFinal final;
 
         public SpritePowerUpHandler(SpritePosition position,
                                     SpriteEffectController effectController,
                                     SpriteBombController bombController,
                                     SpriteHealthController healthController,
-                                    IRandom random, ITerrain terrain)
+                                    IRandom random,
+                                    TerrainMap map,
+                                    TerrainTimer timer,
+                                    TerrainFinal final)
         {
             this.position = position;
             this.effectController = effectController;
             this.bombController = bombController;
             this.healthController = healthController;
             this.random = random;
-            this.terrain = terrain;
+            this.map = map;
+            this.timer = timer;
+            this.final = final;
         }
 
         public void ServerUpdate()
         {
             int cellX = (position.X + 8) / 16;
             int cellY = (position.Y + 8) / 16;
-            Cell cell = terrain.GetCell(cellX, cellY);
+            Cell cell = map.GetCell(cellX, cellY);
 
             if (cell.Type == TerrainType.PowerUp)
             {
                 if (PickPowerUp(cell.PowerUpType))
                 {
-                    terrain.SetCell(cellX, cellY, new Cell(TerrainType.Free));
+                    map.SetCell(cellX, cellY, new Cell(TerrainType.Free));
                     //PlaySound(SoundEffectType.Pick);
                 }
                 else
                 {
-                    terrain.BurnCell(cellX, cellY);
+                    map.BurnCell(cellX, cellY);
                 }
             }
         }
@@ -88,13 +96,13 @@ namespace MrBoom.Core.Sprites
             }
             else if (powerUpType == PowerUpType.Banana)
             {
-                for (int y = 0; y < terrain.Height; y++)
+                for (int y = 0; y < map.Height; y++)
                 {
-                    for (int x = 0; x < terrain.Width; x++)
+                    for (int x = 0; x < map.Width; x++)
                     {
-                        if (terrain.GetCell(x, y).Type == TerrainType.Bomb)
+                        if (map.GetCell(x, y).Type == TerrainType.Bomb)
                         {
-                            terrain.DitonateBomb(x, y);
+                            map.DitonateBomb(x, y);
                         }
                     }
                 }
@@ -103,7 +111,7 @@ namespace MrBoom.Core.Sprites
             }
             else if (powerUpType == PowerUpType.Clock)
             {
-                if (terrain.TimeLeft > 31 * 60 + terrain.MaxApocalypse * terrain.ApocalypseSpeed)
+                if (timer.TimeLeft > 31 * 60 + final.MaxApocalypse * timer.ApocalypseSpeed)
                 {
                     // TODO: terrain.TimeLeft += 60 * 60;
                     // PlaySound(SoundEffectType.Clock);

@@ -25,14 +25,14 @@ namespace MrBoom
                 {
                     IPlayerState playerState = teams[i].Players[j];
 
-                    terrain.AddPlayer(playerState.InitializeServerPlayer(terrain, i));
-                    clientTerrain.Sprites.Add(playerState.InitializeClientSprite(terrain, assets));
+                    terrain.sprites.AddPlayer(playerState.InitializeServerPlayer(terrain, i));
+                    clientTerrain.Sprites.Add(playerState.InitializeClientSprite(terrain.proxy, assets));
                 }
             }
 
-            terrain.InitializeMonsters();
+            terrain.sprites.InitializeMonsters();
 
-            foreach (SpriteBase sprite in terrain.GetMonsters())
+            foreach (SpriteBase sprite in terrain.sprites.GetMonsters())
             {
                 clientTerrain.Sprites.Add(new ClientSprite(sprite.GetService<ISpriteProxy>(), assets));
             }

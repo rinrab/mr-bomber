@@ -29,7 +29,7 @@ namespace MrBoom
             int levelIndex = ScreenManager.GetNextLevel();
 
             terrain = new Terrain(levelIndex, ExtensibilityProvider.Default.Random);
-            clientTerrain = new ClientTerrain(terrain, assets);
+            clientTerrain = new ClientTerrain(terrain.proxy, assets);
 
             ScreenManager.NextSong(assets.Sounds, MapData.Data[levelIndex].Song);
         }
@@ -53,7 +53,7 @@ namespace MrBoom
 
             if (!isPause)
             {
-                terrain.Update();
+                terrain.ServerUpdate();
 
                 if (settings.IsDebug)
                 {
@@ -75,7 +75,7 @@ namespace MrBoom
                     }
                 }
 
-                PlaySounds(terrain.SoundsToPlay);
+                // PlaySounds(terrain.SoundsToPlay);
             }
 
             base.Update();
@@ -105,9 +105,9 @@ namespace MrBoom
 
             if (settings.IsDebug && isF4Toggle)
             {
-                for (int y = 1; y < terrain.Height - 1; y++)
+                for (int y = 1; y < terrain.map.Height - 1; y++)
                 {
-                    for (int x = 1; x < terrain.Width - 1; x++)
+                    for (int x = 1; x < terrain.map.Width - 1; x++)
                     {
                         string debugInfo = terrain.GetCellDebugInfo(x, y);
 

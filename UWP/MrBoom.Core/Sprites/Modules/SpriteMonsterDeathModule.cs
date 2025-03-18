@@ -7,19 +7,21 @@ namespace MrBoom.Core.Sprites
     public class SpriteMonsterDeathModule : IServerGameEntity
     {
         private readonly SpritePosition position;
-        private readonly MrBoom.Terrain terrain;
+        private readonly TerrainAIInfoProvider aiInfoProvider;
         private readonly SpriteHealthController healthController;
 
-        public SpriteMonsterDeathModule(SpritePosition position, MrBoom.Terrain terrain, SpriteHealthController healthController)
+        public SpriteMonsterDeathModule(SpritePosition position,
+                                        TerrainAIInfoProvider aiInfoProvider,
+                                        SpriteHealthController healthController)
         {
             this.position = position;
-            this.terrain = terrain;
+            this.aiInfoProvider = aiInfoProvider;
             this.healthController = healthController;
         }
 
         public void ServerUpdate()
         {
-            if (terrain.IsTouchingMonster(position.CellX, position.CellX))
+            if (aiInfoProvider.IsTouchingMonster(position.CellX, position.CellX))
             {
                 healthController.Damage();
             }

@@ -7,6 +7,7 @@ using MrBoom.BehaviorTree;
 using MrBoom.Common;
 using MrBoom.Core;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom.Bot
 {
@@ -32,7 +33,9 @@ namespace MrBoom.Bot
         private readonly Grid<bool> dangerGrid;
         private readonly Grid<int> flamesGrid;
 
-        private readonly ITerrain terrain;
+        private readonly TerrainMap terrain;
+        private readonly TerrainAIInfoProvider aIInfoProvider;
+        private readonly TerrainFinal final;
         private readonly IRandom random;
         private readonly IEffectProvider effectProvider;
         private readonly SpritePosition position;
@@ -41,7 +44,10 @@ namespace MrBoom.Bot
         private readonly SpriteBombController bombController;
         private readonly PlayerController playerController;
 
-        public ComputerPlayerController(ITerrain terrain, IRandom random,
+        public ComputerPlayerController(TerrainMap terrain,
+                                        TerrainAIInfoProvider aIInfoProvider,
+                                        TerrainFinal final,
+                                        IRandom random,
                                         IEffectProvider effectProvider,
                                         SpritePosition position,
                                         SpriteMovementController movementController,
@@ -75,6 +81,8 @@ namespace MrBoom.Bot
             GetDecisionRandom().Shuffle(DirectionsExtensions.All());
 
             this.terrain = terrain;
+            this.aIInfoProvider = aIInfoProvider;
+            this.final = final;
             this.random = random;
             this.effectProvider = effectProvider;
             this.position = position;
@@ -202,13 +210,13 @@ namespace MrBoom.Bot
                                             break;
                                     }
 
-                                    int killablePlayers = terrain.GetKillablePlayers(x, y);
+                                    int killablePlayers = aIInfoProvider.GetKillablePlayers(x, y);
                                     //if ((killablePlayers & (~TeamMask)) != 0)
                                     //{
                                     //    score += 8;
                                     //}
 
-                                    if (terrain.IsTouchingMonster(x, y))
+                                    if (aIInfoProvider.IsTouchingMonster(x, y))
                                     {
                                         score += 6;
                                     }
@@ -259,7 +267,7 @@ namespace MrBoom.Bot
 
         private bool IsCellDangerForApocalypse(int cellX, int cellY)
         {
-            return terrain.GetCellApocalypseRemainingTime(cellX, cellY) < 5 * 60;
+            return final.GetCellApocalypseRemainingTime(cellX, cellY) < 5 * 60;
         }
 
         private IRandom GetDecisionRandom()
@@ -279,7 +287,7 @@ namespace MrBoom.Bot
                 return TravelCostGrid.CostCantGo;
             }
 
-            if (terrain.IsTouchingMonster(x, y) || terrain.IsMonsterComing(x, y))
+            if (aIInfoProvider.IsTouchingMonster(x, y) || aIInfoProvider.IsMonsterComing(x, y))
             {
                 return TravelCostGrid.CostCantGo;
             }
@@ -597,7 +605,7 @@ namespace MrBoom.Bot
 
         private bool IsCellSafe(int x, int y)
         {
-            return !dangerGrid[x, y] && !terrain.IsTouchingMonster(x, y) && !terrain.IsMonsterComing(x, y);
+            return !dangerGrid[x, y] && !aIInfoProvider.IsTouchingMonster(x, y) && !aIInfoProvider.IsMonsterComing(x, y);
         }
 
         public string GetCellDebugInfo(int cellX, int cellY)

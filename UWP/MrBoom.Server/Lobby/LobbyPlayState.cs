@@ -32,12 +32,12 @@ namespace MrBoom.Server.Lobby
                 sprite.AddSingleton<SpriteUpdateReceiver>();
                 sprite.AddSingleton<SpriteUpdateBroadcaster>();
 
-                Terrain.AddPlayer(sprite);
+                Terrain.sprites.AddPlayer(sprite);
             }
 
-            Terrain.InitializeMonsters();
+            Terrain.sprites.InitializeMonsters();
 
-            foreach (AbstractMonster monster in Terrain.GetMonsters())
+            foreach (AbstractMonster monster in Terrain.sprites.GetMonsters())
             {
                 monster.AddSingleton<SpriteTypeProviderMonster>();
                 monster.AddSingleton<SpriteUpdateBroadcaster>();
@@ -47,7 +47,7 @@ namespace MrBoom.Server.Lobby
         public void ServerUpdate()
         {
             lobby.FilterDeadClients();
-            Terrain.Update();
+            Terrain.ServerUpdate();
         }
 
         public void OnMessageReceived(IMessage message, Guid clientSecret, IPEndPoint endPoint)
@@ -67,7 +67,7 @@ namespace MrBoom.Server.Lobby
 
                 foreach (ClientPlayerUpdateMessage spriteUpdate in clientUpdate.SpriteUpdates)
                 {
-                    SpriteBase sprite = Terrain.GetSprites().ElementAt(spriteUpdate.Index);
+                    SpriteBase sprite = Terrain.sprites.GetSprites().ElementAt(spriteUpdate.Index);
                     // TODO: authenticate
                     sprite.GetService<SpriteUpdateReceiver>().OnUpdateReceived(spriteUpdate);
                 }
@@ -76,10 +76,10 @@ namespace MrBoom.Server.Lobby
 
         private IMessage FormatGameInfoMessage(ClientInfo client)
         {
-            var grid = new Grid<GameCellInfo>(Terrain.Width, Terrain.Height);
+            var grid = new Grid<GameCellInfo>(Terrain.map.Width, Terrain.map.Height);
             for (int i = 0; i < grid.CellCount; i++)
             {
-                Cell cell = Terrain.GetCell(grid.GetCellX(i), grid.GetCellY(i));
+                Cell cell = Terrain.map.GetCell(grid.GetCellX(i), grid.GetCellY(i));
 
                 int subType = 0;
                 if (cell.Type == TerrainType.PowerUp)
@@ -103,18 +103,18 @@ namespace MrBoom.Server.Lobby
             }
 
             var sprites = new List<GameSpriteInfo>();
-            foreach (SpriteBase sprite in Terrain.GetSprites())
+            foreach (SpriteBase sprite in Terrain.sprites.GetSprites())
             {
                 sprites.Add(sprite.GetService<SpriteUpdateBroadcaster>().GetUpdateMessage(client));
             }
 
             return new GameInfo
             {
-                LevelIndex = Terrain.LevelIndex,
+                LevelIndex = Terrain.startInfo.LevelIndex,
                 Terrain = new GameTerrainInfo
                 {
-                    Width = Terrain.Width,
-                    Height = Terrain.Height,
+                    Width = Terrain.map.Width,
+                    Height = Terrain.map.Height,
                     Grid = grid,
                 },
                 Sprites = sprites,

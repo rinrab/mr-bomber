@@ -2,6 +2,7 @@
 
 using MrBoom.BehaviorTree;
 using MrBoom.Common;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom.Core.Sprites
 {
@@ -11,13 +12,13 @@ namespace MrBoom.Core.Sprites
 
         private readonly ISpritePositionProvider position;
         private readonly MonsterController monsterController;
-        private readonly ITerrain terrain;
+        private readonly TerrainMap terrain;
         private readonly IRandom random;
 
         public BasicMonsterController(ISpritePositionProvider position,
                                       Map.BasicMonsterData monsterData,
                                       MonsterController monsterController,
-                                      ITerrain terrain, IRandom random)
+                                      TerrainMap terrain, IRandom random)
         {
             tree = new BtSequence()
             {

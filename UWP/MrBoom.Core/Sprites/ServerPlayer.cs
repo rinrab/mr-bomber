@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using System;
 using MrBoom.Core;
 using MrBoom.Core.Sprite;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom
 {
@@ -17,8 +19,14 @@ namespace MrBoom
 
         public ServerPlayer(Terrain terrain, int team, int index, IClientInfo clientInfo)
         {
-            AddSingleton(terrain);
+            AddSingleton(terrain.proxy);
+            AddSingleton(terrain.map);
+            AddSingleton(terrain.powerUpProvider);
+            AddSingleton(terrain.timer);
+            AddSingleton(terrain.final);
+            AddSingleton(terrain.aiInfoProvider);
             AddSingleton(terrain.Random);
+
             AddSingleton(new SpriteStartInfo(0, 0, 3, 1, SpriteType.Player, index));
 
             AddSingleton<NullBombKicker>();

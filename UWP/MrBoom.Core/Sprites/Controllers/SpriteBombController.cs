@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Terrain;
+
 namespace MrBoom.Core.Sprites
 {
     public class SpriteBombController : IBombKicker, IBombOwner, IServerGameEntity
     {
-        private readonly MrBoom.Terrain terrain;
+        private readonly TerrainMap map;
         private readonly SpriteEffectController effectController;
         private readonly SpriteHealthController healthController;
 
@@ -20,11 +22,11 @@ namespace MrBoom.Core.Sprites
         public bool IsAllowed => effectController.Features.HasFlag(
             Feature.RemoteControl) || healthController.IsDie;
 
-        public SpriteBombController(MrBoom.Terrain terrain,
+        public SpriteBombController(TerrainMap map,
                                     SpriteEffectController effectController,
                                     SpriteHealthController healthController)
         {
-            this.terrain = terrain;
+            this.map = map;
             this.effectController = effectController;
             this.healthController = healthController;
 
@@ -46,13 +48,13 @@ namespace MrBoom.Core.Sprites
 
         public virtual bool PutBomb(int cellX, int cellY)
         {
-            Cell cell = terrain.GetCell(cellX, cellY);
+            Cell cell = map.GetCell(cellX, cellY);
 
             if (cell.Type == TerrainType.Free && BombsPlaced < MaxBombsCount)
             {
-                terrain.PutBomb(cellX, cellY, MaxBoom,
-                                effectController.Features.HasFlag(Feature.RemoteControl),
-                                this);
+                map.PutBomb(cellX, cellY, MaxBoom,
+                                    effectController.Features.HasFlag(Feature.RemoteControl),
+                                    this);
 
                 BombsPlaced++;
 
@@ -68,7 +70,7 @@ namespace MrBoom.Core.Sprites
 
         public void KickBomb(int x, int y, int dx, int dy)
         {
-            Cell cell = terrain.GetCell(x, y);
+            Cell cell = map.GetCell(x, y);
             cell.DeltaX = dx * 2;
             cell.DeltaY = dy * 2;
         }

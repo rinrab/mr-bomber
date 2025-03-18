@@ -10,7 +10,13 @@ namespace MrBoom
         public AbstractMonster(Terrain terrain, Map.MonsterData monsterData,
                                int x, int y)
         {
-            AddSingleton(terrain);
+            AddSingleton(terrain.proxy);
+            AddSingleton(terrain.map);
+            AddSingleton(terrain.powerUpProvider);
+            AddSingleton(terrain.timer);
+            AddSingleton(terrain.final);
+            AddSingleton(terrain.aiInfoProvider);
+
             AddSingleton(new SpriteStartInfo(x, y, monsterData.Speed, monsterData.LivesCount,
                                              SpriteType.Monster, monsterData.Type));
 
