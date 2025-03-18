@@ -7,7 +7,12 @@ using System.Reflection;
 
 namespace MrBoom.Core
 {
-    public class ServiceProvider
+    public interface IServiceProvider
+    {
+        object GetService(Type type);
+    }
+
+    public class ServiceProvider : IServiceProvider
     {
         private class Service
         {
