@@ -4,22 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using MrBoom.Core.Service;
 
 namespace MrBoom.Core
 {
-    public interface IBomberServiceProvider
-    {
-        object GetService(Type type);
-        T GetService<T>();
-    }
-
-    public interface IBomberServiceCollection
-    {
-        void AddSingleton<T>(Func<ServiceProvider, T> implementationFactory) where T : class;
-        void AddSingleton<T>(T instance) where T : class;
-        void AddSingleton<T>() where T : class;
-    }
-
     public class ServiceProvider : IBomberServiceProvider, IBomberServiceCollection
     {
         private class Service
