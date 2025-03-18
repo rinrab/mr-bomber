@@ -87,6 +87,7 @@ namespace MrBoom
             sprites = new TerrainSpriteHost(spawns, random, mapData, this);
             gameEndedHandler = new GameEndedHandler(timer, sprites, final);
             aiInfoProvider = new TerrainAIInfoProvider(map, sprites);
+            proxy = new TerrainProxyProvider(map, final, sprites, timer, startInfo);
         }
 
         public void AddPlayer(ServerPlayer player)

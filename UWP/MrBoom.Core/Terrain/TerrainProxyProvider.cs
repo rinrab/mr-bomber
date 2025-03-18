@@ -1,0 +1,54 @@
+﻿// Copyright (c) Timofei Zhakov. All rights reserved.
+
+using System.Collections.Generic;
+using System.Linq;
+using MrBoom.Core.Sprites;
+
+namespace MrBoom.Core.Terrain
+{
+    public class TerrainProxyProvider : ITerrainProxy
+    {
+        private readonly TerrainMap map;
+        private readonly TerrainFinal final;
+        private readonly TerrainSpriteHost sprites;
+        private readonly TerrainTimer timer;
+        private readonly TerrainStartInfo startInfo;
+
+        public int TimeLeft => timer.TimeLeft;
+        public int Width => map.Width;
+        public int Height => map.Height;
+        public int LevelIndex => startInfo.LevelIndex;
+
+        public int ApocalypseSpeed => timer.ApocalypseSpeed;
+        public int MaxApocalypse => final.MaxApocalypse;
+
+        public IList<ISpriteProxy> Sprites => sprites.GetSprites().Select(sprite => sprite.GetService<ISpriteProxy>()).ToList();
+
+        public TerrainProxyProvider(TerrainMap map,
+                                    TerrainFinal final,
+                                    TerrainSpriteHost sprites,
+                                    TerrainTimer timer,
+                                    TerrainStartInfo startInfo)
+        {
+            this.map = map;
+            this.final = final;
+            this.sprites = sprites;
+            this.timer = timer;
+            this.startInfo = startInfo;
+        }
+
+        public void ClientUpdate()
+        {
+        }
+
+        public Cell GetCell(int x, int y)
+        {
+            return map[x, y];
+        }
+
+        public bool IsWalkable(int x, int y)
+        {
+            return map.IsWalkable(x, y);
+        }
+    }
+}
