@@ -13,7 +13,14 @@ namespace MrBoom.Core
         T GetService<T>();
     }
 
-    public class ServiceProvider : IBomberServiceProvider
+    public interface IBomberServiceCollection
+    {
+        void AddSingleton<T>(Func<ServiceProvider, T> implementationFactory) where T : class;
+        void AddSingleton<T>(T instance) where T : class;
+        void AddSingleton<T>() where T : class;
+    }
+
+    public class ServiceProvider : IBomberServiceProvider, IBomberServiceCollection
     {
         private class Service
         {
