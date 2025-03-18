@@ -251,6 +251,16 @@ namespace MrBoom.Core.Terrain
             };
         }
 
+        public void SetCell(int x, int y, Cell cell)
+        {
+            this[x, y] = cell;
+        }
+
+        public Cell GetCell(int x, int y)
+        {
+            return this[x, y];
+        }
+
         public bool IsWalkable(int x, int y)
         {
             Cell cell = this[x, y];
@@ -273,6 +283,18 @@ namespace MrBoom.Core.Terrain
                 default:
                     return true;
             }
+        }
+
+        public void BurnCell(int cellX, int cellY)
+        {
+            SetCell(cellX, cellY, new Cell(TerrainType.PowerUpFire)
+            {
+                Index = 0,
+                animateDelay = 6,
+                Next = new Cell(TerrainType.Free)
+            });
+
+            // PlaySound(SoundEffectType.Sac);
         }
     }
 }
