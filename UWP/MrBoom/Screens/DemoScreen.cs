@@ -39,7 +39,7 @@ namespace MrBoom
 
             terrain.sprites.InitializeMonsters();
 
-            foreach (SpriteBase sprite in terrain.sprites.GetSprites())
+            foreach (GameEntityBase sprite in terrain.sprites.GetSprites())
             {
                 clientTerrain.Sprites.Add(new ClientSprite(sprite.GetService<ISpriteProxy>(), assets));
             }

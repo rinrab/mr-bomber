@@ -20,7 +20,7 @@ namespace MrBoom
         int LevelIndex { get; }
         Assets.Level LevelAssets { get; }
 
-        IList<SpriteBase> Sprites { get; }
+        IList<GameEntityBase> Sprites { get; }
 
         Cell GetCell(int x, int y);
         bool IsWalkable(int x, int y);
@@ -40,7 +40,7 @@ namespace MrBoom
         public int LevelIndex => proxy.LevelIndex;
         public Assets.Level LevelAssets => assets.Levels[LevelIndex];
 
-        public IList<SpriteBase> Sprites { get; }
+        public IList<GameEntityBase> Sprites { get; }
 
         public ClientTerrain(ITerrainProxy proxy, Assets assets)
         {
@@ -48,7 +48,7 @@ namespace MrBoom
             this.assets = assets;
 
             Tick = 0;
-            Sprites = new List<SpriteBase>();
+            Sprites = new List<GameEntityBase>();
         }
 
         public Cell GetCell(int x, int y)
@@ -65,7 +65,7 @@ namespace MrBoom
         {
             Tick++;
 
-            foreach (SpriteBase sprite in Sprites)
+            foreach (GameEntityBase sprite in Sprites)
             {
                 sprite.ServerUpdate();
             }

@@ -30,16 +30,16 @@ namespace MrBoom.Core.Terrain
 
         public void ServerUpdate()
         {
-            foreach (SpriteBase sprite in GetSprites())
+            foreach (GameEntityBase sprite in GetSprites())
             {
                 sprite.ServerUpdate();
 
                 // PlaySound(sprite.SoundsToPlay);
             }
 
-            foreach (SpriteBase sprite1 in GetSprites())
+            foreach (GameEntityBase sprite1 in GetSprites())
             {
-                foreach (SpriteBase sprite2 in GetSprites())
+                foreach (GameEntityBase sprite2 in GetSprites())
                 {
                     var position1 = sprite1.GetService<SpritePosition>();
                     var position2 = sprite2.GetService<SpritePosition>();
@@ -89,14 +89,14 @@ namespace MrBoom.Core.Terrain
             }
         }
 
-        public IEnumerable<SpriteBase> GetSprites()
+        public IEnumerable<GameEntityBase> GetSprites()
         {
-            foreach (SpriteBase sprite in players)
+            foreach (GameEntityBase sprite in players)
             {
                 yield return sprite;
             }
 
-            foreach (SpriteBase sprite in monsters)
+            foreach (GameEntityBase sprite in monsters)
             {
                 yield return sprite;
             }

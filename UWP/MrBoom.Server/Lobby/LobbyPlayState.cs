@@ -67,7 +67,7 @@ namespace MrBoom.Server.Lobby
 
                 foreach (ClientPlayerUpdateMessage spriteUpdate in clientUpdate.SpriteUpdates)
                 {
-                    SpriteBase sprite = Terrain.sprites.GetSprites().ElementAt(spriteUpdate.Index);
+                    GameEntityBase sprite = Terrain.sprites.GetSprites().ElementAt(spriteUpdate.Index);
                     // TODO: authenticate
                     sprite.GetService<SpriteUpdateReceiver>().OnUpdateReceived(spriteUpdate);
                 }
@@ -103,7 +103,7 @@ namespace MrBoom.Server.Lobby
             }
 
             var sprites = new List<GameSpriteInfo>();
-            foreach (SpriteBase sprite in Terrain.sprites.GetSprites())
+            foreach (GameEntityBase sprite in Terrain.sprites.GetSprites())
             {
                 sprites.Add(sprite.GetService<SpriteUpdateBroadcaster>().GetUpdateMessage(client));
             }

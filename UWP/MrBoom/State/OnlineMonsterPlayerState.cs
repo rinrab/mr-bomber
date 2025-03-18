@@ -35,7 +35,7 @@ namespace MrBoom.State
             return proxy;
         }
 
-        public SpriteBase InitializeClientSprite(ITerrainProxy terrain, Assets assets)
+        public GameEntityBase InitializeClientSprite(ITerrainProxy terrain, Assets assets)
         {
             return new ClientSprite(proxy, assets);
         }

@@ -64,11 +64,11 @@ namespace MrBoom
                 }
             }
 
-            var spritesToDraw = new List<SpriteBase>(clientTerrain.Sprites);
+            var spritesToDraw = new List<GameEntityBase>(clientTerrain.Sprites);
 
             spritesToDraw.Sort((a, b) => a.GetService<ISpritePositionProvider>().Y - b.GetService<ISpritePositionProvider>().Y);
 
-            foreach (SpriteBase sprite in spritesToDraw)
+            foreach (GameEntityBase sprite in spritesToDraw)
             {
                 sprite.GetService<IClientDrawableGameEntity>().Draw(ctx);
             }

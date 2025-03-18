@@ -5,7 +5,7 @@ using MrBoom.Core.Sprites;
 
 namespace MrBoom
 {
-    public abstract class AbstractMonster : SpriteBase, IServerGameEntity
+    public abstract class AbstractMonster : GameEntityBase, IServerGameEntity
     {
         public AbstractMonster(Terrain terrain, Map.MonsterData monsterData,
                                int x, int y)

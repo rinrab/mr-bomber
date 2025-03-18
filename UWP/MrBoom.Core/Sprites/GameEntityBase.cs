@@ -2,9 +2,9 @@
 
 namespace MrBoom.Core.Sprites
 {
-    public class SpriteBase : BomberServiceProvider, IServerGameEntity
+    public class GameEntityBase : BomberServiceProvider, IServerGameEntity
     {
-        public SpriteBase()
+        public GameEntityBase()
         {
         }
 

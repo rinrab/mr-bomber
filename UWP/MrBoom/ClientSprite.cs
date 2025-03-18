@@ -11,7 +11,7 @@ namespace MrBoom
         void Draw(SpriteBatch ctx);
     }
 
-    public class ClientSprite : SpriteBase
+    public class ClientSprite : GameEntityBase
     {
         public ClientSprite(ISpriteProxy proxy, Assets assets)
         {

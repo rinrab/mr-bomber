@@ -8,7 +8,7 @@ using MrBoom.Core.Terrain;
 
 namespace MrBoom
 {
-    public class ServerPlayer : SpriteBase
+    public class ServerPlayer : GameEntityBase
     {
         public int Team;
         public int TeamMask { get => 1 << Team; }

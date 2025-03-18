@@ -35,7 +35,7 @@ namespace MrBoom.State
             throw new System.NotImplementedException();
         }
 
-        public SpriteBase InitializeClientSprite(ITerrainProxy terrain, Assets assets)
+        public GameEntityBase InitializeClientSprite(ITerrainProxy terrain, Assets assets)
         {
             return new ClientSpriteLocalHuman(terrain, proxy.GetService<IPlayerProxy>(), assets, Controller);
         }

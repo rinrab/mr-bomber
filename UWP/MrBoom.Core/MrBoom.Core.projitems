@@ -46,7 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Controllers\SpriteAnimationController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\SpriteApocallypseDeathModule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sprites\SpriteBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\GameEntityBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Controllers\SpriteBombController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\SpriteBombDeathModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Controllers\SpriteEffectController.cs" />

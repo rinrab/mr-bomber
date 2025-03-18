@@ -5,7 +5,7 @@ using MrBoom.Core.Terrain;
 
 namespace MrBoom
 {
-    public class ClientSpriteLocalHuman : SpriteBase
+    public class ClientSpriteLocalHuman : GameEntityBase
     {
         public ClientSpriteLocalHuman(ITerrainProxy terrain,
                                       IPlayerProxy proxy,
