@@ -75,35 +75,33 @@ namespace MrBoom.Core
             }
         }
 
+        private static object CreateInstance(Type type, IBomberServiceProvider services)
+        {
+            ConstructorInfo constructor = type.GetConstructors().First();
+            ParameterInfo[] parameters = constructor.GetParameters();
+
+            List<object> args = new List<object>(parameters.Length);
+
+            foreach (ParameterInfo param in parameters)
+            {
+                object service = services.GetService(param.ParameterType);
+
+                if (service != null)
+                {
+                    args.Add(service);
+                }
+                else
+                {
+                    throw new Exception($"Can't create instance of {type} because no service {param.ParameterType} can be provided.");
+                }
+            }
+
+            return constructor.Invoke(args.ToArray());
+        }
+
         public void AddSingleton<T>() where T : class
         {
-            AddSingleton(services =>
-            {
-                Type type = typeof(T);
-
-                ConstructorInfo constructor = type.GetConstructors().First();
-                ParameterInfo[] parameters = constructor.GetParameters();
-
-                List<object> args = new List<object>(parameters.Length);
-
-                foreach (ParameterInfo param in parameters)
-                {
-                    object service = GetService(param.ParameterType);
-
-                    if (service != null)
-                    {
-                        args.Add(service);
-                    }
-                    else
-                    {
-                        throw new Exception($"Can't create instance of {typeof(T)} because no service {param.ParameterType} can be provided.");
-                    }
-                }
-
-                object obj = constructor.Invoke(args.ToArray());
-
-                return (T)obj;
-            });
+            AddSingleton(services => (T)CreateInstance(typeof(T), services));
         }
 
         public IEnumerable<object> EnumerateServices(Type type)
