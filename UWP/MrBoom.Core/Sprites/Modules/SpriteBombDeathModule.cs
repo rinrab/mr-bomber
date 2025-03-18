@@ -6,11 +6,11 @@ namespace MrBoom.Core.Sprites
     {
         private readonly SpritePosition position;
         private readonly SpriteHealthController healthController;
-        private readonly ServiceProvider serviceProvider;
+        private readonly BomberServiceProvider serviceProvider;
 
         public SpriteBombDeathModule(SpritePosition position,
                                      SpriteHealthController healthController,
-                                     ServiceProvider serviceProvider)
+                                     BomberServiceProvider serviceProvider)
         {
             this.position = position;
             this.healthController = healthController;

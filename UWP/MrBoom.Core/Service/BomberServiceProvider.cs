@@ -8,15 +8,15 @@ using MrBoom.Core.Service;
 
 namespace MrBoom.Core
 {
-    public class ServiceProvider : IBomberServiceProvider, IBomberServiceCollection
+    public class BomberServiceProvider : IBomberServiceProvider, IBomberServiceCollection
     {
         private class Service
         {
             public readonly Type type;
-            public readonly Func<ServiceProvider, object> implementationFactory;
+            public readonly Func<BomberServiceProvider, object> implementationFactory;
             public object instance;
 
-            public Service(Type type, Func<ServiceProvider, object> implementationFactory)
+            public Service(Type type, Func<BomberServiceProvider, object> implementationFactory)
             {
                 this.type = type;
                 this.implementationFactory = implementationFactory;
@@ -29,7 +29,7 @@ namespace MrBoom.Core
                 this.instance = instance;
             }
 
-            public object GetService(ServiceProvider serviceProvider)
+            public object GetService(BomberServiceProvider serviceProvider)
             {
                 if (instance == null)
                 {
@@ -48,7 +48,7 @@ namespace MrBoom.Core
         private List<Service> services;
         private List<IBomberServiceProvider> serviceProviders;
 
-        public ServiceProvider()
+        public BomberServiceProvider()
         {
             services = new List<Service>();
             serviceProviders = new List<IBomberServiceProvider>();
@@ -56,7 +56,7 @@ namespace MrBoom.Core
             AddSingleton(this);
         }
 
-        public void AddSingleton<T>(Func<ServiceProvider, T> implementationFactory) where T : class
+        public void AddSingleton<T>(Func<BomberServiceProvider, T> implementationFactory) where T : class
         {
             services.Add(new Service(typeof(T), services => implementationFactory(services)));
         }

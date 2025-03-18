@@ -21,7 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ClientInfoGuid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\IBomberServiceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\IBomberServiceProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Service\ServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\BomberServiceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkullType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SoundEffectType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AbstractMonster.cs" />

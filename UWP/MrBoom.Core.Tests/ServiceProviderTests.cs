@@ -37,7 +37,7 @@ namespace MrBoom.Core.Tests
         [Test]
         public void SimpleFactory()
         {
-            ServiceProvider services = new ServiceProvider();
+            BomberServiceProvider services = new BomberServiceProvider();
 
             services.AddSingleton(services => new TestSingleton1());
             services.AddSingleton(services => new TestSingleton2(services.GetService<TestSingleton1>()));
@@ -52,7 +52,7 @@ namespace MrBoom.Core.Tests
         [Test]
         public void DependencyInjection()
         {
-            ServiceProvider services = new ServiceProvider();
+            BomberServiceProvider services = new BomberServiceProvider();
 
             services.AddSingleton<TestSingleton1>();
             services.AddSingleton<TestSingleton2>();
@@ -67,7 +67,7 @@ namespace MrBoom.Core.Tests
         [Test]
         public void WrongConstructorTest()
         {
-            ServiceProvider services = new ServiceProvider();
+            BomberServiceProvider services = new BomberServiceProvider();
 
             services.AddSingleton<TestSingleton2>();
 
@@ -77,10 +77,10 @@ namespace MrBoom.Core.Tests
         [Test]
         public void AddServiceProviderTests()
         {
-            ServiceProvider p1 = new ServiceProvider();
+            BomberServiceProvider p1 = new BomberServiceProvider();
             p1.AddSingleton<TestSingleton1>();
 
-            ServiceProvider p2 = new ServiceProvider();
+            BomberServiceProvider p2 = new BomberServiceProvider();
             p2.AddServiceProvider(p1);
 
             var service = p2.GetService<TestSingleton1>();
