@@ -3,19 +3,24 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom
 {
     public class TerrainGraphics : IServerGameEntity, IClientDrawableGameEntity
     {
-        protected readonly ClientTerrain clientTerrain;
+        protected readonly ITerrainProxy terrain;
+        private readonly ClientTerrainSpriteHost sprites;
+        private readonly Assets.Level levelAssets;
         protected readonly Assets assets;
 
         private int bgTick = 0;
 
-        public TerrainGraphics(ClientTerrain clientTerrain, Assets assets)
+        public TerrainGraphics(ITerrainProxy terrain, ClientTerrainSpriteHost sprites, Assets assets, Assets.Level levelAssets)
         {
-            this.clientTerrain = clientTerrain;
+            this.terrain = terrain;
+            this.sprites = sprites;
+            this.levelAssets = levelAssets;
             this.assets = assets;
         }
 
@@ -26,33 +31,33 @@ namespace MrBoom
 
         public virtual void Draw(SpriteBatch ctx)
         {
-            if (clientTerrain.LevelAssets.MovingBackground != null)
+            if (levelAssets.MovingBackground != null)
             {
-                Image img = clientTerrain.LevelAssets.MovingBackground;
+                Image img = levelAssets.MovingBackground;
                 int xCount = 320 / img.Width + 2;
 
                 for (int y = 0; y < 5; y++)
                 {
                     for (int x = 0; x < 8; x++)
                     {
-                        img.Draw(ctx, img.Width * xCount - (clientTerrain.Tick / 2 + x * img.Width +
+                        img.Draw(ctx, img.Width * xCount - (bgTick / 2 + x * img.Width +
                             y * img.Height / 2) % (img.Width * xCount) - img.Width, y * img.Height);
                     }
                 }
             }
 
-            clientTerrain.LevelAssets.Backgrounds[bgTick / 20].Draw(ctx, 0, 0);
-            foreach (var overlay in clientTerrain.LevelAssets.BackgroundSprites)
+            levelAssets.Backgrounds[bgTick / 20].Draw(ctx, 0, 0);
+            foreach (var overlay in levelAssets.BackgroundSprites)
             {
                 overlay.Images[bgTick / overlay.AnimationDelay].Draw(ctx, overlay.x, overlay.y);
             }
 
-            for (int y = 0; y < clientTerrain.Height; y++)
+            for (int y = 0; y < terrain.Height; y++)
             {
-                for (int x = 0; x < clientTerrain.Width; x++)
+                for (int x = 0; x < terrain.Width; x++)
                 {
-                    Cell cell = clientTerrain.GetCell(x, y);
-                    AnimatedImage images = cell.GetImages(assets, clientTerrain.LevelAssets);
+                    Cell cell = terrain.GetCell(x, y);
+                    AnimatedImage images = cell.GetImages(assets, levelAssets);
 
                     if (images != null)
                     {
@@ -64,7 +69,7 @@ namespace MrBoom
                 }
             }
 
-            var spritesToDraw = new List<GameEntityBase>(clientTerrain.Sprites);
+            var spritesToDraw = new List<GameEntityBase>(sprites.Sprites);
 
             spritesToDraw.Sort((a, b) => a.GetService<ISpritePositionProvider>().Y - b.GetService<ISpritePositionProvider>().Y);
 
@@ -73,15 +78,15 @@ namespace MrBoom
                 sprite.GetService<IClientDrawableGameEntity>().Draw(ctx);
             }
 
-            foreach (var overlay in clientTerrain.LevelAssets.Overlays)
+            foreach (var overlay in levelAssets.Overlays)
             {
                 overlay.Images[bgTick / overlay.AnimationDelay].Draw(ctx, overlay.x, overlay.y);
             }
 
-            int drawInStart = 60 * 30 - clientTerrain.ApocalypseSpeed * (clientTerrain.MaxApocalypse + 5);
-            if (clientTerrain.TimeLeft > 30 * 60)
+            int drawInStart = 60 * 30 - terrain.ApocalypseSpeed * (terrain.MaxApocalypse + 5);
+            if (terrain.TimeLeft > 30 * 60)
             {
-                int time = (clientTerrain.TimeLeft - 30 * 60) / 60;
+                int time = (terrain.TimeLeft - 30 * 60) / 60;
 
                 int min = time / 60;
                 int sec = time % 60;
@@ -103,18 +108,18 @@ namespace MrBoom
                     }
                 }
             }
-            else if (clientTerrain.TimeLeft < drawInStart)
+            else if (terrain.TimeLeft < drawInStart)
             {
                 int x = 30;
                 int y = 20;
-                if (clientTerrain.TimeLeft > drawInStart - 20 - assets.DrawGameIn.Height)
+                if (terrain.TimeLeft > drawInStart - 20 - assets.DrawGameIn.Height)
                 {
-                    y = drawInStart - clientTerrain.TimeLeft - assets.DrawGameIn.Height;
+                    y = drawInStart - terrain.TimeLeft - assets.DrawGameIn.Height;
                 }
 
                 assets.DrawGameIn.Draw(ctx, x, y);
 
-                int timeLeft = (clientTerrain.TimeLeft + clientTerrain.ApocalypseSpeed * clientTerrain.MaxApocalypse) / 60;
+                int timeLeft = (terrain.TimeLeft + terrain.ApocalypseSpeed * terrain.MaxApocalypse) / 60;
                 int firstNumber = timeLeft / 10;
                 int secondNumber = timeLeft % 10;
 

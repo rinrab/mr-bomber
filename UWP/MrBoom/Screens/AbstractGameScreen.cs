@@ -14,7 +14,6 @@ namespace MrBoom
         protected Terrain terrain;
         protected ClientTerrain clientTerrain;
         protected Assets assets;
-        protected TerrainGraphics graphics;
 
         protected readonly List<Team> teams;
 
@@ -36,7 +35,6 @@ namespace MrBoom
 
             terrain = new Terrain(levelIndex, ExtensibilityProvider.Default.Random);
             clientTerrain = new ClientTerrain(terrain.GetService<TerrainProxyProvider>(), assets);
-            graphics = new TerrainGraphics(clientTerrain, assets);
 
             ScreenManager.NextSong(assets.Sounds, MapData.Data[levelIndex].Song);
         }
@@ -61,8 +59,7 @@ namespace MrBoom
             if (!isPause)
             {
                 terrain.ServerUpdate();
-                clientTerrain.ClientUpdate();
-                graphics.ServerUpdate();
+                clientTerrain.ServerUpdate();
 
                 if (settings.IsDebug)
                 {
@@ -108,7 +105,7 @@ namespace MrBoom
 
         public virtual void Draw(SpriteBatch ctx)
         {
-            graphics.Draw(ctx);
+            clientTerrain.Draw(ctx);
         }
 
         public virtual void DrawHighDPI(SpriteBatch ctx, Rectangle rect, float scale, int graphicScale)

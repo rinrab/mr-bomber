@@ -1,56 +1,30 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom
 {
-    public class ClientTerrain
+    public class ClientTerrain : GameEntityBase, IClientDrawableGameEntity
     {
-        private readonly ITerrainProxy proxy;
-        private readonly Assets assets;
-
-        public int Tick { get; private set; }
-        public int TimeLeft => proxy.TimeLeft;
-        public int ApocalypseSpeed => proxy.ApocalypseSpeed;
-        public int MaxApocalypse => proxy.MaxApocalypse;
-        public int Width => proxy.Width;
-        public int Height => proxy.Height;
-        public int LevelIndex => proxy.LevelIndex;
-        public Assets.Level LevelAssets => assets.Levels[LevelIndex];
-
-        public IList<GameEntityBase> Sprites { get; }
-
         public ClientTerrain(ITerrainProxy proxy, Assets assets)
         {
-            this.proxy = proxy;
-            this.assets = assets;
+            AddSingleton(proxy);
 
-            Tick = 0;
-            Sprites = new List<GameEntityBase>();
+            AddSingleton(assets);
+            AddSingleton(services => GetService<Assets>().Levels[proxy.LevelIndex]);
+
+            AddSingleton<ClientTerrainSpriteHost>();
+            AddSingleton<TerrainGraphics>();
         }
 
-        public Cell GetCell(int x, int y)
+        public void Draw(SpriteBatch ctx)
         {
-            return proxy.GetCell(x, y);
-        }
-
-        public bool IsWalkable(int x, int y)
-        {
-            return proxy.IsWalkable(x, y);
-        }
-
-        public void ClientUpdate()
-        {
-            Tick++;
-
-            foreach (GameEntityBase sprite in Sprites)
+            foreach (var service in EnumerateServices<IClientDrawableGameEntity>())
             {
-                sprite.ServerUpdate();
+                service.Draw(ctx);
             }
-
-            // sync
         }
     }
 }

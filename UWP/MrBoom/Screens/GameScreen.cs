@@ -20,6 +20,7 @@ namespace MrBoom
                           List<IController> controllers) : base(teams, assets, settings, controllers)
         {
             TerrainSpriteHost sprites = terrain.GetService<TerrainSpriteHost>();
+            ClientTerrainSpriteHost clientSprites = clientTerrain.GetService<ClientTerrainSpriteHost>();
 
             for (int i = 0; i < teams.Count; i++)
             {
@@ -28,7 +29,7 @@ namespace MrBoom
                     IPlayerState playerState = teams[i].Players[j];
 
                     sprites.AddPlayer(playerState.InitializeServerPlayer(terrain, i));
-                    clientTerrain.Sprites.Add(playerState.InitializeClientSprite(terrain.GetService<TerrainProxyProvider>(), assets));
+                    clientSprites.Sprites.Add(playerState.InitializeClientSprite(terrain.GetService<TerrainProxyProvider>(), assets));
                 }
             }
 
@@ -36,7 +37,7 @@ namespace MrBoom
 
             foreach (GameEntityBase sprite in sprites.GetMonsters())
             {
-                clientTerrain.Sprites.Add(new ClientSprite(sprite.GetService<ISpriteProxy>(), assets));
+                clientSprites.Sprites.Add(new ClientSprite(sprite.GetService<ISpriteProxy>(), assets));
             }
 
             Controller.Reset(controllers);

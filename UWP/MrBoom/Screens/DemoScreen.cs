@@ -32,7 +32,8 @@ namespace MrBoom
                 new TextMenuItem("QUIT"),
             }, assets, controllers);
 
-            var sprites = terrain.GetService<TerrainSpriteHost>();
+            TerrainSpriteHost sprites = terrain.GetService<TerrainSpriteHost>();
+            ClientTerrainSpriteHost clientSprites = clientTerrain.GetService<ClientTerrainSpriteHost>();
 
             for (int i = 0; i < 4; i++)
             {
@@ -43,7 +44,7 @@ namespace MrBoom
 
             foreach (GameEntityBase sprite in sprites.GetSprites())
             {
-                clientTerrain.Sprites.Add(new ClientSprite(sprite.GetService<ISpriteProxy>(), assets));
+                clientSprites.Sprites.Add(new ClientSprite(sprite.GetService<ISpriteProxy>(), assets));
             }
         }
 
