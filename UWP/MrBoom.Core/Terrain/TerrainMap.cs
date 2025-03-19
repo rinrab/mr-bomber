@@ -6,62 +6,18 @@ namespace MrBoom.Core.Terrain
 {
     public class TerrainMap : Grid<Cell>, IServerGameEntity
     {
-        private readonly Map mapData;
-        private readonly SpawnProvider spawns;
         private readonly PowerUpProvider powerUpProvider;
 
         private int time;
 
-        public TerrainMap(Map mapData, SpawnProvider spawns, PowerUpProvider powerUpProvider) : base(mapData.Data[0].Length, mapData.Data.Length)
+        public TerrainMap(TerrainInitialMapProvider initialMap, PowerUpProvider powerUpProvider)
+            : base(initialMap.Map.Width, initialMap.Map.Height)
         {
-            this.mapData = mapData;
-            this.spawns = spawns;
             this.powerUpProvider = powerUpProvider;
 
-            InitializeMap();
-        }
-
-        private void InitializeMap()
-        {
-            for (int y = 0; y < Height; y++)
+            for (int i = 0; i < initialMap.Map.CellCount; i++)
             {
-                for (int x = 0; x < Width; x++)
-                {
-                    char src = mapData.Data[y][x];
-
-                    string bonusStr = "123456789AB";
-                    if (src == '#')
-                    {
-                        this[x, y] = new Cell(TerrainType.PermanentWall);
-                    }
-                    else if (src == '-')
-                    {
-                        this[x, y] = new Cell(TerrainType.TemporaryWall);
-                    }
-                    else if (src == '*')
-                    {
-                        spawns.DefineSpawn(new CellCoord(x, y));
-                        this[x, y] = new Cell(TerrainType.Free);
-                    }
-                    else if (src == '%')
-                    {
-                        this[x, y] = new Cell(TerrainType.Rubber);
-                    }
-                    else if (bonusStr.Contains(src.ToString()))
-                    {
-                        int index = bonusStr.IndexOf(src);
-                        this[x, y] = new Cell(TerrainType.PowerUp)
-                        {
-                            Index = 0,
-                            animateDelay = 8,
-                            PowerUpType = (PowerUpType)index
-                        };
-                    }
-                    else
-                    {
-                        this[x, y] = new Cell(TerrainType.Free);
-                    }
-                }
+                this[i] = initialMap.Map[i];
             }
         }
 

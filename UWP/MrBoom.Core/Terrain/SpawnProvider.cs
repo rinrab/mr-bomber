@@ -10,10 +10,12 @@ namespace MrBoom.Core.Terrain
         private readonly List<CellCoord> spawns;
         private readonly IRandom random;
 
-        public SpawnProvider(IRandom random)
+        public SpawnProvider(IRandom random, TerrainInitialMapProvider initialMap)
         {
-            spawns = new List<CellCoord>();
+            spawns = new List<CellCoord>(initialMap.SpawnPoints);
+
             random.Shuffle(spawns);
+
             this.random = random;
         }
 
@@ -29,11 +31,6 @@ namespace MrBoom.Core.Terrain
             var spawn = spawns[spawnIndex];
             spawns.RemoveAt(spawnIndex);
             return spawn;
-        }
-
-        public void DefineSpawn(CellCoord spawn)
-        {
-            spawns.Add(spawn);
         }
     }
 }

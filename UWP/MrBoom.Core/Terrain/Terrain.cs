@@ -18,12 +18,15 @@ namespace MrBoom
             AddSingleton(MapData.Data[levelIndex]);
             AddSingleton(new TerrainStartInfo(levelIndex));
 
-            AddSingleton<PowerUpProvider>();
+            AddSingleton<TerrainInitialMapProvider>();
             AddSingleton<SpawnProvider>();
             AddSingleton<TerrainMap>();
             AddSingleton<TerrainTimer>();
             AddSingleton<TerrainFinal>();
+
+            AddSingleton<PowerUpProvider>();
             AddSingleton<TerrainSpriteHost>();
+
             AddSingleton<GameEndedHandler>();
             AddSingleton<TerrainAIInfoProvider>();
             AddSingleton<TerrainProxyProvider>();
