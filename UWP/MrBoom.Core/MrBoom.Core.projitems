@@ -59,6 +59,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Providers\SpriteSpeedProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Providers\SpriteStartInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\SpriteType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\Cheats\CheatHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\Cheats\DetonateAll.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\Cheats\GiveAllCheat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\Cheats\IServerCheatModule.cs" />

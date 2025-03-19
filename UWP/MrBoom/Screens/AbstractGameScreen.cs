@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MrBoom.Core.Terrain;
+using MrBoom.Core.Terrain.Cheats;
 using MrBoom.Screens;
 
 namespace MrBoom
@@ -63,22 +64,15 @@ namespace MrBoom
 
                 if (settings.IsDebug)
                 {
-                    //if (state.IsKeyDown(Keys.F1))
-                    //{
-                    //    terrain.DetonateAll(true);
-                    //}
-                    //if (state.IsKeyDown(Keys.F2))
-                    //{
-                    //    terrain.DetonateAll(false);
-                    //}
-                    //if (state.IsKeyDown(Keys.F3))
-                    //{
-                    //    terrain.StartApocalypse();
-                    //}
-                    //if (state.IsKeyDown(Keys.F5))
-                    //{
-                    //    terrain.GiveAll();
-                    //}
+                    CheatHost cheats = terrain.GetService<CheatHost>();
+
+                    foreach (Keys key in state.GetPressedKeys())
+                    {
+                        if (Keys.F1 <= key && key <= Keys.F12)
+                        {
+                            cheats.ApplyCheat((int)key - (int)Keys.F1);
+                        }
+                    }
                 }
 
                 // PlaySounds(terrain.SoundsToPlay);

@@ -7,6 +7,7 @@ using System.Text;
 using MrBoom.Common;
 using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
+using MrBoom.Core.Terrain.Cheats;
 
 namespace MrBoom
 {
@@ -30,6 +31,8 @@ namespace MrBoom
             AddSingleton<GameEndedHandler>();
             AddSingleton<TerrainAIInfoProvider>();
             AddSingleton<TerrainProxyProvider>();
+
+            AddSingleton<CheatHost>();
         }
 
         public override void ServerUpdate()
