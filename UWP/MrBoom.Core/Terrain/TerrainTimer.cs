@@ -96,6 +96,11 @@ namespace MrBoom.Core.Terrain
 
         public int timeToEnd = -1;
 
+        public TerrainTimer(Map mapData)
+        {
+            TimeLeft = (mapData.Time + 31) * 60;
+        }
+
         public void ServerUpdate()
         {
             TimeLeft--;
