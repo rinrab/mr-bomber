@@ -9,9 +9,13 @@ using MrBoom.Screens;
 
 namespace MrBoom
 {
-    public abstract class AbstractGameScreen : ClientGameScreen
+    public abstract class AbstractGameScreen : IScreen
     {
         protected Terrain terrain;
+        protected ClientTerrain clientTerrain;
+        protected Assets assets;
+        protected TerrainGraphics graphics;
+
         protected readonly List<Team> teams;
 
         protected readonly Settings settings;
@@ -21,9 +25,10 @@ namespace MrBoom
         private bool isF4Toggle = false;
         private bool f4Mask;
 
-        public AbstractGameScreen(List<Team> teams, Assets assets, Settings settings, List<IController> controllers) : base(assets)
+        public AbstractGameScreen(List<Team> teams, Assets assets, Settings settings, List<IController> controllers)
         {
             this.teams = teams;
+            this.assets = assets;
             this.settings = settings;
             this.controllers = controllers;
 
@@ -31,11 +36,12 @@ namespace MrBoom
 
             terrain = new Terrain(levelIndex, ExtensibilityProvider.Default.Random);
             clientTerrain = new ClientTerrain(terrain.GetService<TerrainProxyProvider>(), assets);
+            graphics = new TerrainGraphics(clientTerrain, assets);
 
             ScreenManager.NextSong(assets.Sounds, MapData.Data[levelIndex].Song);
         }
 
-        public override void Update()
+        public virtual void Update()
         {
             var state = Keyboard.GetState();
 
@@ -55,6 +61,8 @@ namespace MrBoom
             if (!isPause)
             {
                 terrain.ServerUpdate();
+                clientTerrain.ClientUpdate();
+                graphics.ServerUpdate();
 
                 if (settings.IsDebug)
                 {
@@ -78,8 +86,6 @@ namespace MrBoom
 
                 // PlaySounds(terrain.SoundsToPlay);
             }
-
-            base.Update();
         }
 
         private void PlaySounds(SoundEffectType soundsToPlay)
@@ -100,10 +106,13 @@ namespace MrBoom
             if (soundsToPlay.HasFlag(SoundEffectType.Skull)) soundAssets.Skull.Play();
         }
 
-        public override void DrawHighDPI(SpriteBatch ctx, Rectangle rect, float scale, int graphicScale)
+        public virtual void Draw(SpriteBatch ctx)
         {
-            base.DrawHighDPI(ctx, rect, scale, graphicScale);
+            graphics.Draw(ctx);
+        }
 
+        public virtual void DrawHighDPI(SpriteBatch ctx, Rectangle rect, float scale, int graphicScale)
+        {
             if (settings.IsDebug && isF4Toggle)
             {
                 var map = terrain.GetService<TerrainMap>();

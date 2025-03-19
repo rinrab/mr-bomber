@@ -113,7 +113,7 @@
     <Compile Include="Extensibility\Proxy\ProxyExtensionBase.cs" />
     <Compile Include="Extensibility\Proxy\SmoothProxy.cs" />
     <Compile Include="MultiplayerClient.cs" />
-    <Compile Include="Screens\ClientGameScreen.cs" />
+    <Compile Include="Game\TerrainGraphics.cs" />
     <Compile Include="Extensibility\TeamMode\ColourTeamModeProvider.cs" />
     <Compile Include="Screens\DemoScreen.cs" />
     <Compile Include="Screens\DrawScreen.cs" />

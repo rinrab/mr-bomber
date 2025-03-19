@@ -3,6 +3,7 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Messages;
@@ -11,7 +12,7 @@ using MrBoom.State;
 
 namespace MrBoom.Screens
 {
-    public class OnlineGameScreen : ClientGameScreen
+    public class OnlineGameScreen : IScreen
     {
         private readonly MultiplayerClient multiplayerClient;
         private readonly TerrainProxy terrainProxy;
@@ -19,10 +20,15 @@ namespace MrBoom.Screens
         private readonly IPlayerProvider players;
         private readonly ISpriteProvider sprites;
 
-        public OnlineGameScreen(Assets assets, MultiplayerClient multiplayerClient, IPlayerProvider players) : base(assets)
+        private ClientTerrain clientTerrain;
+        private Assets assets;
+        private TerrainGraphics graphics;
+
+        public OnlineGameScreen(Assets assets, MultiplayerClient multiplayerClient, IPlayerProvider players)
         {
             terrainProxy = new TerrainProxy();
 
+            this.assets = assets;
             this.multiplayerClient = multiplayerClient;
             this.players = players;
 
@@ -42,6 +48,7 @@ namespace MrBoom.Screens
                     init = true;
 
                     clientTerrain = new ClientTerrain(terrainProxy, assets);
+                    graphics = new TerrainGraphics(clientTerrain, assets);
 
                     foreach (IPlayerState state in sprites.EnumerateSprites())
                     {
@@ -61,7 +68,7 @@ namespace MrBoom.Screens
             }
         }
 
-        public override void Update()
+        public void Update()
         {
             multiplayerClient.CheckPackets();
 
@@ -75,7 +82,7 @@ namespace MrBoom.Screens
                     ClientSecret = multiplayerClient.ClientSecret,
                 });
 
-                base.Update();
+                clientTerrain.ClientUpdate();
             }
 
             if (multiplayerClient.IsDead())
@@ -84,12 +91,16 @@ namespace MrBoom.Screens
             }
         }
 
-        public override void Draw(SpriteBatch ctx)
+        public void Draw(SpriteBatch ctx)
         {
             if (clientTerrain != null)
             {
-                base.Draw(ctx);
+                graphics.Draw(ctx);
             }
+        }
+
+        public void DrawHighDPI(SpriteBatch ctx, Rectangle rect, float scale, int graphicScale)
+        {
         }
     }
 }

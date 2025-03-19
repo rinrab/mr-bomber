@@ -1,27 +1,27 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Core.Sprites;
 
 namespace MrBoom
 {
-    public abstract class ClientGameScreen : IScreen
+    public class TerrainGraphics : IServerGameEntity, IClientDrawableGameEntity
     {
-        protected IClientTerrain clientTerrain;
+        protected readonly IClientTerrain clientTerrain;
         protected readonly Assets assets;
 
         private int bgTick = 0;
 
-        public ClientGameScreen(Assets assets)
+        public TerrainGraphics(IClientTerrain clientTerrain, Assets assets)
         {
+            this.clientTerrain = clientTerrain;
             this.assets = assets;
         }
 
-        public virtual void Update()
+        public void ServerUpdate()
         {
-            clientTerrain.ClientUpdate();
+            bgTick++;
         }
 
         public virtual void Draw(SpriteBatch ctx)
@@ -121,10 +121,6 @@ namespace MrBoom
                 assets.DrawGameInNumbers[firstNumber].Draw(ctx, x + 42, y + 15);
                 assets.DrawGameInNumbers[secondNumber].Draw(ctx, x + 8 + 42, y + 15);
             }
-        }
-
-        public virtual void DrawHighDPI(SpriteBatch ctx, Rectangle rect, float scale, int graphicScale)
-        {
         }
     }
 }
