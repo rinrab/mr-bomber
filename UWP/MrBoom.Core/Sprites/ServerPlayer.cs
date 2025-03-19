@@ -34,6 +34,7 @@ namespace MrBoom
             AddSingleton<SpriteBombDeathModule>();
 
             AddSingleton<SpriteProxyProvider>();
+            AddSingleton<PlayerProxyProvider>();
 
             Team = team;
             ClientInfo = clientInfo;
