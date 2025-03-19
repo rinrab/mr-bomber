@@ -19,20 +19,22 @@ namespace MrBoom
         public GameScreen(List<Team> teams, Assets assets, Settings settings,
                           List<IController> controllers) : base(teams, assets, settings, controllers)
         {
+            TerrainSpriteHost sprites = terrain.GetService<TerrainSpriteHost>();
+
             for (int i = 0; i < teams.Count; i++)
             {
                 for (int j = 0; j < teams[i].Players.Count; j++)
                 {
                     IPlayerState playerState = teams[i].Players[j];
 
-                    terrain.sprites.AddPlayer(playerState.InitializeServerPlayer(terrain, i));
-                    clientTerrain.Sprites.Add(playerState.InitializeClientSprite(terrain.proxy, assets));
+                    sprites.AddPlayer(playerState.InitializeServerPlayer(terrain, i));
+                    clientTerrain.Sprites.Add(playerState.InitializeClientSprite(terrain.GetService<TerrainProxyProvider>(), assets));
                 }
             }
 
-            terrain.sprites.InitializeMonsters();
+            terrain.GetService<TerrainSpriteHost>().InitializeMonsters();
 
-            foreach (GameEntityBase sprite in terrain.sprites.GetMonsters())
+            foreach (GameEntityBase sprite in sprites.GetMonsters())
             {
                 clientTerrain.Sprites.Add(new ClientSprite(sprite.GetService<ISpriteProxy>(), assets));
             }
@@ -44,15 +46,17 @@ namespace MrBoom
         {
             base.Update();
 
-            if (terrain.Result == GameResult.Victory)
+            GameEndedHandler gameEndedHandler = terrain.GetService<GameEndedHandler>();
+
+            if (gameEndedHandler.Result == GameResult.Victory)
             {
-                int winner = terrain.Winner;
+                int winner = gameEndedHandler.Winner;
 
                 teams[winner].VictoryCount++;
 
                 ScreenManager.SetScreen(new ResultScreen(teams, winner, assets, controllers, settings));
             }
-            else if (terrain.Result == GameResult.Draw)
+            else if (gameEndedHandler.Result == GameResult.Draw)
             {
                 ScreenManager.SetScreen(new DrawScreen(teams, assets, settings, controllers));
             }

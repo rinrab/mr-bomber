@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Common;
+
 namespace MrBoom
 {
     public class Map
@@ -30,7 +32,7 @@ namespace MrBoom
                 Speed = 3;
             }
 
-            public abstract AbstractMonster GetMonster(Terrain map, int x, int y);
+            public abstract AbstractMonster GetMonster(int x, int y);
         }
 
         public class BasicMonsterData : MonsterData
@@ -42,9 +44,9 @@ namespace MrBoom
                 WaitAfterTurn = waitAfterTurn;
             }
 
-            public override AbstractMonster GetMonster(Terrain map, int x, int y)
+            public override AbstractMonster GetMonster(int x, int y)
             {
-                return new BasicMonster(map, this, map.Random, x, y);
+                return new BasicMonster(this, x, y);
             }
         }
 

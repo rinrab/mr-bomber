@@ -26,7 +26,7 @@ namespace MrBoom.State
 
         public ServerPlayer InitializeServerPlayer(Terrain terrain, int team)
         {
-            proxy = new ServerPlayer(terrain, team, Index, new ClientInfoFake());
+            proxy = new ServerPlayer(team, Index, new ClientInfoFake());
             return proxy;
         }
 

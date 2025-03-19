@@ -13,7 +13,7 @@ namespace MrBoom.Bot
 {
     public class ComputerPlayer : ServerPlayer
     {
-        public ComputerPlayer(Terrain map, int team, int index, int botSeed) : base(map, team, index, new ClientInfoFake())
+        public ComputerPlayer(int team, int index, int botSeed) : base(team, index, new ClientInfoFake())
         {
             AddSingleton(new SimpleRandom(botSeed));
             AddSingleton<PlayerController>();

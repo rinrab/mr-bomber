@@ -3,6 +3,7 @@
 using System.Net;
 using MrBoom.Common;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Messages;
 using MrBoom.Server.Game;
 
@@ -22,9 +23,11 @@ namespace MrBoom.Server.Lobby
 
             Terrain = new Terrain(1, random);
 
+            var sprites = Terrain.GetService<TerrainSpriteHost>();
+
             foreach (LobbyPlayer player in lobby.GetPlayers())
             {
-                var sprite = new ServerPlayer(Terrain, player.Index, player.Index, player.Client.CorishInfo);
+                var sprite = new ServerPlayer(player.Index, player.Index, player.Client.CorishInfo);
 
                 sprite.AddSingleton(player.Client.CorishInfo);
                 sprite.AddSingleton<PlayerController>();
@@ -32,12 +35,12 @@ namespace MrBoom.Server.Lobby
                 sprite.AddSingleton<SpriteUpdateReceiver>();
                 sprite.AddSingleton<SpriteUpdateBroadcaster>();
 
-                Terrain.sprites.AddPlayer(sprite);
+                sprites.AddPlayer(sprite);
             }
 
-            Terrain.sprites.InitializeMonsters();
+            sprites.InitializeMonsters();
 
-            foreach (AbstractMonster monster in Terrain.sprites.GetMonsters())
+            foreach (AbstractMonster monster in sprites.GetMonsters())
             {
                 monster.AddSingleton<SpriteTypeProviderMonster>();
                 monster.AddSingleton<SpriteUpdateBroadcaster>();
@@ -65,9 +68,11 @@ namespace MrBoom.Server.Lobby
 
                 client.OnPacketReceived();
 
+                var sprites = Terrain.GetService<TerrainSpriteHost>();
+
                 foreach (ClientPlayerUpdateMessage spriteUpdate in clientUpdate.SpriteUpdates)
                 {
-                    GameEntityBase sprite = Terrain.sprites.GetSprites().ElementAt(spriteUpdate.Index);
+                    GameEntityBase sprite = sprites.GetSprites().ElementAt(spriteUpdate.Index);
                     // TODO: authenticate
                     sprite.GetService<SpriteUpdateReceiver>().OnUpdateReceived(spriteUpdate);
                 }
@@ -76,10 +81,13 @@ namespace MrBoom.Server.Lobby
 
         private IMessage FormatGameInfoMessage(ClientInfo client)
         {
-            var grid = new Grid<GameCellInfo>(Terrain.map.Width, Terrain.map.Height);
+            var map = Terrain.GetService<TerrainMap>();
+            var terrainSprites = Terrain.GetService<TerrainSpriteHost>();
+
+            var grid = new Grid<GameCellInfo>(map.Width, map.Height);
             for (int i = 0; i < grid.CellCount; i++)
             {
-                Cell cell = Terrain.map.GetCell(grid.GetCellX(i), grid.GetCellY(i));
+                Cell cell = map.GetCell(grid.GetCellX(i), grid.GetCellY(i));
 
                 int subType = 0;
                 if (cell.Type == TerrainType.PowerUp)
@@ -103,18 +111,18 @@ namespace MrBoom.Server.Lobby
             }
 
             var sprites = new List<GameSpriteInfo>();
-            foreach (GameEntityBase sprite in Terrain.sprites.GetSprites())
+            foreach (GameEntityBase sprite in terrainSprites.GetSprites())
             {
                 sprites.Add(sprite.GetService<SpriteUpdateBroadcaster>().GetUpdateMessage(client));
             }
 
             return new GameInfo
             {
-                LevelIndex = Terrain.startInfo.LevelIndex,
+                LevelIndex = Terrain.GetService<TerrainStartInfo>().LevelIndex,
                 Terrain = new GameTerrainInfo
                 {
-                    Width = Terrain.map.Width,
-                    Height = Terrain.map.Height,
+                    Width = map.Width,
+                    Height = map.Height,
                     Grid = grid,
                 },
                 Sprites = sprites,

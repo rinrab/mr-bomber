@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using MrBoom.Common;
+using MrBoom.Core.Service;
 using MrBoom.Core.Sprites;
 
 namespace MrBoom.Core.Terrain
@@ -13,19 +14,25 @@ namespace MrBoom.Core.Terrain
         private readonly List<AbstractMonster> monsters;
 
         private readonly SpawnProvider spawns;
+        private readonly TerrainMap map;
         private readonly IRandom random;
         private readonly Map mapData;
-        private readonly MrBoom.Terrain map;
+        private readonly IBomberServiceProvider serviceProvider;
 
-        public TerrainSpriteHost(SpawnProvider spawns, IRandom random, Map mapData, MrBoom.Terrain map)
+        public TerrainSpriteHost(SpawnProvider spawns,
+                                 TerrainMap map,
+                                 IRandom random,
+                                 Map mapData,
+                                 IBomberServiceProvider serviceProvider)
         {
             monsters = new List<AbstractMonster>();
             players = new List<ServerPlayer>();
 
             this.spawns = spawns;
+            this.map = map;
             this.random = random;
             this.mapData = mapData;
-            this.map = map;
+            this.serviceProvider = serviceProvider;
         }
 
         public void ServerUpdate()
@@ -66,6 +73,7 @@ namespace MrBoom.Core.Terrain
         {
             CellCoord spawn = spawns.GenerateSpawn().Value;
 
+            player.AddServiceProvider(serviceProvider);
             player.GetService<SpritePosition>().MoveTo(spawn.X * 16, spawn.Y * 16);
 
             players.Add(player);
@@ -83,7 +91,9 @@ namespace MrBoom.Core.Terrain
 
                 var data = random.NextElement(mapData.Monsters);
 
-                AbstractMonster monster = data.GetMonster(map, spawn.Value.X * 16, spawn.Value.Y * 16);
+                AbstractMonster monster = data.GetMonster(spawn.Value.X * 16, spawn.Value.Y * 16);
+
+                monster.AddServiceProvider(serviceProvider);
 
                 monsters.Add(monster);
             }

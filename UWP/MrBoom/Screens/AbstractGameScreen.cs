@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MrBoom.Core.Terrain;
 using MrBoom.Screens;
 
 namespace MrBoom
@@ -29,7 +30,7 @@ namespace MrBoom
             int levelIndex = ScreenManager.GetNextLevel();
 
             terrain = new Terrain(levelIndex, ExtensibilityProvider.Default.Random);
-            clientTerrain = new ClientTerrain(terrain.proxy, assets);
+            clientTerrain = new ClientTerrain(terrain.GetService<TerrainProxyProvider>(), assets);
 
             ScreenManager.NextSong(assets.Sounds, MapData.Data[levelIndex].Song);
         }
@@ -105,9 +106,11 @@ namespace MrBoom
 
             if (settings.IsDebug && isF4Toggle)
             {
-                for (int y = 1; y < terrain.map.Height - 1; y++)
+                var map = terrain.GetService<TerrainMap>();
+
+                for (int y = 1; y < map.Height - 1; y++)
                 {
-                    for (int x = 1; x < terrain.map.Width - 1; x++)
+                    for (int x = 1; x < map.Width - 1; x++)
                     {
                         string debugInfo = terrain.GetCellDebugInfo(x, y);
 

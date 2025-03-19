@@ -7,11 +7,9 @@ namespace MrBoom
 {
     public class BasicMonster : AbstractMonster
     {
-        public BasicMonster(Terrain map, Map.BasicMonsterData monsterData,
-                            IRandom random, int x, int y) : base(map, monsterData, x, y)
+        public BasicMonster(Map.BasicMonsterData monsterData, int x, int y) : base(monsterData, x, y)
         {
             AddSingleton(monsterData);
-            AddSingleton(random);
             AddSingleton<BasicMonsterController>();
         }
     }

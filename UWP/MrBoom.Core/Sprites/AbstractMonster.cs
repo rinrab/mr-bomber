@@ -7,16 +7,8 @@ namespace MrBoom
 {
     public abstract class AbstractMonster : GameEntityBase, IServerGameEntity
     {
-        public AbstractMonster(Terrain terrain, Map.MonsterData monsterData,
-                               int x, int y)
+        public AbstractMonster(Map.MonsterData monsterData, int x, int y)
         {
-            AddSingleton(terrain.proxy);
-            AddSingleton(terrain.map);
-            AddSingleton(terrain.powerUpProvider);
-            AddSingleton(terrain.timer);
-            AddSingleton(terrain.final);
-            AddSingleton(terrain.aiInfoProvider);
-
             AddSingleton(new SpriteStartInfo(x, y, monsterData.Speed, monsterData.LivesCount,
                                              SpriteType.Monster, monsterData.Type));
 

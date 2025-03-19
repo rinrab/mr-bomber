@@ -15,18 +15,8 @@ namespace MrBoom
 
         public IClientInfo ClientInfo { get; private set; }
 
-        protected readonly Terrain terrain;
-
-        public ServerPlayer(Terrain terrain, int team, int index, IClientInfo clientInfo)
+        public ServerPlayer(int team, int index, IClientInfo clientInfo)
         {
-            AddSingleton(terrain.proxy);
-            AddSingleton(terrain.map);
-            AddSingleton(terrain.powerUpProvider);
-            AddSingleton(terrain.timer);
-            AddSingleton(terrain.final);
-            AddSingleton(terrain.aiInfoProvider);
-            AddSingleton(terrain.Random);
-
             AddSingleton(new SpriteStartInfo(0, 0, 3, 1, SpriteType.Player, index));
 
             AddSingleton<NullBombKicker>();
@@ -46,7 +36,6 @@ namespace MrBoom
             AddSingleton<SpriteProxyProvider>();
 
             Team = team;
-            this.terrain = terrain;
             ClientInfo = clientInfo;
         }
 

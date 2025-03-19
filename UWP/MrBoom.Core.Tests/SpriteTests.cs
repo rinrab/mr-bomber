@@ -2,6 +2,7 @@
 
 using MrBoom.Common;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom.Core.Tests
 {
@@ -12,9 +13,11 @@ namespace MrBoom.Core.Tests
         public void ServerPlayerTests()
         {
             var terrain = new MrBoom.Terrain(0, new SimpleRandom(34));
-            var sprite = new ServerPlayer(terrain, 0, 0, new ClientInfoFake());
 
-            terrain.sprites.AddPlayer(sprite);
+            var sprite = new ServerPlayer(0, 0, new ClientInfoFake());
+            sprite.AddSingleton<PlayerController>();
+
+            terrain.GetService<TerrainSpriteHost>().AddPlayer(sprite);
 
             var position = sprite.GetService<ISpritePositionProvider>();
 
@@ -34,9 +37,11 @@ namespace MrBoom.Core.Tests
         public void SpriteMovementControllerTests()
         {
             var terrain = new MrBoom.Terrain(0, new SimpleRandom(34));
-            var sprite = new ServerPlayer(terrain, 0, 0, new ClientInfoFake());
 
-            terrain.sprites.AddPlayer(sprite);
+            var sprite = new ServerPlayer(0, 0, new ClientInfoFake());
+            sprite.AddSingleton<PlayerController>();
+
+            terrain.GetService<TerrainSpriteHost>().AddPlayer(sprite);
 
             var position = sprite.GetService<ISpritePositionProvider>();
 
@@ -54,11 +59,12 @@ namespace MrBoom.Core.Tests
         {
             var terrain = new MrBoom.Terrain(0, new SimpleRandom(34));
 
-            var sprite = new ServerPlayer(terrain, 0, 0, new ClientInfoFake());
-            var position = sprite.GetService<ISpritePositionProvider>();
+            var sprite = new ServerPlayer(0, 0, new ClientInfoFake());
             sprite.AddSingleton<PlayerController>();
 
-            terrain.sprites.AddPlayer(sprite);
+            terrain.GetService<TerrainSpriteHost>().AddPlayer(sprite);
+
+            var position = sprite.GetService<ISpritePositionProvider>();
 
             int x = position.X;
             int y = position.Y;
@@ -84,11 +90,12 @@ namespace MrBoom.Core.Tests
         {
             var terrain = new MrBoom.Terrain(0, new SimpleRandom(34));
 
-            var sprite = new ServerPlayer(terrain, 0, 0, new ClientInfoFake());
-            var position = sprite.GetService<ISpritePositionProvider>();
+            var sprite = new ServerPlayer(0, 0, new ClientInfoFake());
             sprite.AddSingleton<MonsterController>();
 
-            terrain.sprites.AddPlayer(sprite);
+            terrain.GetService<TerrainSpriteHost>().AddPlayer(sprite);
+
+            var position = sprite.GetService<ISpritePositionProvider>();
 
             int x = position.X;
             int y = position.Y;

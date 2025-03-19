@@ -32,14 +32,16 @@ namespace MrBoom
                 new TextMenuItem("QUIT"),
             }, assets, controllers);
 
+            var sprites = terrain.GetService<TerrainSpriteHost>();
+
             for (int i = 0; i < 4; i++)
             {
-                terrain.sprites.AddPlayer(new ComputerPlayer(terrain, i, i, i));
+                sprites.AddPlayer(new ComputerPlayer(i, i, i));
             }
 
-            terrain.sprites.InitializeMonsters();
+            sprites.InitializeMonsters();
 
-            foreach (GameEntityBase sprite in terrain.sprites.GetSprites())
+            foreach (GameEntityBase sprite in sprites.GetSprites())
             {
                 clientTerrain.Sprites.Add(new ClientSprite(sprite.GetService<ISpriteProxy>(), assets));
             }
@@ -48,20 +50,25 @@ namespace MrBoom
         public override void Update()
         {
             base.Update();
-            if (terrain.Result == GameResult.Victory || terrain.Result == GameResult.Draw)
+
+            GameEndedHandler gameEndedHandler = terrain.GetService<GameEndedHandler>();
+
+            if (gameEndedHandler.Result == GameResult.Victory || gameEndedHandler.Result == GameResult.Draw)
             {
                 int levelIndex = ScreenManager.GetNextLevel();
 
                 terrain = new Terrain(levelIndex, ExtensibilityProvider.Default.Random);
 
+                TerrainSpriteHost sprites = terrain.GetService<TerrainSpriteHost>();
+
                 ScreenManager.NextSong(assets.Sounds, MapData.Data[levelIndex].Song);
 
                 for (int i = 0; i < 4; i++)
                 {
-                    terrain.sprites.AddPlayer(new ComputerPlayer(terrain, i, i, i));
+                    sprites.AddPlayer(new ComputerPlayer(i, i, i));
                 }
 
-                terrain.sprites.InitializeMonsters();
+                sprites.InitializeMonsters();
             }
 
             demoMenu.Update();
