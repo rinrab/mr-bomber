@@ -79,36 +79,5 @@ namespace MrBoom
 
             return sb.ToString();
         }
-
-        public void DetonateAll(bool generateBonus)
-        {
-            //for (int i = 0; i < map.CellCount; i++)
-            //{
-            //    if (map[i].Type == TerrainType.TemporaryWall)
-            //    {
-            //        Cell next = generateBonus ? powerUpProvider.GenerateGiven() : new Cell(TerrainType.Free);
-
-            //        map[i] = new Cell(TerrainType.PermanentWall)
-            //        {
-            //            Index = 0,
-            //            animateDelay = 4,
-            //            Next = next
-            //        };
-            //    }
-            //}
-        }
-
-        public void StartApocalypse()
-        {
-            //final.StartApocalypse();
-        }
-
-        public void GiveAll()
-        {
-            //foreach (ServerPlayer player in sprites.GetPlayers())
-            //{
-            //    player.GiveAll();
-            //}
-        }
     }
 }

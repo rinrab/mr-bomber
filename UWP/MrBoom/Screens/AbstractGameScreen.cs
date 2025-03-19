@@ -63,22 +63,22 @@ namespace MrBoom
 
                 if (settings.IsDebug)
                 {
-                    if (state.IsKeyDown(Keys.F1))
-                    {
-                        terrain.DetonateAll(true);
-                    }
-                    if (state.IsKeyDown(Keys.F2))
-                    {
-                        terrain.DetonateAll(false);
-                    }
-                    if (state.IsKeyDown(Keys.F3))
-                    {
-                        terrain.StartApocalypse();
-                    }
-                    if (state.IsKeyDown(Keys.F5))
-                    {
-                        terrain.GiveAll();
-                    }
+                    //if (state.IsKeyDown(Keys.F1))
+                    //{
+                    //    terrain.DetonateAll(true);
+                    //}
+                    //if (state.IsKeyDown(Keys.F2))
+                    //{
+                    //    terrain.DetonateAll(false);
+                    //}
+                    //if (state.IsKeyDown(Keys.F3))
+                    //{
+                    //    terrain.StartApocalypse();
+                    //}
+                    //if (state.IsKeyDown(Keys.F5))
+                    //{
+                    //    terrain.GiveAll();
+                    //}
                 }
 
                 // PlaySounds(terrain.SoundsToPlay);
