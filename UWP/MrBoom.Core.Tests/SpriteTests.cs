@@ -48,10 +48,10 @@ namespace MrBoom.Core.Tests
             int x = position.X;
             int y = position.Y;
 
-            sprite.GetService<SpriteMovementController>().Move(Directions.Down);
+            sprite.GetService<SpriteMovementController>().Move(Directions.Up);
 
             Assert.AreEqual(x, position.X);
-            Assert.AreEqual(y + 1, position.Y);
+            Assert.AreEqual(y - 1, position.Y);
         }
 
         [Test]
@@ -74,15 +74,15 @@ namespace MrBoom.Core.Tests
             Assert.AreEqual(x, position.X);
             Assert.AreEqual(y, position.Y);
 
-            sprite.GetService<PlayerController>().SetDirection(Directions.Down);
+            sprite.GetService<PlayerController>().SetDirection(Directions.Up);
             sprite.ServerUpdate();
             Assert.AreEqual(x, position.X);
-            Assert.AreEqual(y + 1, position.Y);
+            Assert.AreEqual(y - 1, position.Y);
 
             sprite.GetService<PlayerController>().SetDirection(null);
             sprite.ServerUpdate();
             Assert.AreEqual(x, position.X);
-            Assert.AreEqual(y + 1, position.Y);
+            Assert.AreEqual(y - 1, position.Y);
         }
 
         [Test]
@@ -105,15 +105,15 @@ namespace MrBoom.Core.Tests
             Assert.AreEqual(x, position.X);
             Assert.AreEqual(y, position.Y);
 
-            sprite.GetService<MonsterController>().SetDirection(Directions.Down);
+            sprite.GetService<MonsterController>().SetDirection(Directions.Up);
             sprite.ServerUpdate();
             Assert.AreEqual(x, position.X);
-            Assert.AreEqual(y + 1, position.Y);
+            Assert.AreEqual(y - 1, position.Y);
 
             sprite.GetService<MonsterController>().SetDirection(null);
             sprite.ServerUpdate();
             Assert.AreEqual(x, position.X);
-            Assert.AreEqual(y + 1, position.Y);
+            Assert.AreEqual(y - 1, position.Y);
         }
     }
 }
