@@ -8,12 +8,12 @@ namespace MrBoom
 {
     public class TerrainGraphics : IServerGameEntity, IClientDrawableGameEntity
     {
-        protected readonly IClientTerrain clientTerrain;
+        protected readonly ClientTerrain clientTerrain;
         protected readonly Assets assets;
 
         private int bgTick = 0;
 
-        public TerrainGraphics(IClientTerrain clientTerrain, Assets assets)
+        public TerrainGraphics(ClientTerrain clientTerrain, Assets assets)
         {
             this.clientTerrain = clientTerrain;
             this.assets = assets;

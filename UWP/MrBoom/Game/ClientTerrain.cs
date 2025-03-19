@@ -6,27 +6,7 @@ using MrBoom.Core.Terrain;
 
 namespace MrBoom
 {
-    public interface IClientTerrain : IClientGameEntity
-    {
-        int Tick { get; }
-
-        int TimeLeft { get; }
-        int ApocalypseSpeed { get; }
-        int MaxApocalypse { get; }
-
-        int Width { get; }
-        int Height { get; }
-
-        int LevelIndex { get; }
-        Assets.Level LevelAssets { get; }
-
-        IList<GameEntityBase> Sprites { get; }
-
-        Cell GetCell(int x, int y);
-        bool IsWalkable(int x, int y);
-    }
-
-    public class ClientTerrain : IClientTerrain
+    public class ClientTerrain
     {
         private readonly ITerrainProxy proxy;
         private readonly Assets assets;
