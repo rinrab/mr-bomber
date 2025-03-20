@@ -13,16 +13,19 @@ namespace MrBoom.Server.Lobby
     {
         private readonly IUdpServer udpServer;
         private readonly ILogger logger;
+        private readonly IOptions<Settings> options;
         private readonly IServiceProvider serviceProvider;
 
         private readonly Dictionary<Guid, Lobby> lobbies;
 
         public LobbyServer(IUdpServer udpServer,
                            ILogger<LobbyServer> logger,
+                           IOptions<Settings> options,
                            IServiceProvider serviceProvider) : base(1000 / 20, logger)
         {
             this.udpServer = udpServer;
             this.logger = logger;
+            this.options = options;
             this.serviceProvider = serviceProvider;
 
             lobbies = new Dictionary<Guid, Lobby>();
@@ -39,7 +42,7 @@ namespace MrBoom.Server.Lobby
                 lobbies.Add(lobby.Key, lobby);
             }
 
-            logger.LogInformation("Created lobby {lobby}", lobby.Key);
+            logger.LogInformation("Created lobby: {masterUrl}/Lobby/{lobby}", options.Value.MasterUrl, lobby.Key);
 
             return lobby.Key;
         }
