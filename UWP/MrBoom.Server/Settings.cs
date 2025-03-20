@@ -8,5 +8,7 @@ namespace MrBoom.Server
 
         public int LobbyPort { get; set; } = 5050;
         public string LobbyIp { get; set; } = "localhost";
+
+        public string MasterUrl { get; set; } = "http://localhost:5050";
     }
 }
