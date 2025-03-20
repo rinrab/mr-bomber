@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System;
+using MrBoom.Common;
 using MrBoom.Core;
 
 namespace MrBoom.NetworkProtocol.Proxy
@@ -34,7 +35,7 @@ namespace MrBoom.NetworkProtocol.Proxy
 
         public override string ToString()
         {
-            return clientId.ToString();
+            return clientId.ToFriendlyString();
         }
     }
 }
