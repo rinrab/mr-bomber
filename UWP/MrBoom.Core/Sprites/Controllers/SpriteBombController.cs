@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Sprites.Interface;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom.Core.Sprites
 {
-    public class SpriteBombController : IBombKicker, IBombOwner, IServerGameEntity
+    public class SpriteBombController : IBombKicker, IBombOwner, IServerGameEntity, IPowerUpHandler
     {
         private readonly TerrainMap map;
         private readonly SpriteEffectController effectController;
@@ -32,18 +33,6 @@ namespace MrBoom.Core.Sprites
 
             MaxBoom = 1;
             MaxBombsCount = 1;
-        }
-
-        public virtual bool UpgradeMaxBoom()
-        {
-            MaxBoom++;
-            return true;
-        }
-
-        public virtual bool UpgradeMaxBombsCount()
-        {
-            MaxBombsCount++;
-            return true;
         }
 
         public virtual bool PutBomb(int cellX, int cellY)
@@ -83,6 +72,24 @@ namespace MrBoom.Core.Sprites
         public void ServerUpdate()
         {
             RemoteDetonate = false;
+        }
+
+        public PowerUpPickResult PickPowerUp(PowerUpType powerUpType)
+        {
+            if (powerUpType == PowerUpType.ExtraFire)
+            {
+                MaxBoom++;
+                return PowerUpPickResult.Pick;
+            }
+            else if (powerUpType == PowerUpType.ExtraBomb)
+            {
+                MaxBombsCount++;
+                return PowerUpPickResult.Pick;
+            }
+            else
+            {
+                return PowerUpPickResult.Skip;
+            }
         }
     }
 }

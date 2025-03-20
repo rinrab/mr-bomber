@@ -1,38 +1,23 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using MrBoom.Common;
+using MrBoom.Core.Sprites.Interface;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom.Core.Sprites
 {
     public class SpritePowerUpHandler : IServerGameEntity
     {
-        protected readonly SpritePosition position;
-        protected readonly SpriteEffectController effectController;
-        protected readonly SpriteBombController bombController;
-        protected readonly SpriteHealthController healthController;
-        protected readonly IRandom random;
-        protected readonly TerrainMap map;
-        protected readonly TerrainTimer timer;
-        protected readonly TerrainFinal final;
+        private readonly SpritePosition position;
+        private readonly TerrainMap map;
+        private readonly BomberServiceProvider services;
 
         public SpritePowerUpHandler(SpritePosition position,
-                                    SpriteEffectController effectController,
-                                    SpriteBombController bombController,
-                                    SpriteHealthController healthController,
-                                    IRandom random,
                                     TerrainMap map,
-                                    TerrainTimer timer,
-                                    TerrainFinal final)
+                                    BomberServiceProvider services)
         {
             this.position = position;
-            this.effectController = effectController;
-            this.bombController = bombController;
-            this.healthController = healthController;
-            this.random = random;
             this.map = map;
-            this.timer = timer;
-            this.final = final;
+            this.services = services;
         }
 
         public void ServerUpdate()
@@ -43,94 +28,33 @@ namespace MrBoom.Core.Sprites
 
             if (cell.Type == TerrainType.PowerUp)
             {
-                if (PickPowerUp(cell.PowerUpType))
+                var result = PickPowerUp(cell.PowerUpType);
+
+                if (result == PowerUpPickResult.Pick)
                 {
                     map.SetCell(cellX, cellY, new Cell(TerrainType.Free));
                     //PlaySound(SoundEffectType.Pick);
                 }
-                else
+                else if (result == PowerUpPickResult.Burn)
                 {
                     map.BurnCell(cellX, cellY);
                 }
             }
         }
 
-        /// <summary>
-        /// Handles the player picking up a power-up.
-        /// </summary>
-        /// <param name="powerUpType"></param>
-        /// <returns>true if successfully picked the power up, false if the action cannot be done, for example, when we already had this feature</returns>
-        public bool PickPowerUp(PowerUpType powerUpType)
+        public PowerUpPickResult PickPowerUp(PowerUpType powerUpType)
         {
-            if (powerUpType == PowerUpType.ExtraFire)
+            foreach (IPowerUpHandler service in services.EnumerateServices<IPowerUpHandler>())
             {
-                bombController.UpgradeMaxBoom();
-                return true;
-            }
-            else if (powerUpType == PowerUpType.ExtraBomb)
-            {
-                bombController.UpgradeMaxBombsCount();
-                return true;
-            }
-            else if (powerUpType == PowerUpType.RemoteControl)
-            {
-                return effectController.PickFeature(Feature.RemoteControl);
-            }
-            else if (powerUpType == PowerUpType.RollerSkate)
-            {
-                return effectController.PickFeature(Feature.RollerSkates);
-            }
-            else if (powerUpType == PowerUpType.Kick)
-            {
-                return effectController.PickFeature(Feature.Kick);
-            }
-            else if (powerUpType == PowerUpType.Life)
-            {
-                healthController.PickExtraLife();
-                return true;
-            }
-            else if (powerUpType == PowerUpType.Shield)
-            {
-                healthController.PickUnplugin();
-                return true;
-            }
-            else if (powerUpType == PowerUpType.Banana)
-            {
-                for (int y = 0; y < map.Height; y++)
-                {
-                    for (int x = 0; x < map.Width; x++)
-                    {
-                        if (map.GetCell(x, y).Type == TerrainType.Bomb)
-                        {
-                            map.DitonateBomb(x, y);
-                        }
-                    }
-                }
+                PowerUpPickResult result = service.PickPowerUp(powerUpType);
 
-                return true;
-            }
-            else if (powerUpType == PowerUpType.Clock)
-            {
-                if (timer.TimeLeft > 31 * 60 + final.MaxApocalypse * timer.ApocalypseSpeed)
+                if (result != PowerUpPickResult.Skip)
                 {
-                    // TODO: terrain.TimeLeft += 60 * 60;
-                    // PlaySound(SoundEffectType.Clock);
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    return result;
                 }
             }
-            else if (powerUpType == PowerUpType.Skull)
-            {
-                effectController.SetSkull(random.NextEnum<SkullType>());
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+
+            return PowerUpPickResult.Skip;
         }
     }
 }

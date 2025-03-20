@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Sprites.Interface;
+
 namespace MrBoom.Core.Sprites
 {
-    public class SpriteHealthController
+    public class SpriteHealthController : IPowerUpHandler
     {
         private readonly SpriteAnimationController animationController;
 
@@ -47,6 +49,24 @@ namespace MrBoom.Core.Sprites
             else if (IsAlive)
             {
                 Kill();
+            }
+        }
+
+        public PowerUpPickResult PickPowerUp(PowerUpType powerUpType)
+        {
+            if (powerUpType == PowerUpType.Life)
+            {
+                PickExtraLife();
+                return PowerUpPickResult.Pick;
+            }
+            else if (powerUpType == PowerUpType.Shield)
+            {
+                PickUnplugin();
+                return PowerUpPickResult.Pick;
+            }
+            else
+            {
+                return PowerUpPickResult.Skip;
             }
         }
     }

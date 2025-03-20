@@ -36,8 +36,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\ISpritePositionProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\MonsterPowerUpDropper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\NullBombKicker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\TerrainPowerUpHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MonsterController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IPowerUpHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\PowerUpPickResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Providers\SpriteDebugInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxyAnimationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxyEffectProvider.cs" />
@@ -85,6 +88,5 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Cell\" />
     <Folder Include="$(MSBuildThisFileDirectory)Sprites\Controllers\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Sprites\Modules\" />
   </ItemGroup>
 </Project>
