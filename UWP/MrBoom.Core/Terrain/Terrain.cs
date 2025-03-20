@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MrBoom.Common;
+using MrBoom.Core;
 using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
 using MrBoom.Core.Terrain.Cheats;
@@ -69,10 +70,17 @@ namespace MrBoom
             sb.AppendLine($"DEBUG INFO");
             sb.AppendLine($"Version: {Version.VersionString}");
 
-            //foreach (Sprite sprite in GetSprites())
-            //{
-            //    sb.AppendLine(sprite.GetDebugInfo());
-            //}
+            sb.AppendLine();
+
+            foreach (GameEntityBase sprite in GetService<TerrainSpriteHost>().GetSprites())
+            {
+                foreach (var debugInfo in sprite.EnumerateServices<IDebugInfoProvider>())
+                {
+                    sb.AppendLine(debugInfo.GetDebugInfo());
+                }
+            }
+
+            sb.AppendLine();
 
             sb.AppendLine($"F1 - detonate all");
             sb.AppendLine($"F2 - clear all");

@@ -4,6 +4,7 @@ using System;
 using MrBoom.Core;
 using MrBoom.Core.Sprite;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Providers;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom
@@ -35,6 +36,7 @@ namespace MrBoom
 
             AddSingleton<SpriteProxyProvider>();
             AddSingleton<PlayerProxyProvider>();
+            AddSingleton<SpriteDebugInfoProvider>();
 
             Team = team;
             ClientInfo = clientInfo;
