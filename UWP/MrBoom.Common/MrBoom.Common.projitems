@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Grid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GuidExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IRandom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NameGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RandomExtensions.cs" />
