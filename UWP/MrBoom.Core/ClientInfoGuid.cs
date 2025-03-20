@@ -31,5 +31,10 @@ namespace MrBoom.NetworkProtocol.Proxy
         {
             return clientId;
         }
+
+        public override string ToString()
+        {
+            return clientId.ToString();
+        }
     }
 }
