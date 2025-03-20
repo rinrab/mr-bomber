@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Common;
+
 namespace MrBoom.Server.Lobby
 {
     public class LobbyPlayer
@@ -13,6 +15,11 @@ namespace MrBoom.Server.Lobby
         public LobbyPlayer(string name)
         {
             Name = name;
+        }
+
+        public override string ToString()
+        {
+            return $"{Index}: {Name} ({Id.ToFriendlyString()}) @{Client.CorishInfo}";
         }
     }
 }

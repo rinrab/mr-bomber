@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Net;
+using System.Text;
 using MrBoom.Core;
 using MrBoom.NetworkProtocol.Messages;
 using MrBoom.NetworkProtocol.Proxy;
@@ -39,6 +40,25 @@ namespace MrBoom.Server.Lobby
         public async Task SendMessage(IMessage message, CancellationToken cancellationToken)
         {
             await Lobby.SendPacket(new Packet(message), IpAddress, cancellationToken);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append($"{CorishInfo}: {IpAddress}");
+
+            if (IsFrozen)
+            {
+                result.Append(", frozen");
+            }
+
+            if (IsDead)
+            {
+                result.Append(", dead");
+            }
+
+            return result.ToString();
         }
     }
 }
