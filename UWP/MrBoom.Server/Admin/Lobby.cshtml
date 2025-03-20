@@ -30,3 +30,10 @@
 {
 	<p>@player.ToString()</p>
 }
+
+@if (state is LobbyPlayState playState)
+{
+	var terrain = playState.Terrain;
+
+	<pre><code>@terrain.GetDebugInfo()</code></pre>
+}
