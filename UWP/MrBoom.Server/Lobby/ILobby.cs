@@ -8,6 +8,7 @@ namespace MrBoom.Server.Lobby
     public interface ILobby : ILobbyState, ILobbyStateManager
     {
         IUdpServer UdpServer { get; }
+        Guid Key { get; }
 
         IEnumerable<ClientInfo> GetClients();
         IEnumerable<LobbyPlayer> GetPlayers();

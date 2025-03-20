@@ -4,10 +4,12 @@ using System.Net;
 using MrBoom.NetworkProtocol.Messages;
 using Haukcode.HighResolutionTimer;
 using MrBoom.Server.MatchMaking;
+using MrBoom.Server.Admin;
+using Microsoft.Extensions.Options;
 
 namespace MrBoom.Server.Lobby
 {
-    public class LobbyServer : TimerService, ILobbyProvider
+    public class LobbyServer : TimerService, ILobbyProvider, IAdminLobbyProvider
     {
         private readonly IUdpServer udpServer;
         private readonly ILogger logger;
@@ -78,6 +80,26 @@ namespace MrBoom.Server.Lobby
             foreach (IMatchMakingLobbyInfo lobby in lobbies.Values)
             {
                 yield return lobby;
+            }
+        }
+
+        IEnumerable<ILobby> IAdminLobbyProvider.EnumerateLobbies()
+        {
+            foreach (ILobby lobby in lobbies.Values)
+            {
+                yield return lobby;
+            }
+        }
+
+        public ILobby GetLobby(Guid key)
+        {
+            if (lobbies.TryGetValue(key, out var lobby))
+            {
+                return lobby;
+            }
+            else
+            {
+                throw new Exception("Lobby not found");
             }
         }
     }

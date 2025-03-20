@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using MrBoom.Common;
+using MrBoom.Server.Admin;
 using MrBoom.Server.Lobby;
 using MrBoom.Server.MatchMaking;
 
@@ -21,7 +22,10 @@ namespace MrBoom.Server
             builder.Services.AddHostedService(serviceProvider => (UdpServer)serviceProvider.GetRequiredService<IUdpServer>());
 
             builder.Services.AddSingleton<ILobbyProvider, LobbyServer>();
-            builder.Services.AddHostedService(serviceProvider => (LobbyServer)serviceProvider.GetRequiredService<ILobbyProvider>());
+            builder.Services.AddSingleton<IAdminLobbyProvider, LobbyServer>(
+                serviceProvider => (LobbyServer)serviceProvider.GetRequiredService<ILobbyProvider>());
+            builder.Services.AddHostedService(
+                serviceProvider => (LobbyServer)serviceProvider.GetRequiredService<ILobbyProvider>());
 
             builder.Services.AddSingleton<IMatchMakingProvider, MatchMakingService>();
             builder.Services.AddHostedService(serviceProvider => (MatchMakingService)serviceProvider.GetRequiredService<IMatchMakingProvider>());
