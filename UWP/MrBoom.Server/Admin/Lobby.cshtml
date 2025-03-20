@@ -1,0 +1,32 @@
+﻿@page "{id:guid}"
+@model MrBoom.Server.Admin.LobbyModel
+@using MrBoom.Server.Admin
+@using MrBoom.Server.Lobby
+@inject IAdminLobbyProvider lobbies
+
+@{
+	ILobby lobby = lobbies.GetLobby(Model.Id);
+	object state = lobby.GetState();
+}
+
+<h1>Lobby: @lobby.Key</h1>
+
+<p>State: @state.ToString()</p>
+
+@{
+	var players = lobby.GetPlayers().ToArray();
+	var clients = lobby.GetClients().ToArray();
+}
+
+<h2>Clients: @clients.Length</h2>
+
+@foreach (var client in clients) {
+	<p>@client.ToString()</p>
+}
+
+<h2>Players: @players.Length</h2>
+
+@foreach (var player in players)
+{
+	<p>@player.ToString()</p>
+}
