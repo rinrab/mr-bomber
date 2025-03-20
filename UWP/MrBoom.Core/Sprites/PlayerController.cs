@@ -4,7 +4,6 @@ namespace MrBoom.Core.Sprites
 {
     public class PlayerController : IServerGameEntity
     {
-        private readonly SpritePosition position;
         private readonly SpriteMovementController movementController;
         private readonly SpriteSpeedProvider speedProvider;
         private readonly SpriteBombController bombController;
@@ -13,12 +12,10 @@ namespace MrBoom.Core.Sprites
         protected bool dropBomb;
         protected bool remoteDetonate;
 
-        public PlayerController(SpritePosition position,
-                                SpriteMovementController movementController,
+        public PlayerController(SpriteMovementController movementController,
                                 SpriteSpeedProvider speedProvider,
                                 SpriteBombController bombController)
         {
-            this.position = position;
             this.movementController = movementController;
             this.speedProvider = speedProvider;
             this.bombController = bombController;
@@ -31,29 +28,17 @@ namespace MrBoom.Core.Sprites
 
         public void DropBomb()
         {
-            dropBomb = true;
+            bombController.DropBomb();
         }
 
         public void RemoteDetonate()
         {
-            remoteDetonate = true;
+            bombController.ToggleRemoteControl();
         }
 
         public void ServerUpdate()
         {
             movementController.Move(Direction, speedProvider.ProvideActualSpeed());
-
-            if (dropBomb)
-            {
-                bombController.PutBomb(position.CellX, position.CellY);
-                dropBomb = false;
-            }
-
-            if (remoteDetonate)
-            {
-                bombController.RemoteDetonate = true;
-                remoteDetonate = false;
-            }
         }
     }
 }

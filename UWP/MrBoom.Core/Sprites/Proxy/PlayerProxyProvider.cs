@@ -30,9 +30,6 @@ namespace MrBoom.Core.Sprites
         public int LifeCount => healthController.LifeCount;
         public bool HasUnplugin => healthController.HasUnplugin;
 
-        protected bool dropBomb;
-        protected bool remoteDetonate;
-
         public PlayerProxyProvider(SpritePosition position,
                                    SpriteStartInfo startInfo,
                                    SpriteAnimationController animationController,
@@ -50,17 +47,6 @@ namespace MrBoom.Core.Sprites
 
         public void ServerUpdate()
         {
-            if (dropBomb)
-            {
-                bombController.PutBomb(position.CellX, position.CellY);
-                dropBomb = false;
-            }
-
-            if (remoteDetonate)
-            {
-                bombController.RemoteDetonate = true;
-                remoteDetonate = false;
-            }
         }
 
         public void ClientUpdate()
@@ -73,12 +59,12 @@ namespace MrBoom.Core.Sprites
 
         public void ToggleRemoteControl()
         {
-            dropBomb = true;
+            bombController.ToggleRemoteControl();
         }
 
         public void ToggleDropBomb()
         {
-            dropBomb = true;
+            bombController.DropBomb();
         }
 
         public void MoveTo(int x, int y)

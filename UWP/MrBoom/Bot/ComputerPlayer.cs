@@ -94,9 +94,8 @@ namespace MrBoom.Bot
 
         private BtStatus DitonoteRemoteBomb()
         {
-            if (effectProvider.Features.HasFlag(Feature.RemoteControl))
+            if (bombController.ToggleRemoteControl())
             {
-                bombController.RemoteDetonate = true;
                 return BtStatus.Success;
             }
             else

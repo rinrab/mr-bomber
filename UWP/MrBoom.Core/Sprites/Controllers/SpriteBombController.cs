@@ -10,6 +10,7 @@ namespace MrBoom.Core.Sprites
         private readonly TerrainMap map;
         private readonly SpriteEffectController effectController;
         private readonly SpriteHealthController healthController;
+        private readonly SpritePosition position;
 
         public int BombsPlaced { get; protected set; }
 
@@ -18,24 +19,29 @@ namespace MrBoom.Core.Sprites
 
         public int BombsRemaining => MaxBombsCount - BombsPlaced;
 
-        public bool RemoteDetonate { get; set; }
+        public bool RemoteDetonate { get; protected set; }
 
         public bool IsAllowed => effectController.Features.HasFlag(
             Feature.RemoteControl) || healthController.IsDie;
 
+        protected bool tryDropBomb;
+        protected bool tryDemoteDetonate;
+
         public SpriteBombController(TerrainMap map,
                                     SpriteEffectController effectController,
-                                    SpriteHealthController healthController)
+                                    SpriteHealthController healthController,
+                                    SpritePosition position)
         {
             this.map = map;
             this.effectController = effectController;
             this.healthController = healthController;
+            this.position = position;
 
             MaxBoom = 1;
             MaxBombsCount = 1;
         }
 
-        public virtual bool PutBomb(int cellX, int cellY)
+        private bool PutBomb(int cellX, int cellY)
         {
             Cell cell = map.GetCell(cellX, cellY);
 
@@ -71,7 +77,40 @@ namespace MrBoom.Core.Sprites
 
         public void ServerUpdate()
         {
-            RemoteDetonate = false;
+            if (tryDropBomb)
+            {
+                PutBomb(position.CellX, position.CellY);
+                tryDropBomb = false;
+            }
+
+            if (RemoteDetonate)
+            {
+                RemoteDetonate = false;
+            }
+
+            if (tryDemoteDetonate)
+            {
+                RemoteDetonate = true;
+                tryDemoteDetonate = false;
+            }
+        }
+
+        public void DropBomb()
+        {
+            tryDropBomb = true;
+        }
+
+        public bool ToggleRemoteControl()
+        {
+            if (effectController.Features.HasFlag(Feature.RemoteControl))
+            {
+                tryDemoteDetonate = true;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public PowerUpPickResult PickPowerUp(PowerUpType powerUpType)
