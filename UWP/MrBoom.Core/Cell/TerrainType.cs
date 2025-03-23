@@ -6,7 +6,6 @@ namespace MrBoom
     {
         Free,
         PermanentWall,
-        PermanentWallTextured,
         TemporaryWall,
         Bomb,
         PowerUp,

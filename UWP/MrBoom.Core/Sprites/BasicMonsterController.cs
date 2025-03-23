@@ -92,7 +92,6 @@ namespace MrBoom.Core.Sprites
                     return true;
 
                 case TerrainType.PermanentWall:
-                case TerrainType.PermanentWallTextured:
                 case TerrainType.TemporaryWall:
                 case TerrainType.Bomb:
                 case TerrainType.Fire:

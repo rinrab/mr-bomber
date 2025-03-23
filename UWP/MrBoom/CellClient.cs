@@ -10,7 +10,7 @@ namespace MrBoom
             {
                 return levelAssets.Walls;
             }
-            else if (cell.Type == TerrainType.PermanentWallTextured)
+            else if (cell.Type == TerrainType.Apocalypse)
             {
                 return levelAssets.PermanentWalls;
             }

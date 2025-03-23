@@ -34,7 +34,7 @@ namespace MrBoom
             {
                 return 8;
             }
-            else if (Type == TerrainType.PermanentWallTextured)
+            else if (Type == TerrainType.Apocalypse)
             {
                 return 8;
             }

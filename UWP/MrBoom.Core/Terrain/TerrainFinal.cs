@@ -68,7 +68,7 @@ namespace MrBoom.Core.Terrain
                         map[i] = new Cell(TerrainType.Apocalypse)
                         {
                             Index = 0,
-                            Next = new Cell(TerrainType.PermanentWallTextured),
+                            Next = new Cell(TerrainType.Apocalypse),
                         };
                         if (Math.Abs(lastApocalypseSound - timer.TimeLeft) > 60)
                         {
