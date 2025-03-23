@@ -13,19 +13,23 @@ namespace MrBoom
     {
         private readonly ISpritePositionProvider position;
         private readonly ISpriteAnimationProvider animationProvider;
-        private readonly ISpriteProxy proxy;
+        private readonly IHealthProvider health;
+        private readonly IEffectProvider effects;
 
         private int blinking = 0;
         private readonly Assets.MovingSpriteAssets animations;
 
         public ClientSpriteGraphics(ISpritePositionProvider position,
                                     ISpriteAnimationProvider animationProvider,
+                                    IHealthProvider health,
+                                    IEffectProvider effects,
                                     ISpriteProxy proxy,
                                     Assets assets)
         {
             this.position = position;
             this.animationProvider = animationProvider;
-            this.proxy = proxy;
+            this.health = health;
+            this.effects = effects;
 
             if (proxy.Type == SpriteType.Monster)
             {
@@ -49,11 +53,11 @@ namespace MrBoom
                 Color color = Color.White;
 
                 AnimatedImage animation = animations.Normal[animationProvider.AnimateIndex];
-                if (proxy.HasUnplugin && blinking % 30 < 15)
+                if (health.HasUnplugin && blinking % 30 < 15)
                 {
                     animation = animations.Ghost[animationProvider.AnimateIndex];
                 }
-                if (proxy.HasSkull && blinking % 30 > 15)
+                if (effects.HasSkull && blinking % 30 > 15)
                 {
                     animation = animations.Red[animationProvider.AnimateIndex];
                 }
