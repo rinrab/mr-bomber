@@ -20,6 +20,8 @@ namespace MrBoom.NetworkProtocol.Proxy
 
         public IList<ISpriteProxy> Sprites { get; }
 
+        public SoundEffectType SoundsToPlay => message.SoundsToPlay;
+
         public TerrainProxy()
         {
             Sprites = new List<ISpriteProxy>();

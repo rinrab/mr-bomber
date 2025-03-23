@@ -12,6 +12,7 @@ namespace MrBoom.Core.Terrain
         private readonly TerrainSpriteHost sprites;
         private readonly TerrainTimer timer;
         private readonly TerrainStartInfo startInfo;
+        private readonly BasicSoundController soundController;
 
         public int TimeLeft => timer.TimeLeft;
         public int Width => map.Width;
@@ -23,17 +24,21 @@ namespace MrBoom.Core.Terrain
 
         public IList<ISpriteProxy> Sprites => sprites.GetSprites().Select(sprite => sprite.GetService<ISpriteProxy>()).ToList();
 
+        public SoundEffectType SoundsToPlay => soundController.SoundsToPlay;
+
         public TerrainProxyProvider(TerrainMap map,
                                     TerrainFinal final,
                                     TerrainSpriteHost sprites,
                                     TerrainTimer timer,
-                                    TerrainStartInfo startInfo)
+                                    TerrainStartInfo startInfo,
+                                    BasicSoundController soundController)
         {
             this.map = map;
             this.final = final;
             this.sprites = sprites;
             this.timer = timer;
             this.startInfo = startInfo;
+            this.soundController = soundController;
         }
 
         public void ClientUpdate()

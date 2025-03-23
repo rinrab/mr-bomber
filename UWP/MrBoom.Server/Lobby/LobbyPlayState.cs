@@ -118,6 +118,7 @@ namespace MrBoom.Server.Lobby
             return new GameInfo
             {
                 LevelIndex = Terrain.GetService<TerrainStartInfo>().LevelIndex,
+                SoundsToPlay = Terrain.GetService<BasicSoundController>().SoundsToPlay,
                 Terrain = new GameTerrainInfo
                 {
                     Width = map.Width,
@@ -134,6 +135,8 @@ namespace MrBoom.Server.Lobby
             {
                 await client.SendMessage(FormatGameInfoMessage(client), stoppingToken);
             }
+
+            Terrain.GetService<BasicSoundController>().ResetSounds();
         }
     }
 }

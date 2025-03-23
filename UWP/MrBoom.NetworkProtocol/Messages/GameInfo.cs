@@ -2,18 +2,22 @@
 
 using System.Collections.Generic;
 using System.IO;
+using MrBoom.Core;
 
 namespace MrBoom.NetworkProtocol.Messages
 {
     public class GameInfo : IMessage
     {
         public int LevelIndex { get; set; }
+        public SoundEffectType SoundsToPlay { get; set; }
+
         public GameTerrainInfo Terrain { get; set; }
         public List<GameSpriteInfo> Sprites { get; set; }
 
         public void ReadFrom(BinaryReader reader)
         {
             LevelIndex = reader.ReadByte();
+            SoundsToPlay = (SoundEffectType)reader.ReadUInt16();
 
             Terrain = new GameTerrainInfo();
             Terrain.ReadFrom(reader);
@@ -31,6 +35,7 @@ namespace MrBoom.NetworkProtocol.Messages
         public void WriteTo(BinaryWriter writer)
         {
             writer.Write((byte)LevelIndex);
+            writer.Write((ushort)SoundsToPlay);
 
             Terrain.WriteTo(writer);
 
