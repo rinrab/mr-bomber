@@ -10,12 +10,14 @@ namespace MrBoom.Core.Sprites.Modules
         private readonly TerrainMap map;
         private readonly TerrainTimer timer;
         private readonly TerrainFinal final;
+        private readonly TerrainMapBomber mapBomber;
 
-        public TerrainPowerUpHandler(TerrainMap map, TerrainTimer timer, TerrainFinal final)
+        public TerrainPowerUpHandler(TerrainMap map, TerrainTimer timer, TerrainFinal final, TerrainMapBomber mapBomber)
         {
             this.map = map;
             this.timer = timer;
             this.final = final;
+            this.mapBomber = mapBomber;
         }
 
         public PowerUpPickResult PickPowerUp(PowerUpType powerUpType)
@@ -28,7 +30,7 @@ namespace MrBoom.Core.Sprites.Modules
                     {
                         if (map.GetCell(x, y).Type == TerrainType.Bomb)
                         {
-                            map.DetonateBomb(x, y);
+                            mapBomber.DetonateBomb(x, y);
                         }
                     }
                 }
