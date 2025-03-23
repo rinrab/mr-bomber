@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Service;
 using MrBoom.Core.Sprites.Controllers;
 using MrBoom.Core.Sprites.Interface;
 using MrBoom.Core.Terrain;

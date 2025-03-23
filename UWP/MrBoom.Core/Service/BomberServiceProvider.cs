@@ -4,9 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using MrBoom.Core.Service;
 
-namespace MrBoom.Core
+namespace MrBoom.Core.Service
 {
     public class BomberServiceProvider : IBomberServiceProvider, IBomberServiceCollection
     {
