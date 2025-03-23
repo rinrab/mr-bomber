@@ -15,24 +15,21 @@ namespace MrBoom.Core.Terrain
 
         public void ServerUpdate()
         {
-            for (int y = 0; y < map.Height; y++)
+            for (int i = 0; i < map.CellCount; i++)
             {
-                for (int x = 0; x < map.Width; x++)
+                Cell cell = map[i];
+
+                if (cell.Type == TerrainType.Bomb)
                 {
-                    Cell cell = map[x, y];
-
-                    if (cell.Type == TerrainType.Bomb)
+                    if (!cell.rcAllowed || !cell.owner.IsAllowed)
                     {
-                        if (!cell.rcAllowed || !cell.owner.IsAllowed)
-                        {
-                            cell.bombCountdown--;
-                        }
+                        cell.bombCountdown--;
+                    }
 
-                        if (cell.bombCountdown == 0 || (cell.owner != null && cell.owner.RemoteDetonate && cell.rcAllowed))
-                        {
-                            DetonateBomb(x, y);
-                            continue;
-                        }
+                    if (cell.bombCountdown == 0 || (cell.owner != null && cell.owner.RemoteDetonate && cell.rcAllowed))
+                    {
+                        DetonateBomb(map.GetCellX(i), map.GetCellY(i));
+                        continue;
                     }
                 }
             }
