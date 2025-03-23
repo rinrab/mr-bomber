@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using MrBoom.Core.Sprite;
-
-namespace MrBoom.Core.Sprites
+namespace MrBoom.Core.Sprites.Providers
 {
     public class SpriteStartInfo
     {

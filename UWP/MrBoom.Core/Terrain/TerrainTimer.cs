@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Controllers;
 
 namespace MrBoom.Core.Terrain
 {

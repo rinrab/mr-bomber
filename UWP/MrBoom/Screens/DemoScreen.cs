@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Bot;
+using MrBoom.Core;
 using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
 using MrBoom.Screens;

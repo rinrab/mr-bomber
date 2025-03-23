@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-namespace MrBoom.Core.Sprites
+using MrBoom.Core.Sprites.Interface;
+
+namespace MrBoom.Core.Sprites.Controllers
 {
     public class SpriteAnimationController : ISpriteAnimationProvider, IServerGameEntity
     {

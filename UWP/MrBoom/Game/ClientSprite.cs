@@ -2,6 +2,7 @@
 
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Proxy;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom

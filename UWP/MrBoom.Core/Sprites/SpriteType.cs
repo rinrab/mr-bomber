@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-namespace MrBoom.Core.Sprite
+namespace MrBoom.Core.Sprites
 {
     public enum SpriteType
     {

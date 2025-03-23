@@ -2,8 +2,9 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MrBoom.Core.Sprite;
+using MrBoom.Core;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Interface;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom

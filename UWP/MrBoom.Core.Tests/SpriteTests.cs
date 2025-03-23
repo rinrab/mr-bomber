@@ -2,6 +2,8 @@
 
 using MrBoom.Common;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Controllers;
+using MrBoom.Core.Sprites.Interface;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom.Core.Tests

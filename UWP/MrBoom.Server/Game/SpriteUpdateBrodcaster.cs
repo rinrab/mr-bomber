@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Interface;
+using MrBoom.Core.Sprites.Providers;
 using MrBoom.NetworkProtocol.Messages;
 using MrBoom.Server.Lobby;
 

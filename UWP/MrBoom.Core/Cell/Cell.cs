@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System;
-using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Interface;
 
 namespace MrBoom
 {

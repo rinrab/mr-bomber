@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using MrBoom.Core.Sprite;
+using MrBoom.Core.Sprites;
 
 namespace MrBoom.Core.Terrain
 {

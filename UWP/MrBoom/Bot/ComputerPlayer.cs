@@ -7,6 +7,10 @@ using MrBoom.BehaviorTree;
 using MrBoom.Common;
 using MrBoom.Core;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Controllers;
+using MrBoom.Core.Sprites.Interface;
+using MrBoom.Core.Sprites.Providers;
+using MrBoom.Core.Sprites.Proxy;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom.Bot

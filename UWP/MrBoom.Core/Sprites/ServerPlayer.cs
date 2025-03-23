@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using MrBoom.Core;
-using MrBoom.Core.Sprite;
-using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Controllers;
+using MrBoom.Core.Sprites.Modules;
 using MrBoom.Core.Sprites.Providers;
+using MrBoom.Core.Sprites.Proxy;
 
-namespace MrBoom
+namespace MrBoom.Core.Sprites
 {
     public class ServerPlayer : GameEntityBase
     {

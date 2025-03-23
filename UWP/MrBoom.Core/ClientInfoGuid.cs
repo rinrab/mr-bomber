@@ -2,9 +2,8 @@
 
 using System;
 using MrBoom.Common;
-using MrBoom.Core;
 
-namespace MrBoom.NetworkProtocol.Proxy
+namespace MrBoom.Core
 {
     // IClientInfo backed by a guid
     public class ClientInfoGuid : IClientInfo

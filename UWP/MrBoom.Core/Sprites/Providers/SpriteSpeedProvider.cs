@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Sprites.Controllers;
 using MrBoom.Core.Sprites.Interface;
 
-namespace MrBoom.Core.Sprites
+namespace MrBoom.Core.Sprites.Providers
 {
     public class SpriteSpeedProvider : ISpeedProvider
     {

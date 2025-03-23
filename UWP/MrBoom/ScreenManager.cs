@@ -3,6 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Common;
+using MrBoom.Core;
 
 namespace MrBoom
 {

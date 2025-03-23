@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using MrBoom.Core.Sprites;
-
-namespace MrBoom
+namespace MrBoom.Core.Sprites
 {
     public class BasicMonster : AbstractMonster
     {

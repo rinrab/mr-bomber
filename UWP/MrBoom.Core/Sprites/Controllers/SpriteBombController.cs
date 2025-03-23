@@ -3,7 +3,7 @@
 using MrBoom.Core.Sprites.Interface;
 using MrBoom.Core.Terrain;
 
-namespace MrBoom.Core.Sprites
+namespace MrBoom.Core.Sprites.Controllers
 {
     public class SpriteBombController : IBombKicker, IBombOwner, IServerGameEntity, IPowerUpHandler
     {

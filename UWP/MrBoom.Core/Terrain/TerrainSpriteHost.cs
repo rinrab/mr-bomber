@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MrBoom.Common;
 using MrBoom.Core.Service;
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Controllers;
 
 namespace MrBoom.Core.Terrain
 {

@@ -4,7 +4,6 @@ using System.Net;
 using System.Text;
 using MrBoom.Core;
 using MrBoom.NetworkProtocol.Messages;
-using MrBoom.NetworkProtocol.Proxy;
 
 namespace MrBoom.Server.Lobby
 {

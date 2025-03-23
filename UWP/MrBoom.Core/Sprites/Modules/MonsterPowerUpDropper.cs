@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Sprites.Controllers;
+using MrBoom.Core.Sprites.Interface;
 using MrBoom.Core.Terrain;
 
-namespace MrBoom.Core.Sprites
+namespace MrBoom.Core.Sprites.Modules
 {
     public class MonsterPowerUpDropper : IBombDeathHandler
     {

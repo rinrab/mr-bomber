@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-namespace MrBoom.Core.Sprites
+using MrBoom.Core.Sprites.Controllers;
+
+namespace MrBoom.Core.Sprites.Modules
 {
     public class SpriteApocalypseDeathModule : IServerGameEntity
     {

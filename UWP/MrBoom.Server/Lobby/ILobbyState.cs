@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Net;
+using MrBoom.Core;
 using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.Server.Lobby

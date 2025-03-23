@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-namespace MrBoom
+namespace MrBoom.Core
 {
     public static class MapData
     {

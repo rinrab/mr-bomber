@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Controllers;
 using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.Server.Game

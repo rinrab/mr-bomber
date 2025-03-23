@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-namespace MrBoom
+using MrBoom.Core.Sprites;
+
+namespace MrBoom.Core
 {
     public class Map
     {

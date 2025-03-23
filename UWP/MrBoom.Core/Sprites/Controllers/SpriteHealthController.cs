@@ -2,7 +2,7 @@
 
 using MrBoom.Core.Sprites.Interface;
 
-namespace MrBoom.Core.Sprites
+namespace MrBoom.Core.Sprites.Controllers
 {
     public class SpriteHealthController : IHealthProvider, IPowerUpHandler
     {

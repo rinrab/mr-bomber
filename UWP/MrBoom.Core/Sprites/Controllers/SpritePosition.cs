@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using MrBoom.Core.Sprites.Interface;
+using MrBoom.Core.Sprites.Providers;
 using MrBoom.Core.Terrain;
 
-namespace MrBoom.Core.Sprites
+namespace MrBoom.Core.Sprites.Controllers
 {
     public class SpritePosition : ISpritePositionProvider
     {
