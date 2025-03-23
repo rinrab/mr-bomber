@@ -29,7 +29,6 @@ namespace MrBoom
             AddSingleton<SpriteSpeedProvider>();
             AddSingleton<SpriteMovementController>();
 
-            AddSingleton<ProxyAnimationProvider>();
             AddSingleton<ProxyEffectProvider>();
             AddSingleton<ProxyHealthProvider>();
             AddSingleton<ProxySideDieAnimationController>();
