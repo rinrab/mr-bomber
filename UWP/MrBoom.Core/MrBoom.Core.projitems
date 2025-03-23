@@ -46,6 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxyHealthProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxyPositionProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\PlayerProxyProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxySideDieAnimationController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ServerPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\BasicMonster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ISprite.cs" />
