@@ -19,7 +19,7 @@ namespace MrBoom.Core.Sprites
         bool IsDie { get; }
     }
 
-    public interface IServerPlayer : ISprite
+    public interface ISpriteControllerProxy
     {
         void ToggleRemoteControl();
         void ToggleDropBomb();
