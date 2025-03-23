@@ -21,7 +21,6 @@ namespace MrBoom.Core.Sprites
 
     public interface IServerPlayer : ISprite
     {
-        void SetDirection(Directions? direction);
         void ToggleRemoteControl();
         void ToggleDropBomb();
         void MoveTo(int x, int y);
