@@ -21,6 +21,7 @@ namespace MrBoom
 
             AddSingleton<ProxyPositionProvider>();
             AddSingleton<ProxyAnimationProvider>();
+            AddSingleton<ProxyHealthProvider>();
             AddSingleton<SpriteProxyProvider>();
 
             AddSingleton<ClientSpriteGraphics>();
