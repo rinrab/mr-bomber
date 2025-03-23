@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using MrBoom.Core.Sprites;
+using MrBoom.Core.Sprites.Proxy;
 using MrBoom.Core.Terrain;
 
 namespace MrBoom
@@ -27,6 +28,7 @@ namespace MrBoom
 
             AddSingleton<ProxyAnimationProvider>();
             AddSingleton<ProxyEffectProvider>();
+            AddSingleton<ProxyHealthProvider>();
 
             AddSingleton<ClientSpriteController>();
             AddSingleton<ClientSpriteGraphics>();
