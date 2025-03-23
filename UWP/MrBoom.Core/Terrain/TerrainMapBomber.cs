@@ -6,11 +6,13 @@ namespace MrBoom.Core.Terrain
     {
         private readonly TerrainMap map;
         private readonly PowerUpProvider powerUpProvider;
+        private readonly ISoundController soundController;
 
-        public TerrainMapBomber(TerrainMap map, PowerUpProvider powerUpProvider)
+        public TerrainMapBomber(TerrainMap map, PowerUpProvider powerUpProvider, ISoundController soundController)
         {
             this.map = map;
             this.powerUpProvider = powerUpProvider;
+            this.soundController = soundController;
         }
 
         public void ServerUpdate()
@@ -99,7 +101,7 @@ namespace MrBoom.Core.Terrain
                 }
             }
 
-            // PlaySound(SoundEffectType.Bang);
+            soundController.PlaySound(SoundEffectType.Bang);
 
             map[bombX, bombY] = new Cell(TerrainType.Fire)
             {

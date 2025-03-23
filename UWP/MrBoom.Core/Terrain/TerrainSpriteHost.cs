@@ -40,8 +40,6 @@ namespace MrBoom.Core.Terrain
             foreach (GameEntityBase sprite in GetSprites())
             {
                 sprite.ServerUpdate();
-
-                // PlaySound(sprite.SoundsToPlay);
             }
 
             foreach (GameEntityBase sprite1 in GetSprites())

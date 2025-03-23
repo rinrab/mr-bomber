@@ -11,18 +11,24 @@ namespace MrBoom.Core.Terrain
         private readonly Map mapData;
         private readonly IRandom random;
         private readonly TerrainTimer timer;
+        private readonly ISoundController soundController;
         private readonly Grid<byte> final;
 
         private int lastApocalypseSound = -1;
 
         public int MaxApocalypse { get; private set; }
 
-        public TerrainFinal(TerrainMap map, Map mapData, IRandom random, TerrainTimer timer)
+        public TerrainFinal(TerrainMap map,
+                            Map mapData,
+                            IRandom random,
+                            TerrainTimer timer,
+                            ISoundController soundController)
         {
             this.map = map;
             this.mapData = mapData;
             this.random = random;
             this.timer = timer;
+            this.soundController = soundController;
 
             final = new Grid<byte>(map.Width, map.Height);
 
@@ -53,7 +59,7 @@ namespace MrBoom.Core.Terrain
                             Index = 0,
                             Next = new Cell(TerrainType.Free)
                         };
-                        // PlaySound(SoundEffectType.Sac);
+                        soundController.PlaySound(SoundEffectType.Sac);
                     }
                 }
                 else if (final[i] == index && final[i] != 255)
@@ -72,7 +78,7 @@ namespace MrBoom.Core.Terrain
                         };
                         if (Math.Abs(lastApocalypseSound - timer.TimeLeft) > 60)
                         {
-                            //PlaySound(SoundEffectType.Sac);
+                            soundController.PlaySound(SoundEffectType.Sac);
                             lastApocalypseSound = timer.TimeLeft;
                         }
                     }

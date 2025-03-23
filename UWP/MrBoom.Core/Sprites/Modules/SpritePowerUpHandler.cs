@@ -12,14 +12,17 @@ namespace MrBoom.Core.Sprites.Modules
         private readonly SpritePosition position;
         private readonly TerrainMap map;
         private readonly BomberServiceProvider services;
+        private readonly ISoundController soundController;
 
         public SpritePowerUpHandler(SpritePosition position,
                                     TerrainMap map,
-                                    BomberServiceProvider services)
+                                    BomberServiceProvider services,
+                                    ISoundController soundController)
         {
             this.position = position;
             this.map = map;
             this.services = services;
+            this.soundController = soundController;
         }
 
         public void ServerUpdate()
@@ -35,7 +38,7 @@ namespace MrBoom.Core.Sprites.Modules
                 if (result == PowerUpPickResult.Pick)
                 {
                     map.SetCell(cellX, cellY, new Cell(TerrainType.Free));
-                    //PlaySound(SoundEffectType.Pick);
+                    soundController.PlaySound(SoundEffectType.Pick);
                 }
                 else if (result == PowerUpPickResult.Burn)
                 {

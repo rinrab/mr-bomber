@@ -6,13 +6,17 @@ namespace MrBoom.Core.Terrain
 {
     public class TerrainMap : Grid<Cell>
     {
-        public TerrainMap(TerrainInitialMapProvider initialMap)
+        private readonly ISoundController soundController;
+
+        public TerrainMap(TerrainInitialMapProvider initialMap, ISoundController soundController)
             : base(initialMap.Map.Width, initialMap.Map.Height)
         {
             for (int i = 0; i < initialMap.Map.CellCount; i++)
             {
                 this[i] = initialMap.Map[i];
             }
+
+            this.soundController = soundController;
         }
 
         public void PutBomb(int cellX, int cellY, int maxBoom, bool rcAllowed, IBombOwner owner)
@@ -71,7 +75,7 @@ namespace MrBoom.Core.Terrain
                 Next = new Cell(TerrainType.Free)
             });
 
-            // PlaySound(SoundEffectType.Sac);
+            soundController.PlaySound(SoundEffectType.Sac);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using MrBoom.Core.Sprites.Controllers;
+using MrBoom.Core.Terrain;
 
 namespace MrBoom.Core.Sprites.Modules
 {
@@ -8,11 +9,15 @@ namespace MrBoom.Core.Sprites.Modules
     {
         private readonly SpritePosition position;
         private readonly SpriteHealthController healthController;
+        private readonly ISoundController soundController;
 
-        public SpriteApocalypseDeathModule(SpritePosition position, SpriteHealthController healthController)
+        public SpriteApocalypseDeathModule(SpritePosition position,
+                                           SpriteHealthController healthController,
+                                           ISoundController soundController)
         {
             this.position = position;
             this.healthController = healthController;
+            this.soundController = soundController;
         }
 
         public void ServerUpdate()
@@ -20,7 +25,7 @@ namespace MrBoom.Core.Sprites.Modules
             if (position.Cell.Type == TerrainType.Apocalypse)
             {
                 healthController.Kill();
-                //PlaySound(SoundEffectType.PlayerDie);
+                soundController.PlaySound(SoundEffectType.PlayerDie);
             }
         }
     }

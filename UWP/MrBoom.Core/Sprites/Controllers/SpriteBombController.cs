@@ -11,6 +11,7 @@ namespace MrBoom.Core.Sprites.Controllers
         private readonly SpriteEffectController effectController;
         private readonly SpriteHealthController healthController;
         private readonly SpritePosition position;
+        private readonly ISoundController soundController;
 
         public int BombsPlaced { get; protected set; }
 
@@ -30,12 +31,14 @@ namespace MrBoom.Core.Sprites.Controllers
         public SpriteBombController(TerrainMap map,
                                     SpriteEffectController effectController,
                                     SpriteHealthController healthController,
-                                    SpritePosition position)
+                                    SpritePosition position,
+                                    ISoundController soundController)
         {
             this.map = map;
             this.effectController = effectController;
             this.healthController = healthController;
             this.position = position;
+            this.soundController = soundController;
 
             MaxBoom = 1;
             MaxBombsCount = 1;
@@ -53,7 +56,7 @@ namespace MrBoom.Core.Sprites.Controllers
 
                 BombsPlaced++;
 
-                //PlaySound(SoundEffectType.PoseBomb);
+                soundController.PlaySound(SoundEffectType.PoseBomb);
 
                 return true;
             }

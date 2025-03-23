@@ -11,13 +11,19 @@ namespace MrBoom.Core.Sprites.Modules
         private readonly TerrainTimer timer;
         private readonly TerrainFinal final;
         private readonly TerrainMapBomber mapBomber;
+        private readonly ISoundController soundController;
 
-        public TerrainPowerUpHandler(TerrainMap map, TerrainTimer timer, TerrainFinal final, TerrainMapBomber mapBomber)
+        public TerrainPowerUpHandler(TerrainMap map,
+                                     TerrainTimer timer,
+                                     TerrainFinal final,
+                                     TerrainMapBomber mapBomber,
+                                     ISoundController soundController)
         {
             this.map = map;
             this.timer = timer;
             this.final = final;
             this.mapBomber = mapBomber;
+            this.soundController = soundController;
         }
 
         public PowerUpPickResult PickPowerUp(PowerUpType powerUpType)
@@ -42,7 +48,7 @@ namespace MrBoom.Core.Sprites.Modules
                 if (timer.TimeLeft > 31 * 60 + final.MaxApocalypse * timer.ApocalypseSpeed)
                 {
                     // TODO: terrain.TimeLeft += 60 * 60;
-                    // PlaySound(SoundEffectType.Clock);
+                    soundController.PlaySound(SoundEffectType.Clock);
                     return PowerUpPickResult.Pick;
                 }
                 else
