@@ -5,7 +5,7 @@ using MrBoom.Core.Terrain;
 
 namespace MrBoom.Core.Sprites
 {
-    public class SpriteMovementController
+    public class SpriteMovementController : IServerGameEntity
     {
         private readonly SpriteAnimationController animationController;
         private readonly SpritePosition position;
