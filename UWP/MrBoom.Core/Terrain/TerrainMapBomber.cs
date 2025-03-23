@@ -77,13 +77,7 @@ namespace MrBoom.Core.Terrain
                     }
                     else if (cell.Type == TerrainType.PowerUp)
                     {
-                        map[x, y] = new Cell(TerrainType.PowerUpFire)
-                        {
-                            Index = 0,
-                            animateDelay = 6,
-                            Next = new Cell(TerrainType.Free)
-                        };
-                        // PlaySound(SoundEffectType.Sac);
+                        map.BurnCell(x, y);
                         break;
                     }
                     else if (cell.Type == TerrainType.Bomb)
