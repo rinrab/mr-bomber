@@ -28,7 +28,7 @@ namespace MrBoom.Core.Sprites.Modules
                     {
                         if (map.GetCell(x, y).Type == TerrainType.Bomb)
                         {
-                            map.DitonateBomb(x, y);
+                            map.DetonateBomb(x, y);
                         }
                     }
                 }
