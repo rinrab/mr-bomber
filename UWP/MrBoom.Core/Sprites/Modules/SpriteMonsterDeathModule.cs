@@ -22,7 +22,7 @@ namespace MrBoom.Core.Sprites.Modules
 
         public void ServerUpdate()
         {
-            if (aiInfoProvider.IsTouchingMonster(position.CellX, position.CellX))
+            if (aiInfoProvider.IsTouchingMonster(position.CellX, position.CellY))
             {
                 healthController.Damage();
             }
