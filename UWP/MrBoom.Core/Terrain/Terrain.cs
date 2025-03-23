@@ -27,6 +27,8 @@ namespace MrBoom
             AddSingleton<TerrainTimer>();
             AddSingleton<TerrainFinal>();
 
+            AddSingleton<BasicSoundController>();
+
             AddSingleton<PowerUpProvider>();
             AddSingleton<TerrainSpriteHost>();
 
