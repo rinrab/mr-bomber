@@ -13,19 +13,16 @@ namespace MrBoom
         private readonly IController controller;
         private readonly SpritePosition position;
         private readonly SpriteMovementController movementController;
-        private readonly SpriteSpeedProvider speedProvider;
         private readonly IPlayerProxy proxy;
 
         public ClientSpriteController(IController controller,
                                       SpritePosition position,
                                       SpriteMovementController movementController,
-                                      SpriteSpeedProvider speedProvider,
                                       IPlayerProxy proxy)
         {
             this.controller = controller;
             this.position = position;
             this.movementController = movementController;
-            this.speedProvider = speedProvider;
             this.proxy = proxy;
         }
 
@@ -55,7 +52,7 @@ namespace MrBoom
 
         public void ServerUpdate()
         {
-            movementController.Move(GetDirection(), speedProvider.ProvideActualSpeed());
+            movementController.SetDirection(GetDirection());
 
             if (Math.Abs(position.X - proxy.X) + Math.Abs(position.Y - proxy.Y) > 16)
             {
