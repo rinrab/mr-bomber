@@ -131,8 +131,6 @@ namespace MrBoom.Core.Sprites
 
             if (Direction.HasValue)
             {
-                animationController.Animate();
-
                 int move = speedProvider.ProvideMovesCount(speed);
 
                 for (int i = 0; i < move; i++)

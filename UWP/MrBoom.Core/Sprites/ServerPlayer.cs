@@ -46,12 +46,6 @@ namespace MrBoom
         {
             base.ServerUpdate();
 
-            if (GetService<SpriteHealthController>().IsDie)
-            {
-                GetService<SpriteAnimationController>().Animate();
-                return;
-            }
-
             //if (Skull == SkullType.Reverse)
             //{
             //    Direction = Direction.Reverse();
