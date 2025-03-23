@@ -35,7 +35,7 @@ namespace MrBoom.Core.Sprites.Controllers
         public void Kill()
         {
             IsDie = true;
-            animationController.SetAnimation(0);
+            animationController.SetAnimation(4);
             Unplugin = 0;
         }
 
