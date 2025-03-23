@@ -26,7 +26,9 @@ namespace MrBoom.Core.Sprites
             AddSingleton<SpriteSpeedProvider>();
             AddSingleton<SpriteBombController>();
             AddSingleton<SpriteMovementController>();
+
             AddSingleton<SpritePowerUpHandler>();
+            AddSingleton<TerrainPowerUpHandler>();
 
             AddSingleton<SpriteApocalypseDeathModule>();
             AddSingleton<SpriteMonsterDeathModule>();
