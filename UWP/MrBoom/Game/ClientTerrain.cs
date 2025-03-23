@@ -14,9 +14,11 @@ namespace MrBoom
 
             AddSingleton(assets);
             AddSingleton(services => GetService<Assets>().Levels[proxy.LevelIndex]);
+            AddSingleton(services => GetService<Assets>().Sounds);
 
             AddSingleton<ClientTerrainSpriteHost>();
             AddSingleton<TerrainGraphics>();
+            AddSingleton<ClientSoundPlayer>();
         }
 
         public void Draw(SpriteBatch ctx)
