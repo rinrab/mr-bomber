@@ -22,6 +22,7 @@ namespace MrBoom.Extensibility.Proxy
         public virtual bool HasSkull => proxy.HasSkull;
         public virtual int AnimateIndex => proxy.AnimateIndex;
         public virtual int FrameIndex => proxy.FrameIndex;
+        public virtual bool IsDie => proxy.IsDie;
 
         protected ProxyExtensionBase(ISpriteProxy proxy)
         {

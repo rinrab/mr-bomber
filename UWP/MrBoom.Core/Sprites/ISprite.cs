@@ -15,6 +15,8 @@ namespace MrBoom.Core.Sprites
 
         bool HasUnplugin { get; }
         bool HasSkull { get; }
+
+        bool IsDie { get; }
     }
 
     public interface IServerPlayer : ISprite

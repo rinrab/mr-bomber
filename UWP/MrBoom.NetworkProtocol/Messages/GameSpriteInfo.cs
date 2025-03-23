@@ -22,6 +22,8 @@ namespace MrBoom.NetworkProtocol.Messages
         public int AnimateIndex { get; set; }
         public int FrameIndex { get; set; }
 
+        public bool IsDie { get; set; }
+
         public void ReadFrom(BinaryReader reader)
         {
             Type = (GameSpriteType)reader.ReadByte();
@@ -32,6 +34,8 @@ namespace MrBoom.NetworkProtocol.Messages
 
             AnimateIndex = reader.ReadByte();
             FrameIndex = reader.ReadUInt16();
+
+            IsDie = reader.ReadBoolean();
         }
 
         public void WriteTo(BinaryWriter writer)
@@ -44,6 +48,8 @@ namespace MrBoom.NetworkProtocol.Messages
 
             writer.Write((byte)(AnimateIndex));
             writer.Write((ushort)(FrameIndex));
+
+            writer.Write(IsDie);
         }
     }
 }

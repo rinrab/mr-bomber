@@ -29,6 +29,8 @@ namespace MrBoom.Core.Sprites.Proxy
 
         public bool HasUnplugin => healthController.HasUnplugin;
 
+        public bool IsDie => healthController.IsDie;
+
         public SpriteProxyProvider(SpritePosition position,
                                    SpriteStartInfo startInfo,
                                    SpriteAnimationController animationController,

@@ -13,16 +13,19 @@ namespace MrBoom.Server.Game
         private readonly SpriteStartInfo startInfo;
         private readonly ISpriteAnimationProvider animation;
         private readonly ISpriteTypeProvider spriteTypeProvider;
+        private readonly IHealthProvider health;
 
         public SpriteUpdateBroadcaster(ISpritePositionProvider position,
                                        SpriteStartInfo startInfo,
                                        ISpriteAnimationProvider animation,
-                                       ISpriteTypeProvider spriteTypeProvider)
+                                       ISpriteTypeProvider spriteTypeProvider,
+                                       IHealthProvider health)
         {
             this.position = position;
             this.startInfo = startInfo;
             this.animation = animation;
             this.spriteTypeProvider = spriteTypeProvider;
+            this.health = health;
         }
 
         public GameSpriteInfo GetUpdateMessage(ClientInfo client)
@@ -35,6 +38,7 @@ namespace MrBoom.Server.Game
                 SubType = startInfo.SubType,
                 AnimateIndex = animation.AnimateIndex,
                 FrameIndex = animation.FrameIndex,
+                IsDie = health.IsDie,
             };
         }
     }

@@ -26,6 +26,8 @@ namespace MrBoom.NetworkProtocol.Proxy
         public SpriteType Type => message.Type == GameSpriteType.Monster ? SpriteType.Monster : SpriteType.Player;
         public int SubType => message.SubType;
 
+        public bool IsDie => message.IsDie;
+
         public virtual void SetIncomingMessage(IMessage message)
         {
             this.message = (GameSpriteInfo)message;
