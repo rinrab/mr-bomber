@@ -2,7 +2,7 @@
 
 namespace MrBoom.Core.Sprites.Interface
 {
-    public interface IBombDeathHandler
+    public interface IDeathHandler
     {
         void OnBombDied();
     }

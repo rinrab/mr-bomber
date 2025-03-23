@@ -29,7 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IHealthProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\ISpeedProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\BasicMonsterController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IBombDeathHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IDeathHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IBombOwner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IBombKicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IEffectProvider.cs" />

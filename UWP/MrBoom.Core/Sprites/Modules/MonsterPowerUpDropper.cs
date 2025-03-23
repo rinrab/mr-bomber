@@ -6,7 +6,7 @@ using MrBoom.Core.Terrain;
 
 namespace MrBoom.Core.Sprites.Modules
 {
-    public class MonsterPowerUpDropper : IBombDeathHandler
+    public class MonsterPowerUpDropper : IDeathHandler
     {
         private readonly SpritePosition position;
         private readonly TerrainMap map;

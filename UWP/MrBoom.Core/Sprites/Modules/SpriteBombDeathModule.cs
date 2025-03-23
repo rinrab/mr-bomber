@@ -31,7 +31,7 @@ namespace MrBoom.Core.Sprites.Modules
 
                     if (healthController.IsDie)
                     {
-                        foreach (IBombDeathHandler handler in serviceProvider.EnumerateServices<IBombDeathHandler>())
+                        foreach (IDeathHandler handler in serviceProvider.EnumerateServices<IDeathHandler>())
                         {
                             handler.OnBombDied();
                         }
