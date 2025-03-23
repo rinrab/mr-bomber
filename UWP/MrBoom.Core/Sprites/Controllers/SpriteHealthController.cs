@@ -4,7 +4,7 @@ using MrBoom.Core.Sprites.Interface;
 
 namespace MrBoom.Core.Sprites
 {
-    public class SpriteHealthController : IPowerUpHandler
+    public class SpriteHealthController : IHealthProvider, IPowerUpHandler
     {
         private readonly SpriteAnimationController animationController;
 
