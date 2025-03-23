@@ -6,7 +6,7 @@ using MrBoom.Core.Terrain;
 
 namespace MrBoom.Core.Sprites.Proxy
 {
-    public class PlayerProxyProvider : IPlayerProxy, IServerGameEntity
+    public class PlayerProxyProvider : IPlayerProxy
     {
         private readonly SpritePosition position;
         private readonly SpriteStartInfo startInfo;
@@ -43,10 +43,6 @@ namespace MrBoom.Core.Sprites.Proxy
             this.effectController = effectController;
             this.healthController = healthController;
             this.bombController = bombController;
-        }
-
-        public void ServerUpdate()
-        {
         }
 
         public void ClientUpdate()
