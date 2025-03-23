@@ -82,6 +82,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainInitialMapProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainMapBomber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainMapCellMover.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainMapTicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainProxyProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainSpriteHost.cs" />

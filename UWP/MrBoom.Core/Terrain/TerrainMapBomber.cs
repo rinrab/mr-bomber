@@ -33,48 +33,6 @@ namespace MrBoom.Core.Terrain
                             DetonateBomb(x, y);
                             continue;
                         }
-                        if (cell.OffsetX == 0 && cell.OffsetY == 0)
-                        {
-                            var next = map[x + cell.DeltaX / 2, y + cell.DeltaY / 2];
-                            if (next.Type == TerrainType.Rubber)
-                            {
-                                cell.DeltaX = -cell.DeltaX;
-                                cell.DeltaY = -cell.DeltaY;
-                            }
-                            else if (next.Type == TerrainType.Bomb && ((cell.DeltaX != 0 && next.DeltaX != 0) || (cell.DeltaY != 0 && next.DeltaY != 0)))
-                            {
-                                DetonateBomb(x, y);
-                                continue;
-                            }
-                            else if (next.Type != TerrainType.Free)
-                            {
-                                cell.DeltaY = 0;
-                                cell.DeltaX = 0;
-                            }
-                        }
-
-                        int newX = (x * 16 + cell.OffsetX + cell.DeltaX + 8) / 16;
-                        int newY = (y * 16 + cell.OffsetY + cell.DeltaY + 8) / 16;
-
-                        if (newX != x || newY != y)
-                        {
-                            if (map[newX, newY].Type == TerrainType.Free)
-                            {
-                                map[x, y] = new Cell(TerrainType.Free);
-                                map[newX, newY] = cell;
-
-                                cell.OffsetX += (x - newX) * 16;
-                                cell.OffsetY += (y - newY) * 16;
-                            }
-                            else
-                            {
-                                DetonateBomb(x, y);
-                                continue;
-                            }
-                        }
-
-                        cell.OffsetX += cell.DeltaX;
-                        cell.OffsetY += cell.DeltaY;
                     }
                 }
             }

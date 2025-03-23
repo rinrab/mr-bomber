@@ -22,6 +22,7 @@ namespace MrBoom
 
             AddSingleton<TerrainMap>();
             AddSingleton<TerrainMapBomber>();
+            AddSingleton<TerrainMapCellMover>();
             AddSingleton<TerrainMapTicker>();
             AddSingleton<TerrainTimer>();
             AddSingleton<TerrainFinal>();
