@@ -71,10 +71,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\Cheats\IServerCheatModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\Cheats\StartApocalypseCheat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\IPlayerProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\ISoundController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\ISpriteProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cell\TerrainType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\ITerrainProxy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\PowerUpProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Terrain\BasicSoundController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\SpawnProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\Terrain.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Terrain\TerrainAIInfoProvider.cs" />
