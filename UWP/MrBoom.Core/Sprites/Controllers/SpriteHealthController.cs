@@ -72,6 +72,8 @@ namespace MrBoom.Core.Sprites.Controllers
             }
             else if (IsAlive)
             {
+                KillInternal();
+
                 foreach (IDeathHandler handler in GetDeathHandlers())
                 {
                     handler.OnDied(false);
