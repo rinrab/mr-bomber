@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using System.Collections.Generic;
+using MrBoom.Core.Service;
 using MrBoom.Core.Sprites.Interface;
 
 namespace MrBoom.Core.Sprites.Controllers
@@ -7,6 +9,7 @@ namespace MrBoom.Core.Sprites.Controllers
     public class SpriteHealthController : IHealthProvider, IPowerUpHandler
     {
         private readonly SpriteAnimationController animationController;
+        private readonly BomberServiceProvider serviceProvider;
 
         public bool IsDie { get; protected set; }
         public bool IsAlive => !IsDie;
@@ -16,10 +19,11 @@ namespace MrBoom.Core.Sprites.Controllers
         public int Unplugin { get; protected set; }
         public virtual bool HasUnplugin => Unplugin > 0;
 
-        public SpriteHealthController(SpriteAnimationController animationController)
+        public SpriteHealthController(SpriteAnimationController animationController, BomberServiceProvider serviceProvider)
         {
             IsDie = false;
             this.animationController = animationController;
+            this.serviceProvider = serviceProvider;
         }
 
         public void PickExtraLife()
@@ -32,11 +36,26 @@ namespace MrBoom.Core.Sprites.Controllers
             Unplugin = 165;
         }
 
-        public void Kill()
+        private IEnumerable<IDeathHandler> GetDeathHandlers()
+        {
+            return serviceProvider.EnumerateServices<IDeathHandler>();
+        }
+
+        private void KillInternal()
         {
             IsDie = true;
             animationController.SetAnimation(4);
             Unplugin = 0;
+        }
+
+        public void Kill()
+        {
+            KillInternal();
+
+            foreach (IDeathHandler handler in GetDeathHandlers())
+            {
+                handler.OnDied(true);
+            }
         }
 
         public virtual void Damage()
@@ -45,10 +64,18 @@ namespace MrBoom.Core.Sprites.Controllers
             {
                 LifeCount--;
                 PickUnplugin();
+
+                foreach (IDeathHandler handler in GetDeathHandlers())
+                {
+                    handler.OnDamaged();
+                }
             }
             else if (IsAlive)
             {
-                Kill();
+                foreach (IDeathHandler handler in GetDeathHandlers())
+                {
+                    handler.OnDied(false);
+                }
             }
         }
 

@@ -20,7 +20,11 @@ namespace MrBoom.Core.Sprites.Modules
             this.powerUpProvider = powerUpProvider;
         }
 
-        public void OnBombDied()
+        public void OnDamaged()
+        {
+        }
+
+        public void OnDied(bool forced)
         {
             map.SetCell(position.CellX, position.CellY,
                         powerUpProvider.GeneratePowerUp(PowerUpType.Life));

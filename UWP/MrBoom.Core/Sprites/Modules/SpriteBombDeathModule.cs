@@ -28,14 +28,6 @@ namespace MrBoom.Core.Sprites.Modules
                 if (position.Cell.Type == TerrainType.Fire && !healthController.HasUnplugin)
                 {
                     healthController.Damage();
-
-                    if (healthController.IsDie)
-                    {
-                        foreach (IDeathHandler handler in serviceProvider.EnumerateServices<IDeathHandler>())
-                        {
-                            handler.OnBombDied();
-                        }
-                    }
                 }
             }
         }

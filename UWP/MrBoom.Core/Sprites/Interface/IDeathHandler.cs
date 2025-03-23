@@ -4,6 +4,7 @@ namespace MrBoom.Core.Sprites.Interface
 {
     public interface IDeathHandler
     {
-        void OnBombDied();
+        void OnDamaged();
+        void OnDied(bool forced);
     }
 }
