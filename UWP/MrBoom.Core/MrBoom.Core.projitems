@@ -37,6 +37,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\ISpritePositionProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\MonsterPowerUpDropper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\NullBombKicker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\SpriteDieSoundWorkerMonster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\SpriteDieSoundWorkerPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\TerrainPowerUpHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IPowerUpHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\PowerUpPickResult.cs" />

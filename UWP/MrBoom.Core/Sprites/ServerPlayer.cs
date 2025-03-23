@@ -33,6 +33,7 @@ namespace MrBoom.Core.Sprites
             AddSingleton<SpriteApocalypseDeathModule>();
             AddSingleton<SpriteMonsterDeathModule>();
             AddSingleton<SpriteBombDeathModule>();
+            AddSingleton<SpriteDieSoundWorkerPlayer>();
 
             AddSingleton<SpriteProxyProvider>();
             AddSingleton<PlayerProxyProvider>();
