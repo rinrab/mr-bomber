@@ -8,13 +8,13 @@ namespace MrBoom.Server.Game
     public class SpriteUpdateReceiver
     {
         private readonly SpritePosition position;
-        private readonly PlayerController controller;
+        private readonly SpriteBombController bombController;
 
         public SpriteUpdateReceiver(SpritePosition position,
-                                    PlayerController controller)
+                                    SpriteBombController bombController)
         {
             this.position = position;
-            this.controller = controller;
+            this.bombController = bombController;
         }
 
         public void OnUpdateReceived(ClientPlayerUpdateMessage message)
@@ -27,12 +27,12 @@ namespace MrBoom.Server.Game
 
             if (message.DropBomb)
             {
-                controller.DropBomb();
+                bombController.DropBomb();
             }
 
             if (message.RemoteControl)
             {
-                controller.RemoteDetonate();
+                bombController.ToggleRemoteControl();
             }
         }
     }

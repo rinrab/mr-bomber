@@ -16,7 +16,6 @@ namespace MrBoom.Bot
         public ComputerPlayer(int team, int index, int botSeed) : base(team, index, new ClientInfoFake())
         {
             AddSingleton(new SimpleRandom(botSeed));
-            AddSingleton<PlayerController>();
             AddSingleton<ComputerPlayerController>();
             AddSingleton<SpriteProxyProvider>();
         }
@@ -42,7 +41,6 @@ namespace MrBoom.Bot
         private readonly SpriteMovementController movementController;
         private readonly SpriteSpeedProvider speedProvider;
         private readonly SpriteBombController bombController;
-        private readonly PlayerController playerController;
 
         public ComputerPlayerController(TerrainMap terrain,
                                         TerrainAIInfoProvider aIInfoProvider,
@@ -52,8 +50,7 @@ namespace MrBoom.Bot
                                         SpritePosition position,
                                         SpriteMovementController movementController,
                                         SpriteSpeedProvider speedProvider,
-                                        SpriteBombController bombController,
-                                        PlayerController playerController)
+                                        SpriteBombController bombController)
         {
             tree = new BtRepeater(new BtSelector()
                 {
@@ -89,7 +86,6 @@ namespace MrBoom.Bot
             this.movementController = movementController;
             this.speedProvider = speedProvider;
             this.bombController = bombController;
-            this.playerController = playerController;
         }
 
         private BtStatus DitonoteRemoteBomb()
@@ -254,7 +250,7 @@ namespace MrBoom.Bot
                 }
             }
 
-            playerController.SetDirection(null);
+            movementController.SetDirection(null);
 
             tree.Update();
 
@@ -346,40 +342,40 @@ namespace MrBoom.Bot
 
                     if (Math.Abs(targetX - position.X) < MAX_PIXELS_PER_FRAME / 2 && Math.Abs(targetY - position.Y) < MAX_PIXELS_PER_FRAME / 2)
                     {
-                        playerController.SetDirection(null);
+                        movementController.SetDirection(null);
                         return BtStatus.Success;
                     }
 
                     if (position.X > targetX)
                     {
-                        playerController.SetDirection(Directions.Left);
+                        movementController.SetDirection(Directions.Left);
                         return BtStatus.Running;
                     }
                     else if (position.X < targetX)
                     {
-                        playerController.SetDirection(Directions.Right);
+                        movementController.SetDirection(Directions.Right);
                         return BtStatus.Running;
                     }
                     else if (position.Y > targetY)
                     {
-                        playerController.SetDirection(Directions.Up);
+                        movementController.SetDirection(Directions.Up);
                         return BtStatus.Running;
                     }
                     else if (position.Y < targetY)
                     {
-                        playerController.SetDirection(Directions.Down);
+                        movementController.SetDirection(Directions.Down);
                         return BtStatus.Running;
                     }
                     else
                     {
-                        playerController.SetDirection(null);
+                        movementController.SetDirection(null);
                         return BtStatus.Success;
                     }
                 }
                 else
                 {
                     Directions? direction = CalcPathDirection(target.Value);
-                    playerController.SetDirection(direction);
+                    movementController.SetDirection(direction);
 
                     if (direction == null)
                     {
@@ -394,7 +390,7 @@ namespace MrBoom.Bot
             else
             {
                 // TODO:
-                playerController.SetDirection(null);
+                movementController.SetDirection(null);
 
                 return BtStatus.Failure;
             }
@@ -407,8 +403,8 @@ namespace MrBoom.Bot
 
         private BtStatus DropBomb()
         {
-            playerController.SetDirection(null);
-            playerController.DropBomb();
+            movementController.SetDirection(null);
+            bombController.DropBomb();
             return BtStatus.Success;
         }
 

@@ -38,8 +38,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\MonsterPowerUpDropper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\NullBombKicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Modules\TerrainPowerUpHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sprites\MonsterController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IPowerUpHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\PowerUpPickResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Providers\SpriteDebugInfoProvider.cs" />

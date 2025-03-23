@@ -28,7 +28,7 @@ namespace MrBoom.Core.Terrain
             foreach (AbstractMonster m in sprites.GetMonsters())
             {
                 var health = m.GetService<SpriteHealthController>();
-                var monsterController = m.GetService<MonsterController>();
+                var monsterController = m.GetService<SpriteMovementController>();
                 var position = m.GetService<SpritePosition>();
 
                 if (health.IsAlive)

@@ -30,7 +30,6 @@ namespace MrBoom.Server.Lobby
                 var sprite = new ServerPlayer(player.Index, player.Index, player.Client.CorishInfo);
 
                 sprite.AddSingleton(player.Client.CorishInfo);
-                sprite.AddSingleton<PlayerController>();
                 sprite.AddSingleton<SpriteTypeProviderPlayer>();
                 sprite.AddSingleton<SpriteUpdateReceiver>();
                 sprite.AddSingleton<SpriteUpdateBroadcaster>();

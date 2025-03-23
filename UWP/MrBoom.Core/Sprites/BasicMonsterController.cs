@@ -11,13 +11,13 @@ namespace MrBoom.Core.Sprites
         private readonly BtSequence tree;
 
         private readonly ISpritePositionProvider position;
-        private readonly MonsterController monsterController;
+        private readonly SpriteMovementController movementController;
         private readonly TerrainMap terrain;
         private readonly IRandom random;
 
         public BasicMonsterController(ISpritePositionProvider position,
                                       Map.BasicMonsterData monsterData,
-                                      MonsterController monsterController,
+                                      SpriteMovementController movementController,
                                       TerrainMap terrain, IRandom random)
         {
             tree = new BtSequence()
@@ -32,7 +32,7 @@ namespace MrBoom.Core.Sprites
             };
 
             this.position = position;
-            this.monsterController = monsterController;
+            this.movementController = movementController;
             this.terrain = terrain;
             this.random = random;
         }
@@ -50,12 +50,12 @@ namespace MrBoom.Core.Sprites
 
                 if (IsWalkable(dir.DeltaX(), dir.DeltaY()))
                 {
-                    monsterController.SetDirection(dir);
+                    movementController.SetDirection(dir);
                     return BtStatus.Success;
                 }
                 if (i >= 32)
                 {
-                    monsterController.SetDirection(null);
+                    movementController.SetDirection(null);
                     return BtStatus.Failure;
                 }
             }
@@ -65,12 +65,12 @@ namespace MrBoom.Core.Sprites
         {
             if (position.X % 16 == 0 && position.Y % 16 == 0 && random.Next(16) == 0)
             {
-                monsterController.SetDirection(null);
+                movementController.SetDirection(null);
                 return BtStatus.Success;
             }
-            else if (!IsWalkable(monsterController.Direction.DeltaX(), monsterController.Direction.DeltaY()))
+            else if (!IsWalkable(movementController.Direction.DeltaX(), movementController.Direction.DeltaY()))
             {
-                monsterController.SetDirection(null);
+                movementController.SetDirection(null);
                 return BtStatus.Success;
             }
             else

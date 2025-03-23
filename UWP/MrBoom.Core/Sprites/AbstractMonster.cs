@@ -25,8 +25,6 @@ namespace MrBoom
             AddSingleton<MonsterPowerUpDropper>();
 
             AddSingleton<SpriteProxyProvider>();
-
-            AddSingleton<MonsterController>();
         }
     }
 }

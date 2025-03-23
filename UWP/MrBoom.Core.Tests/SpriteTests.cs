@@ -15,7 +15,6 @@ namespace MrBoom.Core.Tests
             var terrain = new MrBoom.Terrain(0, new SimpleRandom(34));
 
             var sprite = new ServerPlayer(0, 0, new ClientInfoFake());
-            sprite.AddSingleton<PlayerController>();
 
             terrain.GetService<TerrainSpriteHost>().AddPlayer(sprite);
 
@@ -39,7 +38,6 @@ namespace MrBoom.Core.Tests
             var terrain = new MrBoom.Terrain(0, new SimpleRandom(34));
 
             var sprite = new ServerPlayer(0, 0, new ClientInfoFake());
-            sprite.AddSingleton<PlayerController>();
 
             terrain.GetService<TerrainSpriteHost>().AddPlayer(sprite);
 
@@ -60,7 +58,6 @@ namespace MrBoom.Core.Tests
             var terrain = new MrBoom.Terrain(0, new SimpleRandom(34));
 
             var sprite = new ServerPlayer(0, 0, new ClientInfoFake());
-            sprite.AddSingleton<PlayerController>();
 
             terrain.GetService<TerrainSpriteHost>().AddPlayer(sprite);
 
@@ -69,17 +66,17 @@ namespace MrBoom.Core.Tests
             int x = position.X;
             int y = position.Y;
 
-            sprite.GetService<PlayerController>().SetDirection(null);
+            sprite.GetService<SpriteMovementController>().SetDirection(null);
             sprite.ServerUpdate();
             Assert.AreEqual(x, position.X);
             Assert.AreEqual(y, position.Y);
 
-            sprite.GetService<PlayerController>().SetDirection(Directions.Up);
+            sprite.GetService<SpriteMovementController>().SetDirection(Directions.Up);
             sprite.ServerUpdate();
             Assert.AreEqual(x, position.X);
             Assert.AreEqual(y - 1, position.Y);
 
-            sprite.GetService<PlayerController>().SetDirection(null);
+            sprite.GetService<SpriteMovementController>().SetDirection(null);
             sprite.ServerUpdate();
             Assert.AreEqual(x, position.X);
             Assert.AreEqual(y - 1, position.Y);
@@ -91,7 +88,6 @@ namespace MrBoom.Core.Tests
             var terrain = new MrBoom.Terrain(0, new SimpleRandom(34));
 
             var sprite = new ServerPlayer(0, 0, new ClientInfoFake());
-            sprite.AddSingleton<MonsterController>();
 
             terrain.GetService<TerrainSpriteHost>().AddPlayer(sprite);
 
@@ -100,17 +96,17 @@ namespace MrBoom.Core.Tests
             int x = position.X;
             int y = position.Y;
 
-            sprite.GetService<MonsterController>().SetDirection(null);
+            sprite.GetService<SpriteMovementController>().SetDirection(null);
             sprite.ServerUpdate();
             Assert.AreEqual(x, position.X);
             Assert.AreEqual(y, position.Y);
 
-            sprite.GetService<MonsterController>().SetDirection(Directions.Up);
+            sprite.GetService<SpriteMovementController>().SetDirection(Directions.Up);
             sprite.ServerUpdate();
             Assert.AreEqual(x, position.X);
             Assert.AreEqual(y - 1, position.Y);
 
-            sprite.GetService<MonsterController>().SetDirection(null);
+            sprite.GetService<SpriteMovementController>().SetDirection(null);
             sprite.ServerUpdate();
             Assert.AreEqual(x, position.X);
             Assert.AreEqual(y - 1, position.Y);
