@@ -8,7 +8,6 @@ namespace MrBoom.Core.Terrain
     {
         private readonly PowerUpProvider powerUpProvider;
 
-        private int time;
 
         public TerrainMap(TerrainInitialMapProvider initialMap, PowerUpProvider powerUpProvider)
             : base(initialMap.Map.Width, initialMap.Map.Height)
@@ -23,32 +22,11 @@ namespace MrBoom.Core.Terrain
 
         public void ServerUpdate()
         {
-            time++;
-
             for (int y = 0; y < Height; y++)
             {
                 for (int x = 0; x < Width; x++)
                 {
                     Cell cell = this[x, y];
-                    if (cell.Index != -1)
-                    {
-                        int animateDelay = (cell.animateDelay <= 0) ? 6 : cell.animateDelay;
-                        if (time % animateDelay == 0)
-                        {
-                            cell.Index++;
-                            if (cell.Index >= cell.GetAnimationLength())
-                            {
-                                if (cell.Next == null)
-                                {
-                                    cell.Index = 0;
-                                }
-                                else
-                                {
-                                    this[x, y] = cell.Next;
-                                }
-                            }
-                        }
-                    }
 
                     if (cell.Type == TerrainType.Bomb)
                     {

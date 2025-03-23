@@ -19,7 +19,9 @@ namespace MrBoom
 
             AddSingleton<TerrainInitialMapProvider>();
             AddSingleton<SpawnProvider>();
+
             AddSingleton<TerrainMap>();
+            AddSingleton<TerrainMapTicker>();
             AddSingleton<TerrainTimer>();
             AddSingleton<TerrainFinal>();
 
