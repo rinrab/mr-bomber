@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SkullType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SoundEffectType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\AbstractMonster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IHealthProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\ISpeedProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\BasicMonsterController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Interface\IBombDeathHandler.cs" />
@@ -44,6 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Providers\SpriteDebugInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxyAnimationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxyEffectProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxyHealthProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\ProxyPositionProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Proxy\PlayerProxyProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\ServerPlayer.cs" />
