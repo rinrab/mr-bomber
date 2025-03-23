@@ -40,7 +40,12 @@ namespace MrBoom.Core.Sprites.Controllers
         public void SetAnimation(int animateIndex)
         {
             isAnimating = true;
-            AnimateIndex = animateIndex;
+
+            if (AnimateIndex != animateIndex)
+            {
+                AnimateIndex = animateIndex;
+                FrameIndex = 0;
+            }
         }
     }
 }
