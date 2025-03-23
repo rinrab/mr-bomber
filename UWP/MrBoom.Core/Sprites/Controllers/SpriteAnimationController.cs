@@ -20,7 +20,14 @@ namespace MrBoom.Core.Sprites.Controllers
         {
             if (isAnimating)
             {
-                FrameIndex++;
+                if (AnimateIndex == 4) // die
+                {
+                    FrameIndex += 4;
+                }
+                else
+                {
+                    FrameIndex++;
+                }
             }
         }
 
