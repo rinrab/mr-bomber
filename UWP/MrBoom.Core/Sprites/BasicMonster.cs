@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using MrBoom.Common;
 using MrBoom.Core.Sprites;
 
 namespace MrBoom

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Timofei Zhakov. All rights reserved.
+
+using System.Collections.Generic;
 using System.IO;
 
 namespace MrBoom.NetworkProtocol.Messages

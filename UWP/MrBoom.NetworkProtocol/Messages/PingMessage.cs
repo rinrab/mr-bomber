@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using System;
 using System.IO;
 
 namespace MrBoom.NetworkProtocol.Messages

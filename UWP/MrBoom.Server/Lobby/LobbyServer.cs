@@ -1,11 +1,10 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Net;
-using MrBoom.NetworkProtocol.Messages;
-using Haukcode.HighResolutionTimer;
-using MrBoom.Server.MatchMaking;
-using MrBoom.Server.Admin;
 using Microsoft.Extensions.Options;
+using MrBoom.NetworkProtocol.Messages;
+using MrBoom.Server.Admin;
+using MrBoom.Server.MatchMaking;
 
 namespace MrBoom.Server.Lobby
 {

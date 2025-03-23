@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Bot;
-using MrBoom.Common;
 using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
 using MrBoom.Screens;
@@ -94,7 +93,7 @@ namespace MrBoom
 
             if (Controller.IsKeyDown(controllers, PlayerKeys.Continue))
             {
-                 Controller.Reset(controllers);
+                Controller.Reset(controllers);
             }
         }
 

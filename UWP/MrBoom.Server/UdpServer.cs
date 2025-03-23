@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using System.Net.Sockets;
 using System.Net;
-using MrBoom.NetworkProtocol.Messages;
+using System.Net.Sockets;
 using Microsoft.Extensions.Options;
+using MrBoom.NetworkProtocol.Messages;
 
 namespace MrBoom.Server
 {

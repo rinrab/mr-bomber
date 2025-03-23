@@ -3,12 +3,11 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Windows.UI.Xaml;
-using MrBoom.Common;
+using MrBoom.Core.Sprites;
+using MrBoom.Core.Terrain;
 using MrBoom.Screens;
 using MrBoom.State;
-using MrBoom.Core.Terrain;
-using MrBoom.Core.Sprites;
+using Windows.UI.Xaml;
 
 namespace MrBoom
 {

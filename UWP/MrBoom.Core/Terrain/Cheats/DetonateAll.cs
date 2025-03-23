@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using System;
-
 namespace MrBoom.Core.Terrain.Cheats
 {
     public abstract class DetonateAllBase : IServerCheatModule

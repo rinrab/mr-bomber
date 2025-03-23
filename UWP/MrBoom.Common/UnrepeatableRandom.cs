@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using System;
-
 namespace MrBoom.Common
 {
     public class UnrepeatableRandom : IRandom

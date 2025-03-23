@@ -1,8 +1,5 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Messages;
 

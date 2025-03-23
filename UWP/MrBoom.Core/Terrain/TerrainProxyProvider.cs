@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using MrBoom.Core.Sprites;
 
 namespace MrBoom.Core.Terrain
 {

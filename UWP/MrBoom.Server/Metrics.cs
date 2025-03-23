@@ -77,7 +77,7 @@ namespace MrBoom.Server
         public void PacketReceived(IPEndPoint ip, int len)
         {
             var entry = getEntry(ip);
-            
+
             entry.PacketsReceived++;
             entry.BytesReceived += len;
         }

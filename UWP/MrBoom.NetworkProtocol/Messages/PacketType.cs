@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 namespace MrBoom.NetworkProtocol.Messages
 {

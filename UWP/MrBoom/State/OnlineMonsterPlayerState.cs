@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System;
-using MrBoom.Core;
 using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
 using MrBoom.NetworkProtocol.Proxy;

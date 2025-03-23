@@ -1,11 +1,8 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
-using System.Net;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MrBoom.NetworkProtocol;
-using MrBoom.Server.Lobby;
 using MrBoom.Server.MatchMaking;
 
 namespace MrBoom.Server.Master

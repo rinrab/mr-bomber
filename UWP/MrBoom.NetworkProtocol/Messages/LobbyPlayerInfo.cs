@@ -2,7 +2,6 @@
 
 using System;
 using System.IO;
-using MrBoom.Common;
 
 namespace MrBoom.NetworkProtocol.Messages
 {
