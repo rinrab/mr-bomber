@@ -13,13 +13,17 @@ namespace MrBoom.Core.Sprites
         private readonly IEffectProvider effectController;
         private readonly ISpeedProvider speedProvider;
         private readonly IBombKicker bombKicker;
+        private readonly IHealthProvider health;
+
+        public Directions? Direction { get; protected set; }
 
         public SpriteMovementController(SpriteAnimationController animationController,
                                         SpritePosition position,
                                         ITerrainProxy terrain,
                                         IEffectProvider effectController,
                                         ISpeedProvider speedProvider,
-                                        IBombKicker bombKicker)
+                                        IBombKicker bombKicker,
+                                        IHealthProvider health)
         {
             this.animationController = animationController;
             this.position = position;
@@ -27,6 +31,20 @@ namespace MrBoom.Core.Sprites
             this.effectController = effectController;
             this.speedProvider = speedProvider;
             this.bombKicker = bombKicker;
+            this.health = health;
+        }
+
+        public void SetDirection(Directions? direction)
+        {
+            Direction = direction;
+        }
+
+        public void ServerUpdate()
+        {
+            if (health.IsAlive)
+            {
+                Move(Direction);
+            }
         }
 
         public void Move(Directions? Direction)

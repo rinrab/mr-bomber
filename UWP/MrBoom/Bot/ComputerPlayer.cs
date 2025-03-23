@@ -378,8 +378,10 @@ namespace MrBoom.Bot
                 }
                 else
                 {
-                    playerController.SetDirection(CalcPathDirection(target.Value));
-                    if (playerController.Direction == null)
+                    Directions? direction = CalcPathDirection(target.Value);
+                    playerController.SetDirection(direction);
+
+                    if (direction == null)
                     {
                         return BtStatus.Failure;
                     }
