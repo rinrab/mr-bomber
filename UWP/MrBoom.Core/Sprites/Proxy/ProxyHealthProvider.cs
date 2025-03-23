@@ -13,7 +13,6 @@ namespace MrBoom.Core.Sprites.Proxy
         public bool IsDie => throw new NotImplementedException();
         public bool IsAlive => !IsDie;
 
-        public int LifeCount => proxy.LifeCount;
         public bool HasUnplugin => proxy.HasUnplugin;
 
         public ProxyHealthProvider(ISpriteProxy proxy)

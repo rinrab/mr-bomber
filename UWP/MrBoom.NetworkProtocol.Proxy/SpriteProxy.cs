@@ -20,8 +20,6 @@ namespace MrBoom.NetworkProtocol.Proxy
         public Feature Features => 0;
         public SkullType? Skull => null;
 
-        public int LifeCount => 1;
-
         public bool HasUnplugin => false;
         public bool HasSkull => false;
 

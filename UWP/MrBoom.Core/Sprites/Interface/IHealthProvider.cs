@@ -7,7 +7,6 @@ namespace MrBoom.Core.Sprites.Interface
         bool IsDie { get; }
         bool IsAlive { get; }
 
-        int LifeCount { get; }
         bool HasUnplugin { get; }
     }
 }

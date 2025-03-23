@@ -13,8 +13,6 @@ namespace MrBoom.Core.Sprites
         Feature Features { get; }
         SkullType? Skull { get; }
 
-        int LifeCount { get; }
-
         bool HasUnplugin { get; }
         bool HasSkull { get; }
     }

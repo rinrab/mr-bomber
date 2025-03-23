@@ -28,7 +28,6 @@ namespace MrBoom.Core.Sprites.Proxy
         public SkullType? Skull => effectController.Skull;
         public bool HasSkull => effectController.HasSkull;
 
-        public int LifeCount => healthController.LifeCount;
         public bool HasUnplugin => healthController.HasUnplugin;
 
         public PlayerProxyProvider(SpritePosition position,

@@ -18,7 +18,6 @@ namespace MrBoom.Extensibility.Proxy
         public virtual int SubType => proxy.SubType;
         public virtual Feature Features => proxy.Features;
         public virtual SkullType? Skull => proxy.Skull;
-        public virtual int LifeCount => proxy.LifeCount;
         public virtual bool HasUnplugin => proxy.HasUnplugin;
         public virtual bool HasSkull => proxy.HasSkull;
         public virtual int AnimateIndex => proxy.AnimateIndex;
