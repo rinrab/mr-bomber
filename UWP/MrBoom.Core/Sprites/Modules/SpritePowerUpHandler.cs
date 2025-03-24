@@ -27,22 +27,18 @@ namespace MrBoom.Core.Sprites.Modules
 
         public void ServerUpdate()
         {
-            int cellX = (position.X + 8) / 16;
-            int cellY = (position.Y + 8) / 16;
-            Cell cell = map.GetCell(cellX, cellY);
-
-            if (cell.Type == TerrainType.PowerUp)
+            if (position.Cell.Type == TerrainType.PowerUp)
             {
-                var result = PickPowerUp(cell.PowerUpType);
+                var result = PickPowerUp(position.Cell.PowerUpType);
 
                 if (result == PowerUpPickResult.Pick)
                 {
-                    map.SetCell(cellX, cellY, new Cell(TerrainType.Free));
+                    map.SetCell(position.CellX, position.CellY, new Cell(TerrainType.Free));
                     soundController.PlaySound(SoundEffectType.Pick);
                 }
                 else if (result == PowerUpPickResult.Burn)
                 {
-                    map.BurnCell(cellX, cellY);
+                    map.BurnCell(position.CellX, position.CellY);
                 }
             }
         }
