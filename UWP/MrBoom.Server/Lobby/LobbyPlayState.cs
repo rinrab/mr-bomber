@@ -22,6 +22,7 @@ namespace MrBoom.Server.Lobby
             this.logger = logger;
 
             Terrain = new Terrain(1, random);
+            Terrain.AddSingleton<TerrainUpdateBroadcaster>();
 
             var sprites = Terrain.GetService<TerrainSpriteHost>();
 
@@ -78,62 +79,12 @@ namespace MrBoom.Server.Lobby
             }
         }
 
-        private IMessage FormatGameInfoMessage(ClientInfo client)
-        {
-            var map = Terrain.GetService<TerrainMap>();
-            var terrainSprites = Terrain.GetService<TerrainSpriteHost>();
-
-            var grid = new Grid<GameCellInfo>(map.Width, map.Height);
-            for (int i = 0; i < grid.CellCount; i++)
-            {
-                Cell cell = map.GetCell(grid.GetCellX(i), grid.GetCellY(i));
-
-                int subType = 0;
-                if (cell.Type == TerrainType.PowerUp)
-                {
-                    subType = (int)cell.PowerUpType;
-                }
-                else if (cell.Type == TerrainType.Fire)
-                {
-                    subType = (int)cell.FlameDirection;
-                }
-
-                grid[i] = new GameCellInfo
-                {
-                    Type = cell.Type,
-                    SubType = subType,
-                    Index = cell.Index,
-                    AnimateDelay = cell.animateDelay,
-                    OffsetX = cell.OffsetX,
-                    OffsetY = cell.OffsetY,
-                };
-            }
-
-            var sprites = new List<GameSpriteInfo>();
-            foreach (GameEntityBase sprite in terrainSprites.GetSprites())
-            {
-                sprites.Add(sprite.GetService<SpriteUpdateBroadcaster>().GetUpdateMessage(client));
-            }
-
-            return new GameInfo
-            {
-                LevelIndex = Terrain.GetService<TerrainStartInfo>().LevelIndex,
-                SoundsToPlay = Terrain.GetService<BasicSoundController>().SoundsToPlay,
-                Terrain = new GameTerrainInfo
-                {
-                    Width = map.Width,
-                    Height = map.Height,
-                    Grid = grid,
-                },
-                Sprites = sprites,
-            };
-        }
-
         public async Task SendPackets(IUdpServer udpServer, CancellationToken stoppingToken)
         {
             foreach (ClientInfo client in lobby.GetClients())
             {
-                await client.SendMessage(FormatGameInfoMessage(client), stoppingToken);
+                TerrainUpdateBroadcaster broadcaster = Terrain.GetService<TerrainUpdateBroadcaster>();
+                await client.SendMessage(broadcaster.GetUpdateMessage(client), stoppingToken);
             }
 
             Terrain.GetService<BasicSoundController>().ResetSounds();
