@@ -114,6 +114,7 @@
     <Compile Include="Extensibility\Proxy\SmoothProxy.cs" />
     <Compile Include="Game\ClientTerrainSpriteHost.cs" />
     <Compile Include="Game\ClientSoundPlayer.cs" />
+    <Compile Include="Game\DebugInfoController.cs" />
     <Compile Include="MultiplayerClient.cs" />
     <Compile Include="Game\TerrainGraphics.cs" />
     <Compile Include="Extensibility\TeamMode\ColourTeamModeProvider.cs" />
