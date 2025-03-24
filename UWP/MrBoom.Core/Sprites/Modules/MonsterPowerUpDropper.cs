@@ -26,8 +26,11 @@ namespace MrBoom.Core.Sprites.Modules
 
         public void OnDied(bool forced)
         {
-            map.SetCell(position.CellX, position.CellY,
-                        powerUpProvider.GeneratePowerUp(PowerUpType.Life));
+            if (!forced)
+            {
+                map.SetCell(position.CellX, position.CellY,
+                            powerUpProvider.GeneratePowerUp(PowerUpType.Life));
+            }
         }
     }
 }
