@@ -13,21 +13,24 @@ namespace MrBoom.Core.Sprites.Modules
         private readonly TerrainMap map;
         private readonly BomberServiceProvider services;
         private readonly ISoundController soundController;
+        private readonly IHealthProvider health;
 
         public SpritePowerUpHandler(SpritePosition position,
                                     TerrainMap map,
                                     BomberServiceProvider services,
-                                    ISoundController soundController)
+                                    ISoundController soundController,
+                                    IHealthProvider health)
         {
             this.position = position;
             this.map = map;
             this.services = services;
             this.soundController = soundController;
+            this.health = health;
         }
 
         public void ServerUpdate()
         {
-            if (position.Cell.Type == TerrainType.PowerUp)
+            if (health.IsAlive && position.Cell.Type == TerrainType.PowerUp)
             {
                 var result = PickPowerUp(position.Cell.PowerUpType);
 
