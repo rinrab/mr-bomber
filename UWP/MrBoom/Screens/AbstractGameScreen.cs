@@ -40,7 +40,7 @@ namespace MrBoom
                 services.GetService<Assets>(),
                 terrain.GetService<TerrainMap>(),
                 terrain.GetService<CheatHost>(),
-                terrain));
+                terrain, clientTerrain));
 
             ScreenManager.NextSong(assets.Sounds, MapData.Data[levelIndex].Song);
         }
