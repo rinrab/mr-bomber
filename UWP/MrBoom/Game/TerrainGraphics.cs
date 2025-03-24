@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Core;
 using MrBoom.Core.Sprites;
@@ -128,6 +129,10 @@ namespace MrBoom
                 assets.DrawGameInNumbers[firstNumber].Draw(ctx, x + 42, y + 15);
                 assets.DrawGameInNumbers[secondNumber].Draw(ctx, x + 8 + 42, y + 15);
             }
+        }
+
+        public void DrawHighDPI(SpriteBatch ctx, Rectangle rect, float scale, int graphicScale)
+        {
         }
     }
 }

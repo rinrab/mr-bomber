@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Core.Sprites;
 using MrBoom.Core.Sprites.Proxy;
@@ -10,6 +11,7 @@ namespace MrBoom
     public interface IClientDrawableGameEntity
     {
         void Draw(SpriteBatch ctx);
+        void DrawHighDPI(SpriteBatch ctx, Rectangle rect, float scale, int graphicScale);
     }
 
     public class ClientSprite : GameEntityBase

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Timofei Zhakov. All rights reserved.
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MrBoom.Core.Sprites;
 using MrBoom.Core.Terrain;
@@ -26,6 +27,14 @@ namespace MrBoom
             foreach (var service in EnumerateServices<IClientDrawableGameEntity>())
             {
                 service.Draw(ctx);
+            }
+        }
+
+        public void DrawHighDPI(SpriteBatch ctx, Rectangle rect, float scale, int graphicScale)
+        {
+            foreach (var service in EnumerateServices<IClientDrawableGameEntity>())
+            {
+                service.DrawHighDPI(ctx, rect, scale, graphicScale);
             }
         }
     }
