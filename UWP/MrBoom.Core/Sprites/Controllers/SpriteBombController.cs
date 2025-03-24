@@ -80,21 +80,24 @@ namespace MrBoom.Core.Sprites.Controllers
 
         public void ServerUpdate()
         {
-            if (tryDropBomb)
-            {
-                PutBomb(position.CellX, position.CellY);
-                tryDropBomb = false;
-            }
-
             if (RemoteDetonate)
             {
                 RemoteDetonate = false;
             }
 
-            if (tryDemoteDetonate)
+            if (healthController.IsAlive)
             {
-                RemoteDetonate = true;
-                tryDemoteDetonate = false;
+                if (tryDropBomb)
+                {
+                    PutBomb(position.CellX, position.CellY);
+                    tryDropBomb = false;
+                }
+
+                if (tryDemoteDetonate)
+                {
+                    RemoteDetonate = true;
+                    tryDemoteDetonate = false;
+                }
             }
         }
 
