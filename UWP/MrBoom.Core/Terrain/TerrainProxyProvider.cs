@@ -24,8 +24,6 @@ namespace MrBoom.Core.Terrain
 
         public IList<ISpriteProxy> Sprites => sprites.GetSprites().Select(sprite => sprite.GetService<ISpriteProxy>()).ToList();
 
-        public SoundEffectType SoundsToPlay => soundController.SoundsToPlay;
-
         public TerrainProxyProvider(TerrainMap map,
                                     TerrainFinal final,
                                     TerrainSpriteHost sprites,
@@ -53,6 +51,11 @@ namespace MrBoom.Core.Terrain
         public bool IsWalkable(int x, int y)
         {
             return map.IsWalkable(x, y);
+        }
+
+        public SoundEffectType GetAndResetSoundsToPlay()
+        {
+            return soundController.GetAndResetSoundsToPlay();
         }
     }
 }

@@ -15,5 +15,12 @@ namespace MrBoom.Core.Terrain
         {
             SoundsToPlay = 0;
         }
+
+        public SoundEffectType GetAndResetSoundsToPlay()
+        {
+            SoundEffectType rv = SoundsToPlay;
+            ResetSounds();
+            return rv;
+        }
     }
 }

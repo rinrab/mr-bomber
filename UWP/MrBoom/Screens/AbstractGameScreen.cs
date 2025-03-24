@@ -63,8 +63,6 @@ namespace MrBoom
                 terrain.ServerUpdate();
                 clientTerrain.ServerUpdate();
 
-                terrain.GetService<BasicSoundController>().ResetSounds();
-
                 if (settings.IsDebug)
                 {
                     CheatHost cheats = terrain.GetService<CheatHost>();

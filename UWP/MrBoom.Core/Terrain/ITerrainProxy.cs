@@ -14,7 +14,7 @@ namespace MrBoom.Core.Terrain
         int MaxApocalypse { get; }
         int LevelIndex { get; }
 
-        SoundEffectType SoundsToPlay { get; }
+        SoundEffectType GetAndResetSoundsToPlay();
 
         IList<ISpriteProxy> Sprites { get; }
 

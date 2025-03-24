@@ -20,7 +20,7 @@ namespace MrBoom.NetworkProtocol.Proxy
 
         public IList<ISpriteProxy> Sprites { get; }
 
-        public SoundEffectType SoundsToPlay => message.SoundsToPlay;
+        private SoundEffectType soundsToPlay;
 
         public TerrainProxy()
         {
@@ -96,6 +96,8 @@ namespace MrBoom.NetworkProtocol.Proxy
         {
             this.message = (GameInfo)message;
 
+            soundsToPlay = this.message.SoundsToPlay;
+
             //if (_sprites == null)
             //{
             //    _sprites = new List<SpriteProxy>(this.message.Sprites.Count);
@@ -159,6 +161,13 @@ namespace MrBoom.NetworkProtocol.Proxy
             {
                 SpriteUpdates = sprites,
             };
+        }
+
+        public SoundEffectType GetAndResetSoundsToPlay()
+        {
+            SoundEffectType rv = soundsToPlay;
+            soundsToPlay = 0;
+            return rv;
         }
     }
 }

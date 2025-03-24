@@ -18,7 +18,7 @@ namespace MrBoom
 
         public void ServerUpdate()
         {
-            PlaySounds(proxy.SoundsToPlay);
+            PlaySounds(proxy.GetAndResetSoundsToPlay());
         }
 
         private void PlaySounds(SoundEffectType soundsToPlay)
